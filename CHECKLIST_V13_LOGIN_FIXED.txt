@@ -1,5 +1,5 @@
 ADNOR V13 LOGIN FIXED
-- authDomain fixed to adnor-new.firebaseapp.com
+- authDomain fixed to adnor-vp.firebaseapp.com
 - Email/password hidden
 - Gmail redirect only
 - Phone OTP with visible reCAPTCHA

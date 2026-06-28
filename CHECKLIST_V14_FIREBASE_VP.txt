@@ -1,0 +1,7 @@
+ADNOR V14 FIREBASE VP
+- Firebase config changed to adnor-vp.
+- authDomain: adnor-vp.firebaseapp.com
+- databaseURL: https://adnor-vp-default-rtdb.firebaseio.com/
+- projectId: adnor-vp
+- Google/Gmail + Phone OTP only login kept.
+- Render env values must be changed to adnor-vp database URL.

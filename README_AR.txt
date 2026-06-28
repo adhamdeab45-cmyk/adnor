@@ -7,8 +7,8 @@ ADNOR V11 TODAY FULL — مبني على كود V6 الشغال
    Build Command: npm install --registry=https://registry.npmjs.org/
    Start Command: npm start
 4. Environment Variables:
-   FIREBASE_DATABASE_URL=https://adnor-new-default-rtdb.firebaseio.com/
-   FIREBASE_PROJECT_ID=adnor-new
+   FIREBASE_DATABASE_URL=https://adnor-vp-default-rtdb.firebaseio.com/
+   FIREBASE_PROJECT_ID=adnor-vp
    DRAW_TIMEZONE=Europe/Istanbul
    ADMIN_TOKEN=اكتب_كلمة_قوية
 
