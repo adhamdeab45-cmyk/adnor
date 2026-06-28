@@ -1,0 +1,7 @@
+ADNOR V13 LOGIN FIXED
+- authDomain fixed to adnor-new.firebaseapp.com
+- Email/password hidden
+- Gmail redirect only
+- Phone OTP with visible reCAPTCHA
+- Requires Firebase Authentication providers: Google + Phone enabled
+- Requires Authorized domain: adnor-v11.onrender.com

@@ -34,16 +34,16 @@
 <div id="splash"><div class="loader-card"><div class="loader-logo">ADNOR</div><div class="loader"><span></span></div><p class="muted">جاري تحميل النسخة النهائية...</p></div></div>
 <div id="auth" class="auth-wrap hidden">
   <div class="auth-card">
-    <div class="brand"><h1>ADNOR</h1><p>المنصة الملكية</p></div>
+    <div class="brand"><h1>ADNOR</h1><p>دخول آمن عبر Gmail أو رقم هاتف مؤكد</p></div>
 
-    <div class="auth-tabs">
+    <div class="auth-tabs" style="display:none">
       <button id="loginTab" class="active" onclick="UI.authMode('login')">تسجيل دخول</button>
       <button id="registerTab" onclick="UI.authMode('register')">حساب جديد</button>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0 6px">
-      <button id="methodGoogle" class="tabbtn active" onclick="AUTH.setMethod('google')" style="font-size:13px;padding:12px 4px">G دخول عبر Google</button>
-      <button id="methodPhone" class="tabbtn" onclick="AUTH.setMethod('phone')" style="font-size:13px;padding:12px 4px">📱 دخول عبر الهاتف</button>
+      <button id="methodGoogle" class="tabbtn active" onclick="AUTH.setMethod('google')" style="font-size:13px;padding:12px 4px">Gmail / Google</button>
+      <button id="methodPhone" class="tabbtn" onclick="AUTH.setMethod('phone')" style="font-size:13px;padding:12px 4px">📱 رقم هاتف + كود</button>
       <button id="methodEmail" class="tabbtn hidden" onclick="AUTH.setMethod('email')" style="display:none">📧 إيميل</button>
     </div>
 
@@ -68,9 +68,9 @@
 
     <!-- قسم Google -->
     <div id="secGoogle" style="padding:8px 0">
-      <p class="muted center" style="font-size:13px;margin:6px 0 12px">دخول أو تسجيل سريع بضغطة واحدة</p>
+      <p class="muted center" style="font-size:13px;margin:6px 0 12px">ادخل أو أنشئ حسابك عبر Gmail بضغطة واحدة</p>
       <button id="googleBtn" type="button" class="btn full" onclick="AUTH.google()" style="background:rgba(255,255,255,.96);color:#111;border:1px solid rgba(255,255,255,.8)">
-        <i class="fa-brands fa-google"></i> متابعة بحساب Google
+        <i class="fa-brands fa-google"></i> دخول عبر Gmail / Google
       </button>
       <div id="googleNote" style="display:none;margin-top:10px;padding:10px;border-radius:10px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#fcd34d;font-size:12px;text-align:center;line-height:1.6">
         ⚠️ إذا لم يعمل Google تأكد من إضافة دومين الموقع في Firebase و Google Cloud
@@ -85,14 +85,14 @@
     </div>
 
     <button type="button" class="btn full" onclick="AUTH.submit()" id="authBtn">دخول</button>
-    <button type="button" id="resetPassBtn" class="btn ghost full" onclick="AUTH.resetPassword()" style="margin-top:10px">نسيت كلمة السر؟ إرسال رابط التعيين</button>
+    <button type="button" id="resetPassBtn" class="btn ghost full" onclick="AUTH.resetPassword()" style="margin-top:10px">إعادة تعيين كلمة السر</button>
 
-    <p class="muted center" style="font-size:12px;margin-top:10px">الجلسة تحفظ تلقائياً، والتحديث لا يسجل خروج.</p>
+    <p class="muted center" style="font-size:12px;margin-top:10px">الدخول فقط عبر Gmail أو رقم هاتف مع كود تحقق. لا يوجد دخول بكلمة سر.</p>
     <div id="authDebugLog" style="display:none;margin-top:10px;padding:10px;border-radius:10px;background:rgba(18,201,255,.08);border:1px solid rgba(18,201,255,.25);color:#93c5fd;font-size:11px;line-height:1.7;word-break:break-word;direction:ltr;text-align:left;font-family:monospace;max-height:120px;overflow:auto"></div>
     <div id="authError" style="display:none;margin-top:10px;padding:12px;border-radius:12px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#fca5a5;font-size:13px;line-height:1.6;word-break:break-word;white-space:pre-line;direction:rtl"></div>
   </div>
 </div>
-<div id="app" class="app">
+<div id="app" class="app hidden">
   <header class="topbar">
     <div class="topgrid">
       <button class="iconbtn" onclick="UI.side(true)"><i class="fas fa-bars"></i></button>
@@ -308,10 +308,11 @@ const AUTH={
       await this.ready();
       if(this.recaptcha){try{this.recaptcha.clear();}catch(e2){}}
       this.recaptcha=new firebase.auth.RecaptchaVerifier('recaptchaContainer',{
-        size:'invisible',
-        callback:()=>{},
+        size:'normal',
+        callback:()=>{authLog('reCAPTCHA solved');},
         'expired-callback':()=>{showAuthError('انتهت صلاحية reCAPTCHA، أعد المحاولة.');}
       });
+      await this.recaptcha.render();
       this.phoneConfirm=await auth.signInWithPhoneNumber(phone,this.recaptcha);
       this.phoneStep='otp';
       document.getElementById('otpWrap')?.classList.remove('hidden');
@@ -323,7 +324,7 @@ const AUTH={
     }catch(e){
       authLog('OTP error: '+(e&&e.code));
       if(e&&(e.code==='auth/too-many-requests'||(e.message||'').includes('quota')))
-        showAuthError('⚠️ تجاوز الحد اليومي لرسائل SMS. حاول لاحقاً أو استخدم الإيميل.');
+        showAuthError('⚠️ تجاوز الحد اليومي لرسائل SMS. حاول لاحقاً أو استخدم Gmail.');
       else if(e&&e.code==='auth/unauthorized-domain')
         showAuthError('⚠️ الدومين غير مسموح في Firebase.\nأضف '+location.hostname+' في Firebase Console → Authentication → Settings → Authorized domains');
       else showAuthError(AUTH.friendlyError(e));
@@ -376,28 +377,29 @@ const AUTH={
       if(ref)localStorage.setItem('ADNOR_REF',ref);
       const provider=new firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({prompt:'select_account'});
-      
-      authLog('Google signInWithPopup start...');
-      
-      try {
-        const result = await auth.signInWithPopup(provider);
-        authLog('Google OK ✓ User: ' + result.user.uid);
-      } catch(pe) {
-        authLog('Google popup err: ' + (pe && pe.code));
-        if(pe && pe.code === 'auth/unauthorized-domain'){
-          document.getElementById('googleNote').style.display = '';
-          showAuthError('❌ الدومين غير مسموح في Firebase.\nأضف ' + location.hostname + ' في Firebase Console');
+      authLog('Google signInWithPopup domain='+location.hostname);
+      try{
+        await auth.signInWithRedirect(provider);
+        authLog('Google OK');
+      }catch(pe){
+        authLog('Google popup err: '+(pe&&pe.code));
+        if(pe&&pe.code==='auth/unauthorized-domain'){
+          document.getElementById('googleNote').style.display='';
+          showAuthError('❌ الدومين غير مسموح في Firebase.\nأضف '+location.hostname+' في Firebase Console → Authentication → Settings → Authorized domains');
           return;
         }
-        if(pe && pe.code === 'auth/popup-closed-by-user'){
-          clearAuthError();
+        if(pe&&['auth/popup-blocked','auth/cancelled-popup-request'].includes(pe.code)){
+          showAuthError('⏳ جاري التحويل إلى Google...');
+          await new Promise(r=>setTimeout(r,600));
+          await auth.signInWithRedirect(provider);
           return;
         }
+        if(pe&&pe.code==='auth/popup-closed-by-user'){clearAuthError();return;}
         throw pe;
       }
     }catch(e){
       document.getElementById('googleNote').style.display='';
-      showAuthError('⚠️ مشكلة في الاتصال بـ Google. استخدم الإيميل أو الهاتف، أو حاول مجدداً.\n[' + ((e && e.code) || '?') + ']');
+      showAuthError('⚠️ Google قيد الإصلاح مؤقتاً. استخدم رقم الهاتف مع الكود.\n['+((e&&e.code)||'?')+']');
     }finally{
       this.busy=false;
       if(btn){btn.disabled=false;btn.innerHTML=oldHTML;}
@@ -1111,8 +1113,7 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
       try{
         const provider=new firebase.auth.GoogleAuthProvider(); provider.setCustomParameters({prompt:'select_account'});
         await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(function(){});
-        if(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) await auth.signInWithRedirect(provider);
-        else await auth.signInWithRedirect(provider);
+        await auth.signInWithRedirect(provider);
       }catch(e){ showAuthError('Google Login: '+(AUTH.friendlyError?AUTH.friendlyError(e):(e.message||e))); }
       finally{this.busy=false; if(btn){btn.disabled=false;btn.innerHTML=old;}}
     };
@@ -1447,38 +1448,111 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
 })();
 </script>
 
-<script>window.__ADNOR_V6_FINAL_MARKER__=true;console.log("ADNOR COMPLETE V6 FINAL loaded — Gmail auth preserved");</script>
+<script>window.__ADNOR_V6_FINAL_MARKER__=true;console.log("ADNOR V13 LOGIN FIXED loaded — Gmail + Phone OTP");</script>
 
-<script src="/adnor_today_full_patch.js?v=20260628-v11"></script>
+<script src="/adnor_today_full_patch.js?v=20260628-v13"></script>
 <script>window.__ADNOR_TODAY_FULL_PATCH_LOADED__=true;</script>
+
+
 <script>
-setTimeout(function(){
-  if(window.AUTH){
+(function ADNOR_V12_GMAIL_PHONE_OTP_ONLY(){
+  function $(id){return document.getElementById(id)}
+  function safeCall(fn){try{return fn()}catch(e){console.warn('[ADNOR V12]',e)}}
+  function okLegal(){
+    if(window.AUTH && AUTH.needLegal) return AUTH.needLegal();
+    var a=$('age18'), t=$('termsOk');
+    if(!a || !t || !a.checked || !t.checked){ alert('يجب تأكيد العمر والموافقة على الشروط أولاً'); return false; }
+    return true;
+  }
+  function setupUI(){
+    safeCall(function(){
+      var brand=document.querySelector('.brand p'); if(brand) brand.textContent='دخول آمن عبر Gmail أو رقم هاتف مؤكد';
+      var tabs=document.querySelector('.auth-tabs'); if(tabs) tabs.style.display='none';
+      var emailBtn=$('methodEmail'); if(emailBtn){emailBtn.classList.add('hidden'); emailBtn.style.display='none'}
+      var emailSec=$('secEmail'); if(emailSec){emailSec.classList.add('hidden'); emailSec.style.display='none'}
+      var reset=$('resetPassBtn'); if(reset){reset.classList.add('hidden'); reset.style.display='none'}
+      var g=$('methodGoogle'); if(g) g.innerHTML='Gmail / Google';
+      var p=$('methodPhone'); if(p) p.innerHTML='📱 رقم هاتف + كود';
+      var googleBtn=$('googleBtn'); if(googleBtn) googleBtn.innerHTML='<i class="fa-brands fa-google"></i> دخول عبر Gmail / Google';
+      var mainBtn=$('authBtn'); if(mainBtn && window.AUTH){ mainBtn.textContent = AUTH.method==='phone' ? (AUTH.phoneStep==='otp'?'تحقق من الكود':'إرسال كود التحقق') : 'دخول عبر Gmail'; }
+      var note=$('googleNote'); if(note){note.style.display=''; note.textContent='الدخول النظامي: Gmail أو رقم هاتف مع كود تحقق. لا يوجد دخول بكلمة سر.';}
+    });
+  }
+  function install(){
+    if(!window.AUTH || !window.firebase || !window.auth) return false;
+    if(AUTH.__gmailPhoneOtpOnlyV12) return true;
+    var originalSet = AUTH.setMethod ? AUTH.setMethod.bind(AUTH) : null;
+    AUTH.setMethod = function(m){
+      m = (m === 'phone') ? 'phone' : 'google';
+      var r = originalSet ? originalSet(m) : null;
+      this.method = m;
+      var emailBtn=$('methodEmail'); if(emailBtn){emailBtn.classList.add('hidden'); emailBtn.style.display='none'}
+      var emailSec=$('secEmail'); if(emailSec){emailSec.classList.add('hidden'); emailSec.style.display='none'}
+      var reset=$('resetPassBtn'); if(reset){reset.classList.add('hidden'); reset.style.display='none'}
+      var authBtn=$('authBtn');
+      if(authBtn){
+        if(m==='google') authBtn.style.display='none';
+        else {authBtn.style.display=''; authBtn.textContent = this.phoneStep==='otp' ? 'تحقق من الكود' : 'إرسال كود التحقق';}
+      }
+      setupUI();
+      return r;
+    };
+    AUTH._submitEmail = function(){
+      if(window.showAuthError) showAuthError('تم إلغاء دخول الإيميل وكلمة السر. استخدم Gmail أو رقم الهاتف مع كود التحقق.');
+      else alert('استخدم Gmail أو رقم الهاتف مع كود التحقق.');
+    };
+    AUTH.submit = function(){
+      if(this.busy) return;
+      if(this.method==='phone') return this._submitPhone();
+      return this.google();
+    };
     AUTH.google = async function(){
+      if(this.busy) return;
+      if(!okLegal()) return;
+      this.busy=true;
+      var btn=$('googleBtn'), old=btn?btn.innerHTML:'';
+      if(btn){btn.disabled=true;btn.textContent='⏳ جاري فتح Gmail...'}
       try{
-        if(this.busy) return;
-        if(!this.needLegal || !this.needLegal()) return;
-
-        this.busy = true;
-        if(typeof clearAuthError === "function") clearAuthError();
-
-        const provider = new firebase.auth.GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: "select_account" });
-
-        console.log("[ADNOR FIX] Google redirect forced");
-
+        if(window.clearAuthError) clearAuthError();
+        if(window.authLog) authLog('V12 Gmail redirect start domain='+location.hostname);
+        var ref = new URLSearchParams(location.search).get('ref') || localStorage.getItem('ADNOR_REF') || '';
+        if(ref) localStorage.setItem('ADNOR_REF', ref);
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({prompt:'select_account'});
         await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(function(){});
         await auth.signInWithRedirect(provider);
-        return;
       }catch(e){
-        console.error("[ADNOR FIX LOGIN ERROR]", e);
-        alert("خطأ دخول Google: " + (e.message || e.code || e));
+        console.error('[ADNOR V12 GMAIL ERROR]', e);
+        if(window.showAuthError) showAuthError('خطأ دخول Gmail: '+((e&&e.message)||(e&&e.code)||e));
+        else alert('خطأ دخول Gmail');
       }finally{
-        this.busy = false;
+        this.busy=false;
+        if(btn){btn.disabled=false;btn.innerHTML=old;}
       }
     };
-    console.log("[ADNOR FIX] Google login button fixed");
+    AUTH.__gmailPhoneOtpOnlyV12 = true;
+    AUTH.setMethod(AUTH.method==='phone'?'phone':'google');
+    console.log('[ADNOR V12] Gmail + Phone OTP login installed');
+    return true;
   }
-}, 1500);
-</script></body>
+  document.addEventListener('DOMContentLoaded', function(){setupUI(); install();});
+  setTimeout(function(){setupUI(); install();},300);
+  setTimeout(function(){setupUI(); install();},1200);
+  setInterval(function(){setupUI(); install();},5000);
+})();
+</script>
+
+
+<script>
+console.log('[ADNOR V13] final login package active: fixed authDomain + visible phone reCAPTCHA');
+setTimeout(function(){
+  try{
+    if(window.AUTH && window.firebase && window.auth){
+      AUTH.setMethod(AUTH.method==='phone'?'phone':'google');
+      console.log('[ADNOR V13] AUTH ready, method=', AUTH.method);
+    }
+  }catch(e){console.warn('[ADNOR V13]',e)}
+},1800);
+</script>
+</body>
 </html>

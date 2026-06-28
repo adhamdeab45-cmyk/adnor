@@ -1,0 +1,14 @@
+ADNOR V12 LOGIN CHECKLIST
+
+[✓] Gmail / Google login only, no password login UI.
+[✓] Phone number login with OTP code via Firebase Phone Auth.
+[✓] Email/password tab hidden.
+[✓] Password reset hidden.
+[✓] Google redirect forced, popup disabled.
+[✓] Works on top of V11/V6 project structure.
+
+Firebase setup required:
+- Enable Google provider.
+- Enable Phone provider.
+- Add Render domain to Authorized domains.
+- For testing: add Test phone number and code in Firebase Phone provider.
