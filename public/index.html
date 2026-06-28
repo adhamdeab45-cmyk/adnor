@@ -1452,5 +1452,34 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
 
 <script src="/adnor_today_full_patch.js?v=20260628-v11"></script>
 <script>window.__ADNOR_TODAY_FULL_PATCH_LOADED__=true;</script>
-</body>
+<script>
+setTimeout(function(){
+  if(window.AUTH){
+    AUTH.google = async function(){
+      try{
+        if(this.busy) return;
+        if(!this.needLegal || !this.needLegal()) return;
+
+        this.busy = true;
+        if(typeof clearAuthError === "function") clearAuthError();
+
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: "select_account" });
+
+        console.log("[ADNOR FIX] Google redirect forced");
+
+        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(function(){});
+        await auth.signInWithRedirect(provider);
+        return;
+      }catch(e){
+        console.error("[ADNOR FIX LOGIN ERROR]", e);
+        alert("خطأ دخول Google: " + (e.message || e.code || e));
+      }finally{
+        this.busy = false;
+      }
+    };
+    console.log("[ADNOR FIX] Google login button fixed");
+  }
+}, 1500);
+</script></body>
 </html>
