@@ -376,29 +376,28 @@ const AUTH={
       if(ref)localStorage.setItem('ADNOR_REF',ref);
       const provider=new firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({prompt:'select_account'});
-      authLog('Google signInWithPopup domain='+location.hostname);
-      try{
-        await auth.signInWithRedirect(provider);
-        authLog('Google OK');
-      }catch(pe){
-        authLog('Google popup err: '+(pe&&pe.code));
-        if(pe&&pe.code==='auth/unauthorized-domain'){
-          document.getElementById('googleNote').style.display='';
-          showAuthError('❌ الدومين غير مسموح في Firebase.\nأضف '+location.hostname+' في Firebase Console → Authentication → Settings → Authorized domains');
+      
+      authLog('Google signInWithPopup start...');
+      
+      try {
+        const result = await auth.signInWithPopup(provider);
+        authLog('Google OK ✓ User: ' + result.user.uid);
+      } catch(pe) {
+        authLog('Google popup err: ' + (pe && pe.code));
+        if(pe && pe.code === 'auth/unauthorized-domain'){
+          document.getElementById('googleNote').style.display = '';
+          showAuthError('❌ الدومين غير مسموح في Firebase.\nأضف ' + location.hostname + ' في Firebase Console');
           return;
         }
-        if(pe&&['auth/popup-blocked','auth/cancelled-popup-request'].includes(pe.code)){
-          showAuthError('⏳ جاري التحويل إلى Google...');
-          await new Promise(r=>setTimeout(r,600));
-          await auth.signInWithRedirect(provider);
+        if(pe && pe.code === 'auth/popup-closed-by-user'){
+          clearAuthError();
           return;
         }
-        if(pe&&pe.code==='auth/popup-closed-by-user'){clearAuthError();return;}
         throw pe;
       }
     }catch(e){
       document.getElementById('googleNote').style.display='';
-      showAuthError('⚠️ Google قيد الإصلاح مؤقتاً. استخدم الإيميل أو رقم الهاتف.\n['+((e&&e.code)||'?')+']');
+      showAuthError('⚠️ مشكلة في الاتصال بـ Google. استخدم الإيميل أو الهاتف، أو حاول مجدداً.\n[' + ((e && e.code) || '?') + ']');
     }finally{
       this.busy=false;
       if(btn){btn.disabled=false;btn.innerHTML=oldHTML;}
