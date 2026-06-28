@@ -1113,7 +1113,7 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
         const provider=new firebase.auth.GoogleAuthProvider(); provider.setCustomParameters({prompt:'select_account'});
         await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(function(){});
         if(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) await auth.signInWithRedirect(provider);
-        else await auth.signInWithPopup(provider);
+        else await auth.signInWithRedirect(provider);
       }catch(e){ showAuthError('Google Login: '+(AUTH.friendlyError?AUTH.friendlyError(e):(e.message||e))); }
       finally{this.busy=false; if(btn){btn.disabled=false;btn.innerHTML=old;}}
     };
