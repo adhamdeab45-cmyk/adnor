@@ -1,0 +1,9 @@
+قائمة فحص V16:
+[OK] public/index.html موجود
+[OK] public/adnor_today_full_patch.js موجود
+[OK] server.js موجود
+[OK] package.json موجود
+[OK] render.yaml موجود
+[OK] Firebase adnor-vp داخل index.html
+[OK] الدخول: Gmail + رقم هاتف OTP
+[OK] إضافات اليوم غير محذوفة
