@@ -378,7 +378,7 @@ const AUTH={
       provider.setCustomParameters({prompt:'select_account'});
       authLog('Google signInWithPopup domain='+location.hostname);
       try{
-        await auth.signInWithPopup(provider);
+        await auth.signInWithRedirect(provider);
         authLog('Google OK');
       }catch(pe){
         authLog('Google popup err: '+(pe&&pe.code));
