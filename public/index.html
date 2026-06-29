@@ -115,7 +115,7 @@
       </div>
     </section>
     <section id="page-wallet" class="page">
-      <div class="card"><h3>💰 المحفظة</h3><div class="grid two"><div class="mini"><span>الرصيد الكلي</span><b class="stat-num" id="walletTotal">$0.00</b></div><div class="mini"><span>القابل للسحب</span><b id="walletMain">$0.00</b></div><div class="mini"><span>البونص</span><b id="walletBonus">$0.00</b></div><div class="mini"><span>عدد التذاكر</span><b id="walletTicketCount">0</b></div></div></div>
+      <div class="card"><h3>💰 المحفظة</h3><div class="grid two"><div class="mini"><span>الرصيد الكلي</span><b class="stat-num" id="walletTotal">$0.00</b></div><div class="mini"><span>القابل للسحب</span><b id="walletMain">$0.00</b></div><div class="mini"><span>البونص</span><b id="walletBonus">$0.00</b></div><div class="mini"><span>محجوز للسحب</span><b id="walletReserved">$0.00</b></div><div class="mini"><span>عدد التذاكر</span><b id="walletTicketCount">0</b></div></div></div>
       <div class="card" id="profileCard"><h3>👤 معلوماتي الشخصية</h3><div id="profileContent" class="profile-grid"></div></div>
       <div class="card scratch" onclick="SCRATCH.open()"><div class="gift">🎁</div><h3>صندوق الحظ اليومي</h3><p class="muted" id="scratchHint">اضغط واكتشف ربحك</p></div>
       <div class="card"><h3>🔗 رابط الدعوة</h3><p class="muted" style="font-size:12px">أرسل الرابط لصديقك. عند تسجيله تحصل على المكافأة المحددة من الأدمن.</p><div class="copybox" id="refLink">...</div><button class="btn full" style="margin-top:10px" onclick="APP.copyRef()">نسخ رابط الدعوة</button></div>
@@ -134,8 +134,8 @@
 </div>
 <div id="side" class="side" onclick="if(event.target.id==='side')UI.side(false)"><div class="side-panel"><h3>♛ ADNOR</h3><button onclick="UI.page('lottery');UI.side(false)"><i class="fas fa-ticket"></i> اليانصيب</button><button onclick="UI.page('wallet');UI.side(false)"><i class="fas fa-wallet"></i> المحفظة</button><button onclick="UI.page('games');UI.side(false)"><i class="fas fa-gamepad"></i> الألعاب</button><button onclick="UI.page('support');UI.side(false)"><i class="fas fa-headset"></i> الدعم</button><button onclick="UI.settings();UI.side(false)"><i class="fas fa-gear"></i> الإعدادات</button><button id="adminSideBtn" class="hidden" onclick="ADMIN.open();UI.side(false)"><i class="fas fa-crown"></i> الأدمن الأسطوري</button><button onclick="AUTH.logout()"><i class="fas fa-right-from-bracket"></i> تسجيل الخروج</button></div></div>
 <div id="modal" class="modal"><div class="modal-box"><div id="modalContent"></div></div></div>
-<div id="admin" class="admin"><aside class="admin-menu"><h3>👑 الأدمن الأسطوري</h3><button onclick="ADMIN.sec('dash')" id="adm-dash" class="active">📊 الرئيسية</button><button onclick="ADMIN.sec('users')" id="adm-users">👤 المستخدمين</button><button onclick="ADMIN.sec('draws')" id="adm-draws">🎯 السحوبات</button><button onclick="ADMIN.sec('finance')" id="adm-finance">💰 الإيداع والسحب</button><button onclick="ADMIN.sec('games')" id="adm-games">🎮 الألعاب والعجلة</button><button onclick="ADMIN.sec('support')" id="adm-support">💬 الدعم</button><button onclick="ADMIN.sec('legal')" id="adm-legal">⚙️ السياسة واللغات</button><button onclick="ADMIN.sec('inject')" id="adm-inject">⚡ حقن الأكواد</button><button onclick="ADMIN.close()">خروج</button></aside><section class="admin-main" id="adminMain"></section></div>
-<div class="version-badge">ADNOR FULL FINAL V3</div>
+<div id="admin" class="admin"><aside class="admin-menu"><h3>👑 الأدمن الأسطوري</h3><button onclick="ADMIN.sec('dash')" id="adm-dash" class="active">📊 الرئيسية</button><button onclick="ADMIN.sec('users')" id="adm-users">👤 المستخدمين</button><button onclick="ADMIN.sec('draws')" id="adm-draws">🎯 السحوبات</button><button onclick="ADMIN.sec('finance')" id="adm-finance">💰 الإيداع والسحب</button><button onclick="ADMIN.sec('games')" id="adm-games">🎮 الألعاب والعجلة</button><button onclick="ADMIN.sec('support')" id="adm-support">💬 الدعم</button><button onclick="ADMIN.sec('legal')" id="adm-legal">⚙️ السياسة واللغات</button><button onclick="ADMIN.sec('splash')" id="adm-splash">⏱️ شاشة 3 ثواني</button><button onclick="ADMIN.sec('referrals')" id="adm-referrals">🔗 الدعوات</button><button onclick="ADMIN.sec('inject')" id="adm-inject">⚡ حقن الأكواد</button><button onclick="ADMIN.close()">خروج</button></aside><section class="admin-main" id="adminMain"></section></div>
+<div class="version-badge">ADNOR V8.9 VERIFIED FULL</div>
 <script>
 const firebaseConfig = {apiKey:"AIzaSyBpklFtIKgxmnLCpk7Zi00p5lxny966mpM",authDomain:"adnor-vp.firebaseapp.com",databaseURL:"https://adnor-vp-default-rtdb.firebaseio.com",projectId:"adnor-vp",storageBucket:"adnor-vp.firebasestorage.app",messagingSenderId:"808457533052",appId:"1:808457533052:web:d7d2bcef237c2214be3bf9",measurementId:"G-Q8SV80V1TN"};
 if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
@@ -2045,6 +2045,659 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
   }
   function boot(){patchAdmin(); patchSplash(); ensureCoreVisible();}
   setTimeout(boot,100); setTimeout(boot,700); setTimeout(boot,1700); setInterval(boot,3000);
+})();
+</script>
+
+
+<!-- ADNOR V8.7 PHONE SEND CODE REAL BUTTON FIX -->
+<style id="adnorV87PhoneButtonStyle">
+  #adnorPhoneActionBtn{
+    display:none;
+    width:100%;
+    margin:12px 0 8px;
+    min-height:62px;
+    border:0;
+    border-radius:20px;
+    padding:14px 18px;
+    font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;
+    font-size:17px;
+    font-weight:950;
+    background:linear-gradient(180deg,#ffe9a8,#b87500);
+    color:#140900;
+    box-shadow:0 10px 24px rgba(245,189,63,.26),0 0 18px rgba(245,189,63,.20);
+    cursor:pointer;
+  }
+  #adnorPhoneActionBtn.show{display:block!important}
+  #adnorPhoneHelp{
+    display:none;
+    margin:8px 0 0;
+    padding:11px;
+    border-radius:15px;
+    border:1px solid rgba(24,201,255,.28);
+    background:rgba(18,201,255,.07);
+    color:#d7efff;
+    font-size:12px;
+    line-height:1.8;
+    text-align:center;
+    font-weight:800;
+  }
+  #adnorPhoneHelp.show{display:block!important}
+  body.adnor-phone-mode #authBtn{display:none!important}
+  body.adnor-phone-mode #secPhone{display:block!important}
+  body.adnor-phone-mode #secPhone.hidden{display:block!important}
+  body.adnor-phone-mode #secGoogle{display:none!important}
+</style>
+<script id="adnorV87PhoneButtonPatch">
+(function(){
+  'use strict';
+  window.ADNOR_V87_PHONE_BUTTON_FIX = true;
+  var ADMIN_PHONE_V87 = '+905445034910';
+  function $(id){return document.getElementById(id);}
+  function normalizePhone(raw){
+    var p=String(raw||'').trim().replace(/[^0-9+]/g,'');
+    if(!p) return '';
+    if(p.indexOf('00')===0) p='+'+p.slice(2);
+    if(p[0]!=='+') p='+'+p;
+    return p;
+  }
+  function showMsg(t, good){
+    var el=$('authError');
+    if(el){
+      el.style.display='block';
+      el.style.whiteSpace='pre-line';
+      el.style.border='1px solid '+(good?'rgba(24,242,155,.35)':'rgba(239,68,68,.45)');
+      el.style.background=good?'rgba(24,242,155,.10)':'rgba(239,68,68,.12)';
+      el.style.color=good?'#a7ffd3':'#fecaca';
+      el.textContent=t;
+    }else{
+      alert(t);
+    }
+  }
+  function friendly(e){
+    var code=(e&&e.code)||'';
+    if(code==='auth/invalid-phone-number') return 'رقم الهاتف غير صحيح. اكتبه هكذا: +905445034910';
+    if(code==='auth/missing-phone-number') return 'اكتب رقم الهاتف أولاً.';
+    if(code==='auth/operation-not-allowed') return 'دخول الهاتف غير مفعّل في Firebase. فعّل Phone من Authentication > Sign-in method.';
+    if(code==='auth/unauthorized-domain') return 'دومين الموقع غير مضاف في Firebase Authorized domains: '+location.hostname;
+    if(code==='auth/captcha-check-failed') return 'فشل reCAPTCHA. حدّث الصفحة وجرب من متصفح Chrome عادي.';
+    if(code==='auth/too-many-requests') return 'محاولات كثيرة على نفس الرقم. انتظر قليلًا ثم جرّب.';
+    if(code==='auth/invalid-verification-code') return 'كود التحقق غير صحيح.';
+    if(code==='auth/code-expired') return 'انتهت صلاحية الكود. اضغط إرسال كود جديد.';
+    return (e && (e.message||e.code)) || String(e||'خطأ غير معروف');
+  }
+  function installButton(){
+    var sec=$('secPhone');
+    if(!sec) return;
+    if(!$('adnorPhoneActionBtn')){
+      var btn=document.createElement('button');
+      btn.type='button';
+      btn.id='adnorPhoneActionBtn';
+      btn.textContent='📩 إرسال كود الهاتف';
+      btn.onclick=function(ev){ev&&ev.preventDefault(); return phoneAction();};
+      sec.appendChild(btn);
+      var help=document.createElement('div');
+      help.id='adnorPhoneHelp';
+      help.innerHTML='اكتب رقمك ثم اضغط الزر الذهبي. إذا رقمك هو رقم الأدمن <b dir="ltr">'+ADMIN_PHONE_V87+'</b> سيتم فتح صلاحيات الأدمن بعد الدخول.';
+      sec.appendChild(help);
+    }
+    var phone=$('authPhoneNum');
+    if(phone && !phone.dataset.v87Auto){
+      phone.dataset.v87Auto='1';
+      phone.addEventListener('blur',function(){
+        var v=normalizePhone(phone.value);
+        if(v) phone.value=v;
+      });
+      phone.addEventListener('input',function(){
+        try{ if(window.AUTH) AUTH.phoneStep = AUTH.phoneStep || 'input'; }catch(e){}
+        updatePhoneButton();
+      });
+    }
+  }
+  function setModePhone(){
+    try{ if(window.AUTH) AUTH.method='phone'; }catch(e){}
+    document.body.classList.add('adnor-phone-mode');
+    var mg=$('methodGoogle'), mp=$('methodPhone');
+    if(mg) mg.classList.remove('active');
+    if(mp) mp.classList.add('active');
+    var sg=$('secGoogle'), sp=$('secPhone');
+    if(sg) sg.classList.add('hidden');
+    if(sp) sp.classList.remove('hidden');
+    updatePhoneButton();
+  }
+  function setModeGoogle(){
+    document.body.classList.remove('adnor-phone-mode');
+    try{ if(window.AUTH) AUTH.method='google'; }catch(e){}
+    var mg=$('methodGoogle'), mp=$('methodPhone');
+    if(mp) mp.classList.remove('active');
+    if(mg) mg.classList.add('active');
+    var sg=$('secGoogle'), sp=$('secPhone');
+    if(sp) sp.classList.add('hidden');
+    if(sg) sg.classList.remove('hidden');
+    updatePhoneButton();
+  }
+  function updatePhoneButton(){
+    installButton();
+    var btn=$('adnorPhoneActionBtn'), help=$('adnorPhoneHelp');
+    var isPhone=false;
+    try{ isPhone = (window.AUTH && AUTH.method==='phone') || document.body.classList.contains('adnor-phone-mode') || ($('methodPhone')&&$('methodPhone').classList.contains('active')); }catch(e){}
+    if(btn){
+      btn.classList.toggle('show',!!isPhone);
+      var step=(window.AUTH&&AUTH.phoneStep)||'input';
+      btn.textContent = (step==='otp') ? '✅ تأكيد الكود والدخول' : '📩 إرسال كود الهاتف';
+    }
+    if(help) help.classList.toggle('show',!!isPhone);
+  }
+  async function ensureRecaptcha(){
+    if(!window.firebase || !firebase.auth) throw new Error('Firebase غير جاهز. انتظر ثانيتين وجرب.');
+    var holder=$('recaptchaContainer');
+    if(!holder) throw new Error('مكان reCAPTCHA غير موجود داخل الصفحة.');
+    holder.innerHTML='';
+    if(window.AUTH && AUTH.recaptcha){ try{ AUTH.recaptcha.clear(); }catch(e){} AUTH.recaptcha=null; }
+    var verifier=new firebase.auth.RecaptchaVerifier('recaptchaContainer',{size:'invisible'});
+    await verifier.render();
+    if(window.AUTH) AUTH.recaptcha=verifier;
+    return verifier;
+  }
+  async function phoneAction(){
+    setModePhone();
+    if(!window.AUTH) return showMsg('AUTH غير جاهز بعد. حدّث الصفحة وجرب.', false);
+    if(!AUTH.needLegal) AUTH.needLegal=function(){return true};
+    AUTH.needLegal=function(){try{localStorage.setItem('ADNOR_LEGAL_OK','1')}catch(e){} return true;};
+    var btn=$('adnorPhoneActionBtn');
+    var step=AUTH.phoneStep||'input';
+    if(step==='otp') return confirmOtp();
+    var input=$('authPhoneNum');
+    var phone=normalizePhone(input&&input.value);
+    if(input) input.value=phone;
+    if(!phone || phone.length<8) return showMsg('اكتب الرقم كامل بصيغة دولية. مثال: +905445034910', false);
+    try{
+      if(btn){btn.disabled=true; btn.textContent='⏳ جاري إرسال الكود...';}
+      if(window.auth && auth.setPersistence) await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      var verifier=await ensureRecaptcha();
+      AUTH.phoneConfirm = await auth.signInWithPhoneNumber(phone, verifier);
+      AUTH.phoneStep='otp';
+      var otp=$('otpWrap'); if(otp) otp.classList.remove('hidden');
+      var otpInput=$('authOTP'); if(otpInput) setTimeout(function(){otpInput.focus();},150);
+      showMsg('✅ تم إرسال الكود إلى '+phone+'\nاكتب الكود واضغط: تأكيد الكود والدخول', true);
+    }catch(e){
+      AUTH.phoneStep='input';
+      if(AUTH.recaptcha){try{AUTH.recaptcha.clear();}catch(x){} AUTH.recaptcha=null;}
+      showMsg('فشل إرسال كود الهاتف: '+friendly(e), false);
+    }finally{
+      if(btn){btn.disabled=false;}
+      updatePhoneButton();
+    }
+  }
+  async function confirmOtp(){
+    var code=String(($('authOTP')&&$('authOTP').value)||'').trim();
+    if(!code || code.length<4) return showMsg('اكتب كود التحقق الذي وصلك برسالة SMS.', false);
+    if(!window.AUTH || !AUTH.phoneConfirm){ AUTH.phoneStep='input'; updatePhoneButton(); return showMsg('أرسل الكود أولاً.', false); }
+    var btn=$('adnorPhoneActionBtn');
+    try{
+      if(btn){btn.disabled=true; btn.textContent='⏳ جاري التحقق...';}
+      var result=await AUTH.phoneConfirm.confirm(code);
+      var user=result.user;
+      var phone=user.phoneNumber || normalizePhone($('authPhoneNum')&&$('authPhoneNum').value);
+      try{
+        var snap=await db.ref('users/'+user.uid).once('value');
+        var old=snap.val()||{};
+        await db.ref('users/'+user.uid).update({
+          uid:user.uid,
+          name:old.name || (phone===ADMIN_PHONE_V87?'ADNOR ADMIN':'ADNOR USER'),
+          email:old.email || '',
+          phone:phone,
+          phoneNumber:phone,
+          role:phone===ADMIN_PHONE_V87?'admin':(old.role||'user'),
+          isAdmin:phone===ADMIN_PHONE_V87?true:(old.isAdmin||false),
+          lastLogin:Date.now(),
+          createdAt:old.createdAt||Date.now(),
+          balance:old.balance||0,
+          bonus:old.bonus||0
+        });
+      }catch(dbErr){ console.warn('profile save failed', dbErr); }
+      showMsg('✅ تم تسجيل الدخول بنجاح', true);
+    }catch(e){
+      showMsg('فشل تأكيد الكود: '+friendly(e), false);
+    }finally{
+      if(btn){btn.disabled=false;}
+      updatePhoneButton();
+    }
+  }
+  function installOverrides(){
+    installButton();
+    var mp=$('methodPhone');
+    if(mp && !mp.dataset.v87Fixed){
+      mp.dataset.v87Fixed='1';
+      mp.onclick=function(ev){ev&&ev.preventDefault(); setModePhone(); return false;};
+    }
+    var mg=$('methodGoogle');
+    if(mg && !mg.dataset.v87Fixed){
+      mg.dataset.v87Fixed='1';
+      mg.onclick=function(ev){ev&&ev.preventDefault(); setModeGoogle(); return false;};
+    }
+    if(window.AUTH && !AUTH.__v87PhoneButtonFixed){
+      AUTH.__v87PhoneButtonFixed=true;
+      var oldSet=AUTH.setMethod ? AUTH.setMethod.bind(AUTH) : null;
+      AUTH.setMethod=function(m){
+        if(m==='phone'){ setModePhone(); return false; }
+        document.body.classList.remove('adnor-phone-mode');
+        var r=oldSet ? oldSet('google') : null;
+        setModeGoogle();
+        return r;
+      };
+      var oldSubmit=AUTH.submit ? AUTH.submit.bind(AUTH) : null;
+      AUTH.submit=function(){
+        if((AUTH.method||'google')==='phone' || document.body.classList.contains('adnor-phone-mode')) return phoneAction();
+        return oldSubmit ? oldSubmit() : (AUTH.google && AUTH.google());
+      };
+      AUTH._sendOTP=phoneAction;
+      AUTH._confirmOTP=confirmOtp;
+    }
+    if(window.auth && !auth.__v87AdminWatcher){
+      auth.__v87AdminWatcher=true;
+      auth.onAuthStateChanged(function(u){
+        if(u && u.phoneNumber){
+          try{ db.ref('users/'+u.uid).update({phone:u.phoneNumber,phoneNumber:u.phoneNumber,role:u.phoneNumber===ADMIN_PHONE_V87?'admin':'user',isAdmin:u.phoneNumber===ADMIN_PHONE_V87,lastLogin:Date.now()}); }catch(e){}
+        }
+      });
+    }
+    updatePhoneButton();
+  }
+  document.addEventListener('DOMContentLoaded',installOverrides);
+  setTimeout(installOverrides,80);
+  setTimeout(installOverrides,350);
+  setTimeout(installOverrides,1000);
+  setTimeout(installOverrides,2200);
+  setInterval(installOverrides,1200);
+})();
+</script>
+
+
+
+<!-- ADNOR V8.8 FINAL SPLASH CONTROL FIX -->
+<style id="adnorV88SplashStyle">
+  .adnor-v88-splash-overlay{position:fixed;inset:0;z-index:120000;display:grid;place-items:center;padding:18px;background:radial-gradient(circle at 50% 8%,rgba(28,75,145,.98),#020711 72%);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;direction:rtl}
+  .adnor-v88-splash-card{width:min(560px,94vw);min-height:280px;border:1px solid rgba(255,216,110,.62);border-radius:30px;background:linear-gradient(145deg,rgba(14,36,67,.97),rgba(2,8,18,.97));box-shadow:0 30px 90px rgba(0,0,0,.68),0 0 55px rgba(245,189,63,.23);padding:24px;text-align:center;color:#fff;overflow:hidden}
+  .adnor-v88-splash-logo{font-size:58px;font-weight:1000;letter-spacing:4px;color:#ffdf7d;text-shadow:0 0 24px rgba(255,216,110,.72);margin-bottom:6px}
+  .adnor-v88-splash-card img{max-width:100%;max-height:300px;border-radius:20px;margin:8px auto 12px;display:block;border:1px solid rgba(255,216,110,.35)}
+  .adnor-v88-splash-card h2{color:#ffdf7d;margin:8px 0;font-size:28px;text-shadow:0 0 16px rgba(255,216,110,.55)}
+  .adnor-v88-splash-card p{color:#d9e8ff;font-size:18px;line-height:1.8;margin:8px 0 12px;font-weight:800}
+  .adnor-v88-splash-count{display:inline-flex;align-items:center;justify-content:center;min-width:46px;height:46px;border-radius:999px;border:1px solid rgba(147,251,208,.55);background:rgba(24,242,155,.10);color:#93fbd0;font-size:20px;font-weight:1000;font-family:monospace}
+  .adnor-v88-admin-hint{border:1px solid rgba(24,242,155,.35);background:rgba(24,242,155,.08);border-radius:16px;padding:11px;margin:10px 0;color:#dcfff3;font-weight:800;line-height:1.7}
+  #adnorSplashV88Card{border-color:rgba(255,216,110,.42)!important;box-shadow:0 0 30px rgba(245,189,63,.08)}
+</style>
+<script id="adnorV88SplashControlFix">
+(function(){
+  'use strict';
+  if(window.__ADNOR_V88_SPLASH_FIX__) return;
+  window.__ADNOR_V88_SPLASH_FIX__=true;
+  var ADMIN_PHONE='+905445034910';
+  var ADMIN_EMAIL='adhamdeab45@gmail.com';
+  function el(id){return document.getElementById(id)}
+  function safe(v){return String(v==null?'':v)}
+  function esc2(v){return safe(v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
+  function num(v){var x=Number(v); return Number.isFinite(x)?x:0}
+  function msg(t){try{toast(t)}catch(e){alert(t)}}
+  function adminOK(){
+    try{
+      var cu=(window.auth&&auth.currentUser)||{};
+      var u=(window.APP&&APP.user)||{};
+      var ph=safe(u.phone||u.phoneNumber||cu.phoneNumber).replace(/[^0-9+]/g,''); if(ph&&ph[0]!=='+') ph='+'+ph;
+      var em=safe(u.email||cu.email).toLowerCase();
+      return !!(APP&&APP.user&&(ph===ADMIN_PHONE||em===ADMIN_EMAIL));
+    }catch(e){return false}
+  }
+  function defaultSplash(){
+    return {enabled:true,duration:3,title:'أهلاً بك في ADNOR',text:'انتظر 3 ثواني ثم تابع تسجيل الدخول',imageData:'',updatedAt:0,showBeforeLogin:true};
+  }
+  function readLocalSplash(){
+    try{ return Object.assign(defaultSplash(), JSON.parse(localStorage.getItem('ADNOR_PUBLIC_SPLASH_CONFIG')||'{}')); }catch(e){ return defaultSplash(); }
+  }
+  function showSplash(cfg, force){
+    cfg=Object.assign(defaultSplash(),cfg||{});
+    if(cfg.enabled===false && !force) return;
+    var old=el('adnorV88SplashOverlay'); if(old) old.remove();
+    var d=Math.max(1,Math.min(15,num(cfg.duration)||3));
+    var box=document.createElement('div');
+    box.id='adnorV88SplashOverlay';
+    box.className='adnor-v88-splash-overlay';
+    box.innerHTML='<div class="adnor-v88-splash-card">'+(cfg.imageData?'<img src="'+esc2(cfg.imageData)+'" alt="ADNOR">':'<div class="adnor-v88-splash-logo">ADNOR</div><div style="font-size:52px">👑</div>')+'<h2>'+esc2(cfg.title||'ADNOR')+'</h2><p>'+esc2(cfg.text||'')+'</p><div class="adnor-v88-splash-count" id="adnorV88SplashCount">'+d+'</div></div>';
+    document.body.appendChild(box);
+    var left=d;
+    var timer=setInterval(function(){
+      left--;
+      var c=el('adnorV88SplashCount'); if(c)c.textContent=String(Math.max(0,left));
+      if(left<=0){clearInterval(timer); if(box&&box.parentNode)box.remove();}
+    },1000);
+  }
+  window.ADNOR_SHOW_SPLASH_V88=showSplash;
+  function loadPublicSplashThenShow(){
+    if(window.__ADNOR_V88_OPEN_SPLASH_SHOWN__) return;
+    window.__ADNOR_V88_OPEN_SPLASH_SHOWN__=true;
+    var local=readLocalSplash();
+    setTimeout(function(){showSplash(local,false)},220);
+    setTimeout(function(){
+      try{
+        if(window.db && db.ref){
+          db.ref('public_config/loginSplash').once('value').then(function(s){
+            var v=s.val();
+            if(v){ localStorage.setItem('ADNOR_PUBLIC_SPLASH_CONFIG',JSON.stringify(v)); }
+          }).catch(function(){});
+        }
+      }catch(e){}
+    },900);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',loadPublicSplashThenShow); else loadPublicSplashThenShow();
+
+  function fileToDataURL(file, maxBytes){
+    return new Promise(function(resolve,reject){
+      if(!file) return resolve('');
+      if(maxBytes && file.size>maxBytes) return reject(new Error('حجم الصورة كبير. اختار صورة أخف.'));
+      var r=new FileReader(); r.onload=function(){resolve(r.result)}; r.onerror=reject; r.readAsDataURL(file);
+    });
+  }
+  function splashCfgFromForm(){
+    return {
+      enabled:(el('v88SpEnabled')||{}).value!=='0',
+      duration:num((el('v88SpDuration')||{}).value)||3,
+      title:(el('v88SpTitle')||{}).value||'أهلاً بك في ADNOR',
+      text:(el('v88SpText')||{}).value||'انتظر 3 ثواني ثم تابع تسجيل الدخول',
+      imageData:((window.APP&&APP.settings&&APP.settings.loginSplash&&APP.settings.loginSplash.imageData)||readLocalSplash().imageData||''),
+      showBeforeLogin:true,
+      updatedAt:Date.now()
+    };
+  }
+  function splashPanel(){
+    var sp=Object.assign(defaultSplash(), readLocalSplash(), (window.APP&&APP.settings&&APP.settings.loginSplash)||{});
+    return '<div class="card" id="adnorSplashV88Card"><h3>⏱️ شاشة الثلاث ثواني قبل تسجيل الدخول</h3><div class="adnor-v88-admin-hint">هذه هي الصفحة التي تظهر فور فتح رابط الموقع، قبل تسجيل الدخول. عدّلها من هنا واضغط حفظ.</div><div class="admin-grid"><div class="admin-field"><label>تشغيل الشاشة</label><select id="v88SpEnabled" class="finp"><option value="1" '+(sp.enabled!==false?'selected':'')+'>مفعلة</option><option value="0" '+(sp.enabled===false?'selected':'')+'>متوقفة</option></select></div><div class="admin-field"><label>المدة بالثواني</label><input id="v88SpDuration" class="finp" type="number" min="1" max="15" value="'+esc2(sp.duration||3)+'"></div></div><div class="field"><label>العنوان</label><input id="v88SpTitle" class="finp" value="'+esc2(sp.title||'')+'"></div><div class="field"><label>النص / الإعلان / رقم الفائز</label><textarea id="v88SpText" class="finp" style="height:120px">'+esc2(sp.text||'')+'</textarea></div><div class="field"><label>صورة شاشة الافتتاح</label><input id="v88SpImage" class="finp" type="file" accept="image/*"><small class="muted">اختياري. إذا ما رفعت صورة يظهر شعار ADNOR والملك.</small></div>'+(sp.imageData?'<img class="receipt-thumb" src="'+esc2(sp.imageData)+'">':'')+'<div class="grid two"><button class="btn full" onclick="ADMIN.saveSplashV88()">💾 حفظ شاشة الثلاث ثواني</button><button class="btn green full" onclick="ADMIN.testSplashV88()">👁️ جرّبها الآن</button></div></div>';
+  }
+  function addSplashMenu(){
+    var menu=document.querySelector('.admin-menu'); if(!menu || el('adm-splash')) return;
+    var btn=document.createElement('button'); btn.id='adm-splash'; btn.innerHTML='⏱️ شاشة 3 ثواني'; btn.onclick=function(){ADMIN.sec('splash')};
+    var legal=el('adm-legal');
+    if(legal && legal.parentNode) legal.parentNode.insertBefore(btn, legal.nextSibling); else menu.appendChild(btn);
+  }
+  function patchAdmin(){
+    if(!window.ADMIN) return;
+    addSplashMenu();
+    ADMIN.splashPanel=splashPanel;
+    ADMIN.saveSplashV88=async function(){
+      try{
+        var sp=splashCfgFromForm();
+        var file=el('v88SpImage')&&el('v88SpImage').files&&el('v88SpImage').files[0];
+        if(file) sp.imageData=await fileToDataURL(file,900*1024);
+        localStorage.setItem('ADNOR_PUBLIC_SPLASH_CONFIG',JSON.stringify(sp));
+        if(window.APP){APP.settings=APP.settings||{};APP.settings.loginSplash=sp;}
+        var writes=[];
+        if(window.db&&db.ref){
+          writes.push(db.ref('global_system/settings/loginSplash').set(sp));
+          writes.push(db.ref('public_config/loginSplash').set(sp));
+        }
+        await Promise.all(writes);
+        msg('✅ تم حفظ شاشة الثلاث ثواني — افتح الموقع من جديد وستظهر قبل تسجيل الدخول');
+        if(ADMIN.refreshIfOpen) ADMIN.refreshIfOpen();
+      }catch(e){msg('❌ لم يتم الحفظ: '+(e.message||e));}
+    };
+    ADMIN.testSplashV88=function(){showSplash(splashCfgFromForm(),true)};
+    ADMIN.legal=function(){
+      var lg=(APP.settings&&APP.settings.legal)||{};
+      var rf=(APP.settings&&APP.settings.referral)||{};
+      return '<div class="card"><h3>العمر والسياسة واللغة</h3><div class="field"><label>ساعة السحب</label><input id="drawHour" class="finp" type="number" value="'+esc2((APP.settings&&APP.settings.drawHour)||20)+'"></div><div class="field"><label>نص السياسة</label><textarea id="legalText" class="finp" style="height:190px">'+esc2(lg.text||'')+'</textarea></div><div class="admin-grid"><div class="admin-field"><label>مكافأة صاحب الدعوة</label><input id="refA" class="finp" type="number" value="'+esc2(rf.referrerBonus||0)+'"></div><div class="admin-field"><label>مكافأة المستخدم الجديد</label><input id="refB" class="finp" type="number" value="'+esc2(rf.newUserBonus||0)+'"></div></div><button class="btn full" onclick="ADMIN.saveLegalV88()">حفظ السياسة</button></div>'+splashPanel();
+    };
+    ADMIN.saveLegalV88=async function(){
+      try{
+        await db.ref('global_system/settings').update({drawHour:num((el('drawHour')||{}).value)||20,legal:{enabled:true,text:(el('legalText')||{}).value||''},referral:{referrerBonus:num((el('refA')||{}).value),newUserBonus:num((el('refB')||{}).value),type:'bonus'}});
+        msg('✅ تم حفظ السياسة');
+      }catch(e){msg('❌ لم يتم الحفظ: '+(e.message||e));}
+    };
+    if(!ADMIN.__v88BaseRender){ADMIN.__v88BaseRender=ADMIN.render.bind(ADMIN);}
+    if(!ADMIN.render.__v88){
+      ADMIN.render=function(){
+        var m=el('adminMain');
+        addSplashMenu();
+        document.querySelectorAll('.admin-menu button').forEach(function(b){b.classList.remove('active')});
+        var act=el('adm-'+this.section); if(act) act.classList.add('active');
+        if(this.section==='splash'){
+          if(m)m.innerHTML=splashPanel();
+          return;
+        }
+        try{ADMIN.__v88BaseRender();}catch(e){ if(m)m.innerHTML='<div class="card"><h3>خطأ عرض</h3><p class="muted">'+esc2(e.message||e)+'</p></div>'; }
+        if(this.section==='legal' && m && !el('adnorSplashV88Card')) m.insertAdjacentHTML('beforeend',splashPanel());
+      };
+      ADMIN.render.__v88=true;
+    }
+  }
+  setTimeout(patchAdmin,100); setTimeout(patchAdmin,700); setTimeout(patchAdmin,1600); setInterval(patchAdmin,2500);
+})();
+</script>
+
+
+
+<!-- ADNOR V8.9 VERIFIED FULL PATCH: reserved withdraw + deposit bonus + mandatory admin panels -->
+<style id="adnorV89Style">
+  .adnor-v89-ok{border:1px solid rgba(24,242,155,.45);background:rgba(24,242,155,.08);border-radius:16px;padding:10px;margin:10px 0;color:#dcfff3;font-weight:800;line-height:1.7}
+  .adnor-v89-warn{border:1px solid rgba(245,189,63,.45);background:rgba(245,189,63,.08);border-radius:16px;padding:10px;margin:10px 0;color:#ffe8a3;font-weight:800;line-height:1.7}
+  .adnor-v89-danger{border:1px solid rgba(239,68,68,.45);background:rgba(239,68,68,.08);border-radius:16px;padding:10px;margin:10px 0;color:#ffd1d1;font-weight:800;line-height:1.7}
+  .adnor-v89-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
+  .adnor-v89-actions .smallbtn{margin:2px}
+</style>
+<script id="adnorV89VerifiedFullPatch">
+(function(){
+  'use strict';
+  if(window.__ADNOR_V89_VERIFIED_FULL_PATCH__) return;
+  window.__ADNOR_V89_VERIFIED_FULL_PATCH__=true;
+  var ADMIN_PHONE_V89='+905445034910';
+  var ADMIN_EMAIL_V89='adhamdeab45@gmail.com';
+  function $(id){return document.getElementById(id)}
+  function h(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
+  function num(v){var x=Number(v);return Number.isFinite(x)?x:0}
+  function arr(v){return Array.isArray(v)?v:(v&&typeof v==='object'?Object.values(v):[])}
+  function cash(v){try{return money(num(v))}catch(e){return '$'+num(v).toFixed(2)}}
+  function now(){try{return nowStr()}catch(e){return new Date().toLocaleString('ar')}}
+  function say(t){try{toast(t)}catch(e){alert(t)}}
+  function isAdmin89(){try{var cu=(window.auth&&auth.currentUser)||{};var u=(window.APP&&APP.user)||{};var ph=String(u.phone||u.phoneNumber||cu.phoneNumber||'').replace(/[^0-9+]/g,'');if(ph&&ph[0]!=='+')ph='+'+ph;var em=String(u.email||cu.email||'').toLowerCase();return !!(window.APP&&APP.user&&(ph===ADMIN_PHONE_V89||em===ADMIN_EMAIL_V89));}catch(e){return false}}
+  function ensureSettingsShape(st){
+    st=st||{};
+    st.referral=st.referral||{};
+    if(st.referral.referrerBonus===undefined) st.referral.referrerBonus=0.25;
+    if(st.referral.newUserBonus===undefined) st.referral.newUserBonus=0.50;
+    if(st.referral.type===undefined) st.referral.type='bonus';
+    if(st.referral.enabled===undefined) st.referral.enabled=true;
+    st.depositBonus=st.depositBonus||{};
+    if(st.depositBonus.enabled===undefined) st.depositBonus.enabled=true;
+    if(st.depositBonus.percent===undefined) st.depositBonus.percent=90;
+    if(st.depositBonus.creditTo===undefined) st.depositBonus.creditTo='bonus';
+    st.loginSplash=st.loginSplash||{};
+    if(st.loginSplash.enabled===undefined) st.loginSplash.enabled=true;
+    if(!st.loginSplash.duration) st.loginSplash.duration=3;
+    if(!st.loginSplash.title) st.loginSplash.title='أهلاً بك في ADNOR';
+    if(!st.loginSplash.text) st.loginSplash.text='انتظر 3 ثواني ثم تابع تسجيل الدخول';
+    st.draws=st.draws||{};
+    st.draws.daily=Object.assign({base:4500,targetMin:4500,targetMax:4500,carry:0,participants:0,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},st.draws.daily||{});
+    st.draws.weekly=Object.assign({base:15000,targetMin:15000,targetMax:15000,carry:0,participants:0,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},st.draws.weekly||{});
+    st.draws.monthly=Object.assign({base:50000,targetMin:50000,targetMax:50000,carry:0,participants:0,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},st.draws.monthly||{});
+    st.draws.yearly=Object.assign({base:1000000,targetMin:1000000,targetMax:1000000,carry:0,participants:0,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},st.draws.yearly||{});
+    return st;
+  }
+  function ensureUserShape(u){
+    if(!u) return u;
+    if(u.balance===undefined) u.balance=0;
+    if(u.bonus===undefined) u.bonus=0;
+    if(u.reservedWithdraw===undefined) u.reservedWithdraw=0;
+    if(!Array.isArray(u.txs)) u.txs=arr(u.txs);
+    if(!Array.isArray(u.tickets)) u.tickets=arr(u.tickets);
+    return u;
+  }
+  function installDefaults(){
+    if(window.defaultSettings && !window.defaultSettings.__v89){
+      var old=window.defaultSettings;
+      var fn=function(){return ensureSettingsShape(old());};
+      fn.__v89=true;
+      try{window.defaultSettings=fn; defaultSettings=fn;}catch(e){window.defaultSettings=fn;}
+    }
+    if(window.APP){APP.settings=ensureSettingsShape(APP.settings||{});}
+  }
+  function installAppMoney(){
+    if(!window.APP || APP.__v89Money) return;
+    APP.__v89Money=true;
+    APP.reserved=function(){return num(APP.user&&APP.user.reservedWithdraw)};
+    APP.main=function(){return num(APP.user&&APP.user.balance)};
+    APP.bonus=function(){return num(APP.user&&APP.user.bonus)};
+    APP.total=function(){return num(APP.user&&APP.user.balance)+num(APP.user&&APP.user.bonus)+num(APP.user&&APP.user.reservedWithdraw)};
+  }
+  function installUserPatch(){
+    if(!window.USER || USER.__v89) return;
+    USER.__v89=true;
+    var oldEnsure=USER.ensure&&USER.ensure.bind(USER);
+    USER.ensure=async function(u){
+      if(oldEnsure) await oldEnsure(u);
+      var path='users/'+u.uid;
+      try{
+        var snap=await db.ref(path).once('value');
+        var cur=snap.val()||{};
+        var patch={lastLogin:Date.now()};
+        if(cur.reservedWithdraw===undefined) patch.reservedWithdraw=0;
+        if(u.phoneNumber){patch.phone=u.phoneNumber;patch.phoneNumber=u.phoneNumber;patch.role=(u.phoneNumber===ADMIN_PHONE_V89?'admin':(cur.role||'user'));patch.isAdmin=(u.phoneNumber===ADMIN_PHONE_V89);}
+        if(u.email){patch.email=u.email;}
+        await db.ref(path).update(patch);
+      }catch(e){}
+    };
+    var oldCreate=USER.create&&USER.create.bind(USER);
+    USER.create=async function(u,data){
+      if(window.APP) APP.settings=ensureSettingsShape(APP.settings||{});
+      if(oldCreate) await oldCreate(u,data||{});
+      try{await db.ref('users/'+u.uid).update({reservedWithdraw:0,phone:u.phoneNumber||(data&&data.phone)||'',phoneNumber:u.phoneNumber||(data&&data.phone)||'',role:(u.phoneNumber===ADMIN_PHONE_V89?'admin':'user'),isAdmin:(u.phoneNumber===ADMIN_PHONE_V89)});}catch(e){}
+    };
+  }
+  function installUI(){
+    if(!window.UI || UI.__v89) return;
+    UI.__v89=true;
+    var oldRender=UI.render&&UI.render.bind(UI);
+    UI.render=function(){
+      if(APP&&APP.user) ensureUserShape(APP.user);
+      if(APP) APP.settings=ensureSettingsShape(APP.settings||{});
+      if(oldRender) oldRender();
+      if($('walletReserved')) $('walletReserved').textContent=cash(APP&&APP.user&&APP.user.reservedWithdraw);
+      var rb=$('walletReservedBox'); if(rb) rb.textContent=cash(APP&&APP.user&&APP.user.reservedWithdraw);
+      var ab=$('availableBalanceBox'); if(ab) ab.textContent=cash(APP&&APP.user&&APP.user.balance);
+      var adm=$('adminSideBtn'); if(adm) adm.classList.toggle('hidden',!isAdmin89());
+    };
+    var oldProfile=UI.renderProfile&&UI.renderProfile.bind(UI);
+    UI.renderProfile=function(){
+      if(oldProfile) oldProfile();
+      var box=$('profileContent'); if(!box||!APP||!APP.user) return;
+      if(!box.querySelector('[data-v89-reserved]')){
+        var div=document.createElement('div'); div.className='mini'; div.setAttribute('data-v89-reserved','1'); div.innerHTML='<span>محجوز للسحب</span><b>'+cash(APP.user.reservedWithdraw)+'</b>';
+        var total=box.querySelector('.profile-total'); if(total&&total.parentNode) total.parentNode.insertBefore(div,total); else box.appendChild(div);
+      }else{
+        var b=box.querySelector('[data-v89-reserved] b'); if(b)b.textContent=cash(APP.user.reservedWithdraw);
+      }
+    };
+  }
+  function installWallet(){
+    if(!window.WALLET || WALLET.__v89) return;
+    WALLET.__v89=true;
+    WALLET.withdraw=async function(){
+      if(!APP.user) return;
+      ensureUserShape(APP.user);
+      var amount=num($('witAmount')&&$('witAmount').value);
+      if(amount<=0) return say('اكتب مبلغ صحيح');
+      if(amount>num(APP.user.balance)) return say('⚠️ البونص لا يمكن سحبه. الرصيد القابل للسحب فقط: '+cash(APP.user.balance));
+      var method=($('witMethod')&&$('witMethod').selectedOptions&&$('witMethod').selectedOptions[0]&&$('witMethod').selectedOptions[0].textContent)||'';
+      var account=($('witAccount')&&$('witAccount').value)||'';
+      var data={uid:APP.user.uid,name:APP.user.name||'',email:APP.user.email||'',phone:APP.user.phone||APP.user.phoneNumber||'',amount:amount,method:method,account:account,status:'pending',reserved:true,time:now(),createdAt:Date.now()};
+      await db.ref('finance/withdraws').push(data);
+      APP.user.balance=num(APP.user.balance)-amount;
+      APP.user.reservedWithdraw=num(APP.user.reservedWithdraw)+amount;
+      APP.user.txs=arr(APP.user.txs);
+      APP.user.txs.unshift({type:'📤 طلب سحب محجوز',amt:-amount,status:'⏳ قيد الموافقة',time:now(),at:Date.now()});
+      await USER.save();
+      if($('witAmount')) $('witAmount').value=''; if($('witAccount')) $('witAccount').value='';
+      if(UI.render) UI.render();
+      say('✅ تم إرسال طلب السحب. المبلغ انتقل إلى محجوز للسحب حتى موافقة الأدمن أو الرفض.');
+    };
+  }
+  function financePanel(){
+    var st=ensureSettingsShape((APP&&APP.settings)||{});
+    var dbn=st.depositBonus||{};
+    var dep=Object.entries((APP&&APP.finance&&APP.finance.deposits)||{}).sort(function(a,b){return num(b[1].createdAt)-num(a[1].createdAt)}).map(function(pair){var id=pair[0],x=pair[1]||{};return '<tr><td>'+h(x.name||'')+'<br><small>'+h(x.email||'')+'<br>'+h(x.phone||'')+'</small></td><td>'+cash(x.amount)+'</td><td>'+h(x.method||'')+'</td><td>'+h(x.status||'pending')+'</td><td>'+(x.receiptData?'<img class="receipt-thumb" src="'+h(x.receiptData)+'" onclick="ADMIN.viewReceipt(\''+h(id)+'\')">':'لا يوجد')+'</td><td><div class="adnor-v89-actions"><button class="smallbtn" onclick="ADMIN.approveDep(\''+h(id)+'\')">قبول</button><button class="smallbtn" onclick="ADMIN.rejectDep(\''+h(id)+'\')">رفض</button></div></td></tr>';}).join('')||'<tr><td colspan="6">لا توجد طلبات إيداع</td></tr>';
+    var wit=Object.entries((APP&&APP.finance&&APP.finance.withdraws)||{}).sort(function(a,b){return num(b[1].createdAt)-num(a[1].createdAt)}).map(function(pair){var id=pair[0],x=pair[1]||{};return '<tr><td>'+h(x.name||'')+'<br><small>'+h(x.email||'')+'<br>'+h(x.phone||'')+'</small></td><td>'+cash(x.amount)+'</td><td>'+h(x.method||'')+'</td><td>'+h(x.status||'pending')+'</td><td>'+h(x.account||'')+'</td><td><div class="adnor-v89-actions"><button class="smallbtn" onclick="ADMIN.markWithdraw(\''+h(id)+'\')">موافقة/تم</button><button class="smallbtn" onclick="ADMIN.rejectWithdraw(\''+h(id)+'\')">رفض وإرجاع</button></div></td></tr>';}).join('')||'<tr><td colspan="6">لا توجد طلبات سحب</td></tr>';
+    return '<div class="card"><h3>📥 طلبات الإيداع مع الإيصالات</h3><div class="adnor-v89-ok">الإيداع لا يضاف للرصيد إلا بعد موافقة الأدمن. ويمكن تفعيل بونص الإيداع من نفس الصفحة.</div><div class="table"><table><tr><th>المستخدم</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th><th>الإيصال</th><th>تحكم</th></tr>'+dep+'</table></div></div>'+ 
+      '<div class="card"><h3>📤 طلبات السحب</h3><div class="adnor-v89-warn">السحب يخصم فورًا من الرصيد القابل للسحب وينتقل إلى محجوز للسحب. الرفض يرجع المبلغ تلقائيًا.</div><div class="table"><table><tr><th>المستخدم</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th><th>الحساب</th><th>تحكم</th></tr>'+wit+'</table></div></div>'+ 
+      '<div class="card"><h3>🎁 بونص الإيداع</h3><div class="admin-grid"><div class="admin-field"><label>تشغيل بونص الإيداع</label><select id="depBonusEnabled" class="finp"><option value="1" '+(dbn.enabled!==false?'selected':'')+'>مفعل</option><option value="0" '+(dbn.enabled===false?'selected':'')+'>متوقف</option></select></div><div class="admin-field"><label>النسبة %</label><input id="depBonusPercent" class="finp" type="number" value="'+h(dbn.percent||0)+'"></div><div class="admin-field"><label>يضاف إلى</label><select id="depBonusCredit" class="finp"><option value="bonus" '+((dbn.creditTo||'bonus')!=='balance'?'selected':'')+'>البونص</option><option value="balance" '+(dbn.creditTo==='balance'?'selected':'')+'>الرصيد الأساسي</option></select></div></div><button class="btn full" onclick="ADMIN.saveDepositBonusV89()">حفظ بونص الإيداع</button></div>'+ 
+      '<div class="card"><h3>طرق الدفع</h3><textarea id="payJson" class="finp" style="height:240px">'+h(JSON.stringify(st.payment||{},null,2))+'</textarea><button class="btn full" onclick="ADMIN.savePayment()">حفظ طرق الدفع</button></div>';
+  }
+  function installAdmin(){
+    if(!window.ADMIN) return;
+    if(ADMIN.__v89Core) return;
+    ADMIN.__v89Core=true;
+    var oldOpen=ADMIN.open&&ADMIN.open.bind(ADMIN);
+    ADMIN.open=function(){if(!isAdmin89()) return say('غير مسموح'); if(oldOpen) oldOpen(); addMandatoryMenu();};
+    function addBtn(id, text, afterId, sec){
+      var menu=document.querySelector('.admin-menu'); if(!menu || $(id)) return;
+      var b=document.createElement('button'); b.id=id; b.innerHTML=text; b.onclick=function(){ADMIN.sec(sec)};
+      var after=$(afterId); if(after&&after.parentNode) after.parentNode.insertBefore(b, after.nextSibling); else menu.appendChild(b);
+    }
+    window.ADNOR_V89_ADD_MENU=addMandatoryMenu;
+    function addMandatoryMenu(){addBtn('adm-splash','⏱️ شاشة 3 ثواني','adm-legal','splash');addBtn('adm-referrals','🔗 الدعوات','adm-splash','referrals');}
+    addMandatoryMenu();
+    ADMIN.finance=financePanel;
+    ADMIN.saveDepositBonusV89=async function(){var cfg={enabled:($('depBonusEnabled')||{}).value!=='0',percent:num(($('depBonusPercent')||{}).value),creditTo:(($('depBonusCredit')||{}).value||'bonus')};await db.ref('global_system/settings/depositBonus').set(cfg);say('✅ تم حفظ بونص الإيداع');};
+    ADMIN.viewReceipt=function(id){var x=(APP.finance.deposits||{})[id]; if(!x||!x.receiptData)return say('لا يوجد إيصال'); UI.modal('<h3>إيصال الإيداع</h3><img class="receipt-full" src="'+h(x.receiptData)+'"><p class="muted">'+h(x.name||'')+' — '+cash(x.amount)+'</p><button class="btn full" onclick="UI.closeModal()">إغلاق</button>');};
+    ADMIN.approveDep=async function(id){
+      var x=(APP.finance.deposits||{})[id]; if(!x) return;
+      if(x.status==='approved') return say('هذا الإيداع مقبول مسبقًا');
+      var u=(APP.users||{})[x.uid]||{}; ensureUserShape(u);
+      var amount=num(x.amount); var bonusCfg=ensureSettingsShape(APP.settings||{}).depositBonus||{}; var bonus=(bonusCfg.enabled===false?0:amount*num(bonusCfg.percent)/100); var field=(bonusCfg.creditTo==='balance')?'balance':'bonus';
+      u.balance=num(u.balance)+amount;
+      if(bonus>0) u[field]=num(u[field])+bonus;
+      u.txs=arr(u.txs);
+      u.txs.unshift({type:'✅ قبول إيداع',amt:amount,status:'✅',time:now(),at:Date.now()});
+      if(bonus>0) u.txs.unshift({type:'🎁 بونص إيداع '+num(bonusCfg.percent)+'%',amt:bonus,status:'✅',time:now(),at:Date.now()});
+      await db.ref('users/'+x.uid).update({balance:u.balance,bonus:u.bonus||0,reservedWithdraw:u.reservedWithdraw||0,txs:u.txs});
+      await db.ref('finance/deposits/'+id).update({status:'approved',reviewedAt:Date.now(),bonusApplied:bonus,bonusCreditTo:field});
+      say('✅ تم قبول الإيداع وإضافة الرصيد'+(bonus>0?' + بونص '+cash(bonus):''));
+    };
+    ADMIN.rejectDep=async function(id){var reason=prompt('سبب رفض الإيداع؟')||'مرفوض من الأدمن';await db.ref('finance/deposits/'+id).update({status:'rejected',reason:reason,reviewedAt:Date.now()});say('تم رفض الإيداع مع حفظ السبب');};
+    ADMIN.markWithdraw=async function(id){
+      var x=(APP.finance.withdraws||{})[id]; if(!x) return;
+      if(x.status==='done') return say('هذا السحب مكتمل مسبقًا');
+      var u=(APP.users||{})[x.uid]||{}; ensureUserShape(u);
+      var amount=num(x.amount);
+      u.reservedWithdraw=Math.max(0,num(u.reservedWithdraw)-amount);
+      u.txs=arr(u.txs); u.txs.unshift({type:'✅ قبول/إكمال سحب',amt:0,status:'✅',amount:amount,time:now(),at:Date.now()});
+      await db.ref('users/'+x.uid).update({reservedWithdraw:u.reservedWithdraw,txs:u.txs});
+      await db.ref('finance/withdraws/'+id).update({status:'done',completedAt:Date.now()});
+      say('✅ تم إكمال السحب وإزالة المبلغ من المحجوز');
+    };
+    ADMIN.rejectWithdraw=async function(id){
+      var x=(APP.finance.withdraws||{})[id]; if(!x) return;
+      var reason=prompt('سبب رفض السحب؟')||'مرفوض من الأدمن';
+      var u=(APP.users||{})[x.uid]||{}; ensureUserShape(u);
+      var amount=num(x.amount);
+      u.reservedWithdraw=Math.max(0,num(u.reservedWithdraw)-amount);
+      u.balance=num(u.balance)+amount;
+      u.txs=arr(u.txs); u.txs.unshift({type:'↩️ رفض سحب وإرجاع الرصيد',amt:amount,status:'❌ '+reason,time:now(),at:Date.now()});
+      await db.ref('users/'+x.uid).update({balance:u.balance,reservedWithdraw:u.reservedWithdraw,txs:u.txs});
+      await db.ref('finance/withdraws/'+id).update({status:'rejected',reason:reason,rejectedAt:Date.now()});
+      say('✅ تم رفض السحب وإرجاع المبلغ للمستخدم');
+    };
+    var oldRender=ADMIN.render&&ADMIN.render.bind(ADMIN);
+    ADMIN.render=function(){addMandatoryMenu(); if(this.section==='finance'){var m=$('adminMain'); if(m)m.innerHTML=financePanel(); document.querySelectorAll('.admin-menu button').forEach(function(b){b.classList.remove('active')}); var b=$('adm-finance'); if(b)b.classList.add('active'); return;} if(oldRender) return oldRender();};
+  }
+  function writeAdminStamp(){
+    if(!window.auth || !auth.onAuthStateChanged || auth.__v89Stamp) return;
+    auth.__v89Stamp=true;
+    auth.onAuthStateChanged(function(u){if(!u) return; try{var patch={lastLogin:Date.now()}; if(u.phoneNumber){patch.phone=u.phoneNumber;patch.phoneNumber=u.phoneNumber;patch.role=(u.phoneNumber===ADMIN_PHONE_V89?'admin':'user');patch.isAdmin=(u.phoneNumber===ADMIN_PHONE_V89);} if(u.email){patch.email=u.email;} db.ref('users/'+u.uid).update(patch);}catch(e){}});
+  }
+  function verifyAndPatch(){
+    installDefaults(); installAppMoney(); installUserPatch(); installUI(); installWallet(); installAdmin(); writeAdminStamp();
+    if(window.APP){APP.settings=ensureSettingsShape(APP.settings||{}); if(APP.user)ensureUserShape(APP.user);}
+    if(window.UI&&UI.render&&APP&&APP.user){try{UI.render();}catch(e){}}
+    try{if(window.ADNOR_V89_ADD_MENU) window.ADNOR_V89_ADD_MENU();}catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded',verifyAndPatch);
+  setTimeout(verifyAndPatch,60); setTimeout(verifyAndPatch,300); setTimeout(verifyAndPatch,900); setTimeout(verifyAndPatch,1800); setInterval(verifyAndPatch,2500);
 })();
 </script>
 

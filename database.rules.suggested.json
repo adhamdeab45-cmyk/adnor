@@ -3,19 +3,45 @@
     ".read": false,
     ".write": false,
     "global_system": {
-      "announcement": { ".read": "auth != null" },
-      "lottery": { ".read": "auth != null" },
-      "games": { ".read": "auth != null" },
-      "contacts": { ".read": "auth != null" },
-      "welcomeBonus": { ".read": "auth != null" },
-      "referralBonus": { ".read": "auth != null" },
-      "dailyPrizeBase": { ".read": "auth != null" },
-      "toggles": { ".read": "auth != null" },
-      "depMethods": { ".read": "auth != null" },
-      "witMethods": { ".read": "auth != null" },
-      "accounts": { ".read": "auth != null" },
-      "gameMode": { ".read": "auth != null" },
-      "wheel_weights": { ".read": "auth != null" },
+      "announcement": {
+        ".read": "auth != null"
+      },
+      "lottery": {
+        ".read": "auth != null"
+      },
+      "games": {
+        ".read": "auth != null"
+      },
+      "contacts": {
+        ".read": "auth != null"
+      },
+      "welcomeBonus": {
+        ".read": "auth != null"
+      },
+      "referralBonus": {
+        ".read": "auth != null"
+      },
+      "dailyPrizeBase": {
+        ".read": "auth != null"
+      },
+      "toggles": {
+        ".read": "auth != null"
+      },
+      "depMethods": {
+        ".read": "auth != null"
+      },
+      "witMethods": {
+        ".read": "auth != null"
+      },
+      "accounts": {
+        ".read": "auth != null"
+      },
+      "gameMode": {
+        ".read": "auth != null"
+      },
+      "wheel_weights": {
+        ".read": "auth != null"
+      },
       "settings": {
         ".read": "auth != null",
         ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
@@ -63,7 +89,9 @@
     },
     "support": {
       ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
-      ".indexOn": ["uid"],
+      ".indexOn": [
+        "uid"
+      ],
       "$ticketId": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
         ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
@@ -72,7 +100,9 @@
     "finance": {
       "deposits": {
         ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
-        ".indexOn": ["uid"],
+        ".indexOn": [
+          "uid"
+        ],
         "$requestId": {
           ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
           ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
@@ -80,7 +110,9 @@
       },
       "withdraws": {
         ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
-        ".indexOn": ["uid"],
+        ".indexOn": [
+          "uid"
+        ],
         "$requestId": {
           ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
           ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
@@ -89,7 +121,9 @@
     },
     "support_tickets": {
       ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
-      ".indexOn": ["uid"],
+      ".indexOn": [
+        "uid"
+      ],
       "$ticketId": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
         ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
@@ -97,7 +131,9 @@
     },
     "withdraw_requests": {
       ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
-      ".indexOn": ["uid"],
+      ".indexOn": [
+        "uid"
+      ],
       "$requestId": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
         ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
@@ -105,7 +141,9 @@
     },
     "deposit_requests": {
       ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
-      ".indexOn": ["uid"],
+      ".indexOn": [
+        "uid"
+      ],
       "$requestId": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
         ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
@@ -148,6 +186,12 @@
     "logs": {
       ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
       ".write": "auth != null"
+    },
+    "public_config": {
+      "loginSplash": {
+        ".read": true,
+        ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      }
     }
   }
 }
