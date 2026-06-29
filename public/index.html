@@ -379,7 +379,7 @@ const AUTH={
       provider.setCustomParameters({prompt:'select_account'});
       authLog('Google signInWithPopup domain='+location.hostname);
       try{
-        await auth.signInWithRedirect(provider);
+        await auth.signInWithPopup(provider);
         authLog('Google OK');
       }catch(pe){
         authLog('Google popup err: '+(pe&&pe.code));
@@ -391,7 +391,7 @@ const AUTH={
         if(pe&&['auth/popup-blocked','auth/cancelled-popup-request'].includes(pe.code)){
           showAuthError('⏳ جاري التحويل إلى Google...');
           await new Promise(r=>setTimeout(r,600));
-          await auth.signInWithRedirect(provider);
+          await auth.signInWithPopup(provider);
           return;
         }
         if(pe&&pe.code==='auth/popup-closed-by-user'){clearAuthError();return;}
