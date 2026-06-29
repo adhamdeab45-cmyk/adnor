@@ -1,19 +1,16 @@
 services:
   - type: web
-    name: adnor-v9
-    runtime: node
-    plan: free
+    name: adnor-az
+    env: node
     buildCommand: npm install --registry=https://registry.npmjs.org/
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
       - key: FIREBASE_DATABASE_URL
-        value: https://adnor-vp-default-rtdb.firebaseio.com
+        sync: false
       - key: DRAW_TIMEZONE
-        value: Europe/Istanbul
-      - key: ADMIN_EMAIL
-        value: adhamdeab45@gmail.com
-      - key: ADMIN_PHONE
-        value: "+905445034910"
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
       - key: SESSION_SECRET
-        generateValue: true
+        sync: false

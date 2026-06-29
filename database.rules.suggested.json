@@ -4,50 +4,150 @@
     ".write": false,
     "global_system": {
       "announcement": { ".read": "auth != null" },
-      "lottery": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "games": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "contacts": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "welcomeBonus": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "referralBonus": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "dailyPrizeBase": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "toggles": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "depMethods": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "witMethods": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "accounts": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "gameMode": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "wheel_weights": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "wheel_segments": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "wheel_forced": { ".read": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "dailyBox": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "welcome": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "settings": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-      "customHTMLList": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" }
+      "lottery": { ".read": "auth != null" },
+      "games": { ".read": "auth != null" },
+      "contacts": { ".read": "auth != null" },
+      "welcomeBonus": { ".read": "auth != null" },
+      "referralBonus": { ".read": "auth != null" },
+      "dailyPrizeBase": { ".read": "auth != null" },
+      "toggles": { ".read": "auth != null" },
+      "depMethods": { ".read": "auth != null" },
+      "witMethods": { ".read": "auth != null" },
+      "accounts": { ".read": "auth != null" },
+      "gameMode": { ".read": "auth != null" },
+      "wheel_weights": { ".read": "auth != null" },
+      "settings": {
+        ".read": "auth != null",
+        ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      },
+      "customHTMLList": {
+        ".read": "auth != null",
+        ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      },
+      "promos": {
+        ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      },
+      "vault": {
+        ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      },
+      "wheelProfit": {
+        ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      },
+      "wheelProfitDay": {
+        ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      },
+      "wheelProfitWeek": {
+        ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      },
+      "wheelProfitMonth": {
+        ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      },
+      ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
     },
     "users": {
-      ".read": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')",
-      "$uid": { ".read": "auth != null && (auth.uid === $uid || auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')", ".write": "auth != null && (auth.uid === $uid || auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" }
+      ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && (auth.uid === $uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      }
     },
-    "deposit_requests": {
-      ".read": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')",
-      ".indexOn": ["uid"],
-      "$id": { ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')", ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" }
+    "tickets": {
+      ".read": "auth != null",
+      ".write": "auth != null"
     },
-    "withdraw_requests": {
-      ".read": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')",
+    "support": {
+      ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
       ".indexOn": ["uid"],
-      "$id": { ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')", ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" }
+      "$ticketId": {
+        ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      }
+    },
+    "finance": {
+      "deposits": {
+        ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".indexOn": ["uid"],
+        "$requestId": {
+          ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+          ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+        }
+      },
+      "withdraws": {
+        ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".indexOn": ["uid"],
+        "$requestId": {
+          ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+          ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+        }
+      }
     },
     "support_tickets": {
-      ".read": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')",
+      ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
       ".indexOn": ["uid"],
-      "$id": { ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')", ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" }
+      "$ticketId": {
+        ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      }
     },
-    "lottery_tickets": { ".read": "auth != null", ".write": "auth != null", ".indexOn": ["uid", "draw"] },
-    "referral_lookup": { ".read": "auth != null", ".write": "auth != null" },
-    "referral_codes": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-    "wheel_logs": { ".read": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')", ".write": "auth != null" },
-    "draw_history": { ".read": "auth != null", ".write": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')" },
-    "logs": { ".read": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')", ".write": "auth != null" },
-    "server_logs": { ".read": "auth != null && (auth.token.email === 'adhamdeab45@gmail.com' || auth.token.phone_number === '+905445034910')", ".write": false }
+    "withdraw_requests": {
+      ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+      ".indexOn": ["uid"],
+      "$requestId": {
+        ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      }
+    },
+    "deposit_requests": {
+      ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+      ".indexOn": ["uid"],
+      "$requestId": {
+        ".read": "auth != null && (data.child('uid').val() === auth.uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      }
+    },
+    "referral_codes": {
+      ".read": "auth != null",
+      ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+    },
+    "referral_lookup": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "referral_used": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+        ".write": "auth != null && (auth.uid === $uid || auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+      }
+    },
+    "referral_logs": {
+      ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+      ".write": "auth != null"
+    },
+    "wheel_logs": {
+      ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+      ".write": "auth != null"
+    },
+    "draw_history": {
+      ".read": "auth != null",
+      ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+    },
+    "draw_results": {
+      ".read": "auth != null",
+      ".write": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')"
+    },
+    "server_logs": {
+      ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+      ".write": false
+    },
+    "logs": {
+      ".read": "auth != null && (auth.token.phone_number === '+905445034910' || auth.token.email === 'adhamdeab45@gmail.com')",
+      ".write": "auth != null"
+    }
   }
 }

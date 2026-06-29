@@ -1,26 +1,36 @@
-ADNOR V9 - إعادة كتابة من الصفر
+ADNOR REPLIT NO ADMIN JSON
+==========================
 
-هذه النسخة تركّز أولاً على تسجيل الدخول بجوجل فقط.
-لا يوجد دخول بكلمة سر ولا رقم هاتف في هذه النسخة، حتى نثبت Google 100%.
+هذه نسخة خاصة لـ Replit تعمل بدون FIREBASE_SERVICE_ACCOUNT_JSON.
+سببها أن Firebase منع إنشاء مفتاح Admin JSON عندك.
 
-Firebase الرسمي:
-adnor-vp
+المهم:
+- لا تضيف FIREBASE_SERVICE_ACCOUNT_JSON في Replit.
+- السيرفر يستخدم Realtime Database REST API.
+- السحب لا يتم تلقائياً بدون موافقة الأدمن.
+- الساعة 8 السيرفر يضع الحالة: بانتظار موافقة الأدمن فقط.
+- التنفيذ الحقيقي للسحب يكون من زر الأدمن: تنفيذ / نشر السحب.
 
-مطلوب قبل تجربة Google:
-1) Firebase Authentication > Sign-in method > Google = Enabled
-2) Firebase Authentication > Settings > Authorized domains:
-   أضف دومين Render مثل: adnor1.onrender.com
-3) Google Cloud project: adnor-vp > APIs & Services > Credentials > Web client
-   Authorized JavaScript origins:
-   https://adnor1.onrender.com
-   Authorized redirect URIs:
-   https://adnor-vp.firebaseapp.com/__/auth/handler
-   https://adnor-vp.web.app/__/auth/handler
-4) Render Environment:
-   FIREBASE_DATABASE_URL=https://adnor-vp-default-rtdb.firebaseio.com
-   DRAW_TIMEZONE=Europe/Istanbul
-   ADMIN_EMAIL=adhamdeab45@gmail.com
-   ADMIN_PHONE=+905445034910
+Secrets المطلوبة فقط:
+1) FIREBASE_DATABASE_URL=https://adnor-vp-default-rtdb.firebaseio.com
+2) DRAW_TIMEZONE=Europe/Istanbul
+3) ADMIN_TOKEN=ADNOR_ADMIN_2026_987654
 
-ملاحظة:
-FIREBASE_SERVICE_ACCOUNT_JSON اختياري للسيرفر وجدولة السحب الساعة 8. الموقع يعمل بدونه، لكن الجدولة التلقائية من السيرفر تحتاجه.
+تشغيل Replit:
+1) تأكد أن الملفات موجودة:
+   server.js
+   package.json
+   public/index.html
+
+2) افتح Shell واكتب:
+   npm install
+   npm start
+
+3) جرّب:
+   /api/health
+
+إذا ظهر ok:true فالسيرفر شغال.
+
+ملاحظة عن Firebase Rules:
+لأن هذه النسخة بدون Admin JSON، يجب أن تكون Realtime Database Rules تسمح للتجربة بالقراءة والكتابة.
+بعد ما نثبت أن الموقع يعمل، نضبط Rules بشكل آمن أكثر.
