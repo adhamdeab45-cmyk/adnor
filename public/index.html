@@ -2701,5 +2701,279 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
 })();
 </script>
 
+
+<!-- ADNOR AUTH MASTER FIX 2026-06-30: Google + Phone stable override -->
+<style id="adnorAuthMasterFixStyle">
+  #adnorAuthFixNote{margin:12px 0;padding:12px;border:1px solid rgba(24,242,155,.35);border-radius:16px;background:rgba(24,242,155,.08);color:#d8fff0;font-size:12px;line-height:1.8;text-align:center;font-weight:800}
+  #recaptchaContainer{display:block!important;min-height:0!important;margin:10px 0!important;text-align:center!important;overflow:visible!important}
+  #recaptchaContainer iframe{max-width:100%!important}
+  body.adnor-master-phone #secPhone{display:block!important}
+  body.adnor-master-phone #secPhone.hidden{display:block!important}
+  body.adnor-master-phone #secGoogle{display:none!important}
+  body.adnor-master-google #secGoogle{display:block!important}
+  body.adnor-master-google #secPhone{display:none!important}
+  #adnorPhoneActionBtn{display:none;width:100%;border:0;border-radius:20px;padding:14px 16px;margin-top:12px;font-weight:950;font-size:16px;background:linear-gradient(180deg,#ffe8a3,#b97800);color:#140900;box-shadow:0 10px 24px rgba(245,189,63,.24)}
+  body.adnor-master-phone #adnorPhoneActionBtn{display:block!important}
+</style>
+<script id="adnorAuthMasterFixScript">
+(function(){
+  'use strict';
+  if(window.__ADNOR_AUTH_MASTER_FIX__) return;
+  window.__ADNOR_AUTH_MASTER_FIX__ = true;
+  var ADMIN_PHONE = '+905445034910';
+  var ADMIN_EMAIL = 'adhamdeab45@gmail.com';
+  var lastMode = 'google';
+  function $(id){ return document.getElementById(id); }
+  function safe(v){ return String(v == null ? '' : v); }
+  function log(m){ try{ if(window.authLog) authLog('[MASTER_AUTH] '+m); else console.log('[MASTER_AUTH]',m); }catch(e){} }
+  function setLegalOk(){
+    try{ localStorage.setItem('ADNOR_LEGAL_OK','1'); }catch(e){}
+    var a=$('age18'), t=$('termsOk'); if(a) a.checked=true; if(t) t.checked=true;
+    if(window.AUTH){ AUTH.needLegal=function(){try{localStorage.setItem('ADNOR_LEGAL_OK','1');}catch(e){} return true;}; AUTH.saveLegal=AUTH.needLegal; }
+  }
+  function showMessage(text, good){
+    var el=$('authError');
+    if(!el){ alert(text); return; }
+    el.style.display='block';
+    el.style.whiteSpace='pre-line';
+    el.style.direction='rtl';
+    el.style.border='1px solid '+(good?'rgba(24,242,155,.38)':'rgba(239,68,68,.45)');
+    el.style.background=good?'rgba(24,242,155,.10)':'rgba(239,68,68,.13)';
+    el.style.color=good?'#a7ffd3':'#fecaca';
+    el.textContent=text;
+  }
+  function clearMessage(){ var el=$('authError'); if(el){el.textContent='';el.style.display='none';} }
+  function friendly(e){
+    var code=(e && e.code) || '';
+    if(code==='auth/unauthorized-domain') return 'الدومين غير مضاف في Firebase Authorized domains: '+location.hostname;
+    if(code==='auth/operation-not-allowed') return 'طريقة الدخول غير مفعلة في Firebase. فعّل Google و Phone من Authentication > Sign-in method.';
+    if(code==='auth/popup-blocked') return 'المتصفح منع نافذة Google. افتح الموقع بتبويب كامل واضغط Google.';
+    if(code==='auth/popup-closed-by-user') return 'تم إغلاق نافذة Google قبل إكمال الدخول.';
+    if(code==='auth/invalid-phone-number') return 'رقم الهاتف غير صحيح. اكتبه بصيغة دولية مثل +905445034910.';
+    if(code==='auth/missing-phone-number') return 'اكتب رقم الهاتف أولاً.';
+    if(code==='auth/captcha-check-failed') return 'فشل reCAPTCHA. افتح الموقع من Chrome بتبويب كامل، وليس داخل Preview.';
+    if(code==='auth/too-many-requests') return 'محاولات كثيرة أو حد رسائل SMS مؤقت. انتظر قليلاً ثم جرّب.';
+    if(code==='auth/quota-exceeded') return 'تم استهلاك حد رسائل SMS في Firebase لهذا اليوم.';
+    if(code==='auth/invalid-verification-code') return 'كود التحقق غير صحيح.';
+    if(code==='auth/code-expired') return 'انتهت صلاحية الكود. أرسل كود جديد.';
+    if(code==='auth/network-request-failed') return 'مشكلة اتصال بالإنترنت. جرّب مرة ثانية.';
+    return (e && (e.message || e.code)) || safe(e || 'خطأ غير معروف');
+  }
+  function normalizePhone(raw){
+    var p=safe(raw).trim().replace(/[^0-9+]/g,'');
+    if(!p) return '';
+    if(p.indexOf('00')===0) p='+'+p.slice(2);
+    if(p[0]!=='+'){
+      if(p[0]==='0' && p.length>=10) p='+90'+p.slice(1);
+      else if(p[0]==='5' && p.length===10) p='+90'+p;
+      else p='+'+p;
+    }
+    return p;
+  }
+  function runningInsideFrame(){ try{return window.self!==window.top;}catch(e){return true;} }
+  function openFullPage(reason){
+    if(!runningInsideFrame()) return false;
+    showMessage('⚠️ تسجيل '+reason+' لا يعمل بشكل ثابت داخل Preview. فتحت لك الموقع بتبويب كامل؛ أكمل تسجيل الدخول هناك.\nالدومين الحالي: '+location.hostname, false);
+    try{ window.open(location.href, '_blank', 'noopener,noreferrer'); }catch(e){}
+    return true;
+  }
+  async function ensureAuthReady(){
+    if(!window.firebase || !firebase.auth) throw new Error('Firebase Auth غير محمّل. حدّث الصفحة وجرب.');
+    if(!window.auth) window.auth = firebase.auth();
+    try{ if(window.__ADNOR_AUTH_READY__) await window.__ADNOR_AUTH_READY__; }catch(e){}
+    try{ await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); }catch(e){ log('persistence warning '+friendly(e)); }
+  }
+  function setMode(mode){
+    lastMode = mode==='phone' ? 'phone' : 'google';
+    setLegalOk(); clearMessage();
+    document.body.classList.toggle('adnor-master-phone', lastMode==='phone');
+    document.body.classList.toggle('adnor-master-google', lastMode==='google');
+    var mg=$('methodGoogle'), mp=$('methodPhone'), sg=$('secGoogle'), sp=$('secPhone');
+    if(mg) mg.classList.toggle('active', lastMode==='google');
+    if(mp) mp.classList.toggle('active', lastMode==='phone');
+    if(sg){ sg.classList.toggle('hidden', lastMode!=='google'); sg.style.display = lastMode==='google' ? '' : 'none'; }
+    if(sp){ sp.classList.toggle('hidden', lastMode!=='phone'); sp.style.display = lastMode==='phone' ? '' : 'none'; }
+    var b=$('authBtn'); if(b){ b.style.display = lastMode==='phone' ? 'none' : 'none'; }
+    ensurePhoneButton();
+    var pb=$('adnorPhoneActionBtn');
+    if(pb){ pb.textContent = (window.AUTH && AUTH.phoneStep==='otp') ? '✅ تأكيد الكود والدخول' : '📩 إرسال كود الهاتف'; }
+    if(window.AUTH) AUTH.method=lastMode;
+  }
+  function ensureNote(){
+    if($('adnorAuthFixNote')) return;
+    var ref=$('secGoogle') || $('googleBtn')?.parentElement || document.querySelector('.auth-card');
+    if(ref){
+      var div=document.createElement('div');
+      div.id='adnorAuthFixNote';
+      div.innerHTML='✅ تم تركيب إصلاح الدخول النهائي. إذا كنت داخل Replit Preview افتح الموقع بتبويب كامل قبل Google أو الهاتف.<br><span dir="ltr">'+location.hostname+'</span>';
+      ref.appendChild(div);
+    }
+  }
+  function ensurePhoneButton(){
+    var sec=$('secPhone'); if(!sec) return null;
+    var btn=$('adnorPhoneActionBtn');
+    if(!btn){
+      btn=document.createElement('button');
+      btn.type='button'; btn.id='adnorPhoneActionBtn'; btn.textContent='📩 إرسال كود الهاتف';
+      sec.appendChild(btn);
+    }
+    return btn;
+  }
+  async function googleLogin(){
+    setLegalOk();
+    if(openFullPage('Google')) return false;
+    clearMessage();
+    var btn=$('googleBtn'), old=btn?btn.innerHTML:'';
+    try{
+      if(btn){btn.disabled=true;btn.innerHTML='⏳ جاري تحويلك إلى Google...';}
+      await ensureAuthReady();
+      var provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({prompt:'select_account'});
+      log('Google redirect start host='+location.hostname);
+      await auth.signInWithRedirect(provider);
+    }catch(e){
+      log('Google error '+((e&&e.code)||'')+' '+friendly(e));
+      showMessage('Google فشل: '+friendly(e)+'\n\nتأكد من إضافة هذا الدومين في Firebase:\n'+location.hostname, false);
+      if(btn){btn.disabled=false;btn.innerHTML=old || '<i class="fa-brands fa-google"></i> تسجيل الدخول بجوجل';}
+    }
+    return false;
+  }
+  async function completeGoogleRedirect(){
+    try{
+      await ensureAuthReady();
+      var res = await auth.getRedirectResult();
+      if(res && res.user){ showMessage('✅ تم تسجيل الدخول عبر Google بنجاح.', true); }
+    }catch(e){
+      if(e && (e.code==='auth/no-auth-event' || e.code==='auth/null-user')) return;
+      showMessage('Google Redirect فشل: '+friendly(e)+'\nالدومين الحالي: '+location.hostname, false);
+    }
+  }
+  async function makeRecaptcha(){
+    var holder=$('recaptchaContainer');
+    if(!holder) throw new Error('recaptchaContainer غير موجود داخل الصفحة.');
+    try{ if(window.AUTH && AUTH.recaptcha){ AUTH.recaptcha.clear(); AUTH.recaptcha=null; } }catch(e){}
+    holder.innerHTML='';
+    var box=document.createElement('div');
+    box.id='adnorRecaptcha_'+Date.now();
+    box.className='adnor-master-recaptcha';
+    holder.appendChild(box);
+    var verifier = new firebase.auth.RecaptchaVerifier(box.id, {
+      size:'normal',
+      callback:function(){ log('recaptcha solved'); },
+      'expired-callback':function(){ showMessage('انتهت صلاحية reCAPTCHA. اضغط إرسال كود الهاتف مرة ثانية.', false); }
+    });
+    await verifier.render();
+    if(window.AUTH) AUTH.recaptcha=verifier;
+    return verifier;
+  }
+  async function sendPhoneCode(){
+    setLegalOk(); setMode('phone');
+    if(openFullPage('الهاتف')) return false;
+    clearMessage();
+    var input=$('authPhoneNum');
+    var phone=normalizePhone(input && input.value);
+    if(input) input.value=phone;
+    if(!phone || phone.length < 8){ showMessage('اكتب رقم الهاتف كامل. مثال تركيا: +905445034910', false); return false; }
+    var btn=$('adnorPhoneActionBtn') || $('authBtn');
+    try{
+      if(btn){btn.disabled=true;btn.textContent='⏳ جهّز reCAPTCHA ثم أرسل الكود...';}
+      await ensureAuthReady();
+      var verifier = await makeRecaptcha();
+      if(btn){btn.textContent='⏳ جاري إرسال SMS...';}
+      var confirmation = await auth.signInWithPhoneNumber(phone, verifier);
+      if(!window.AUTH) window.AUTH={};
+      AUTH.phoneConfirm=confirmation;
+      AUTH.phoneStep='otp';
+      var otp=$('otpWrap'); if(otp) otp.classList.remove('hidden');
+      if(input) input.disabled=true;
+      showMessage('✅ تم إرسال الكود إلى '+phone+'\nاكتب كود SMS ثم اضغط تأكيد الكود والدخول.', true);
+      if(btn){btn.disabled=false;btn.textContent='✅ تأكيد الكود والدخول';}
+      var otpInput=$('authOTP'); if(otpInput) setTimeout(function(){otpInput.focus();},100);
+    }catch(e){
+      try{ if(window.AUTH && AUTH.recaptcha){AUTH.recaptcha.clear();AUTH.recaptcha=null;} }catch(x){}
+      if(window.AUTH) AUTH.phoneStep='input';
+      showMessage('فشل إرسال كود الهاتف: '+friendly(e)+'\nالدومين الحالي: '+location.hostname, false);
+      if(btn){btn.disabled=false;btn.textContent='📩 إرسال كود الهاتف';}
+    }
+    return false;
+  }
+  async function verifyPhoneCode(){
+    var code=safe($('authOTP') && $('authOTP').value).trim();
+    if(!code || code.length < 4){ showMessage('اكتب كود التحقق الذي وصلك SMS.', false); return false; }
+    if(!window.AUTH || !AUTH.phoneConfirm){ showMessage('أرسل كود الهاتف أولاً.', false); if(window.AUTH) AUTH.phoneStep='input'; return false; }
+    var btn=$('adnorPhoneActionBtn') || $('authBtn');
+    try{
+      if(btn){btn.disabled=true;btn.textContent='⏳ جاري تأكيد الكود...';}
+      await ensureAuthReady();
+      var result = await AUTH.phoneConfirm.confirm(code);
+      var u = result.user;
+      var phone = u.phoneNumber || normalizePhone($('authPhoneNum') && $('authPhoneNum').value);
+      try{
+        var snap = await db.ref('users/'+u.uid).once('value');
+        var old = snap.val() || {};
+        await db.ref('users/'+u.uid).update({
+          uid:u.uid,
+          name:old.name || (phone===ADMIN_PHONE?'ADNOR ADMIN':'ADNOR USER'),
+          email:old.email || u.email || '',
+          phone:phone,
+          phoneNumber:phone,
+          role:phone===ADMIN_PHONE?'admin':(old.role||'user'),
+          isAdmin:phone===ADMIN_PHONE?true:(old.isAdmin||false),
+          balance:old.balance || 0,
+          bonus:old.bonus || 0,
+          reservedWithdraw:old.reservedWithdraw || 0,
+          tickets:old.tickets || [],
+          txs:old.txs || [],
+          lastLogin:Date.now(),
+          createdAt:old.createdAt || Date.now()
+        });
+      }catch(dbErr){ log('profile save skipped '+friendly(dbErr)); }
+      AUTH.phoneStep='input'; AUTH.phoneConfirm=null;
+      showMessage('✅ تم تسجيل الدخول عبر الهاتف بنجاح.', true);
+    }catch(e){
+      showMessage('فشل تأكيد الكود: '+friendly(e), false);
+      if(e && (e.code==='auth/invalid-verification-code' || e.code==='auth/code-expired')){
+        AUTH.phoneStep='input'; AUTH.phoneConfirm=null;
+        var pn=$('authPhoneNum'); if(pn) pn.disabled=false;
+        var otp=$('otpWrap'); if(otp) otp.classList.add('hidden');
+      }
+    }finally{
+      if(btn){btn.disabled=false;btn.textContent=(window.AUTH&&AUTH.phoneStep==='otp')?'✅ تأكيد الكود والدخول':'📩 إرسال كود الهاتف';}
+    }
+    return false;
+  }
+  function phoneAction(){
+    if(window.AUTH && AUTH.phoneStep==='otp') return verifyPhoneCode();
+    return sendPhoneCode();
+  }
+  function intercept(el, handler){
+    if(!el || el.__adnorMasterCapture) return;
+    el.__adnorMasterCapture = true;
+    el.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); ev.stopImmediatePropagation(); handler(ev); return false; }, true);
+  }
+  function install(){
+    setLegalOk(); ensureNote(); ensurePhoneButton();
+    intercept($('googleBtn'), googleLogin);
+    intercept($('methodGoogle'), function(){ setMode('google'); });
+    intercept($('methodPhone'), function(){ setMode('phone'); });
+    intercept($('authBtn'), function(){ if(lastMode==='phone' || (window.AUTH&&AUTH.method==='phone')) phoneAction(); else googleLogin(); });
+    intercept($('adnorPhoneActionBtn'), phoneAction);
+    if(window.AUTH){
+      AUTH.google = googleLogin;
+      AUTH._sendOTP = sendPhoneCode;
+      AUTH._verifyOTP = verifyPhoneCode;
+      AUTH.submit = function(){ return ((AUTH.method==='phone'||lastMode==='phone') ? phoneAction() : googleLogin()); };
+      AUTH.completeRedirect = completeGoogleRedirect;
+      AUTH.friendlyError = friendly;
+      if(!AUTH.method || AUTH.method==='email') AUTH.method='google';
+    }
+    if(lastMode==='phone') setMode('phone'); else setMode('google');
+  }
+  document.addEventListener('DOMContentLoaded', function(){ install(); setTimeout(completeGoogleRedirect,100); });
+  setTimeout(install,60); setTimeout(install,400); setTimeout(install,1200); setTimeout(install,2600);
+  setInterval(install,500);
+})();
+</script>
+
 </body>
 </html>
