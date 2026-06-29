@@ -1,6 +1,6 @@
 {
-  "name": "adnor-complete-v8-1-adnor-vp-adminsdk-fixed",
-  "version": "8.1.0",
+  "name": "adnor-complete-v8-2-adnor-vp-google-redirect-final",
+  "version": "8.2.0",
   "description": "ADNOR COMPLETE V8.1 - official Firebase adnor-vp, Gmail + Phone login, Firebase Admin SDK support for secure rules",
   "main": "server.js",
   "scripts": {
