@@ -1,23 +1,23 @@
 {
-  "name": "adnor-complete-v8-3-laser-auth",
-  "version": "8.3.0",
-  "description": "ADNOR V8.3 - laser login UI, Google redirect and phone only, no legal confirmation check on login screen",
+  "name": "adnor-v9-google-first",
+  "version": "9.0.0",
+  "private": true,
+  "description": "ADNOR rebuilt from scratch - Google first auth, full admin controls",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js",
     "check": "node --check server.js"
   },
   "engines": {
     "node": "20.x"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.18.3",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.5.0",
     "helmet": "^7.1.0",
-    "node-cron": "^3.0.3",
-    "firebase-admin": "^12.7.0"
+    "node-cron": "^3.0.3"
   }
 }
