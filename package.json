@@ -1,7 +1,7 @@
 {
-  "name": "adnor-complete-v7-gmail-phone-final",
-  "version": "7.0.0",
-  "description": "ADNOR COMPLETE V7 - fixed Gmail/Google authDomain, Google+Phone only login, full admin/user controls preserved",
+  "name": "adnor-complete-v8-adnor-vp-gmail-phone-final",
+  "version": "8.0.0",
+  "description": "ADNOR COMPLETE V8 - official Firebase project adnor-vp, Gmail + Phone login only, admin phone supported, full controls preserved",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

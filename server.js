@@ -1,7 +1,7 @@
 'use strict';
 
 /*
-  ADNOR 24H SERVER
+  ADNOR 24H SERVER V8 ADNOR-VP
   - Express serves the website from /public
   - Firebase Admin runs trusted 24/7 jobs
   - Manual draw numbers are saved in Firebase by admin panel, then server publishes at schedule
@@ -20,7 +20,7 @@ const cron = require('node-cron');
 const PORT = Number(process.env.PORT || 3000);
 const TIMEZONE = process.env.DRAW_TIMEZONE || 'Europe/Istanbul';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'CHANGE_ME_ADMIN_TOKEN';
-const FIREBASE_DATABASE_URL = (process.env.FIREBASE_DATABASE_URL || 'https://adnor-new-default-rtdb.firebaseio.com/').replace(/\/$/, '');
+const FIREBASE_DATABASE_URL = (process.env.FIREBASE_DATABASE_URL || 'https://adnor-vp-default-rtdb.firebaseio.com').replace(/\/$/, '');
 
 const LEVELS = ['daily', 'weekly', 'monthly', 'yearly'];
 const LABEL = { daily: 'اليومي', weekly: 'الأسبوعي', monthly: 'الشهري', yearly: 'السنوي' };
@@ -496,7 +496,7 @@ app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 // This makes Google signInWithRedirect work more reliably on mobile browsers.
 app.all('/__/auth/*', async (req, res) => {
   try {
-    const target = 'https://adnor-new.firebaseapp.com' + req.originalUrl;
+    const target = 'https://adnor-vp.firebaseapp.com' + req.originalUrl;
     const headers = { ...req.headers };
     delete headers.host;
     delete headers['content-length'];
@@ -521,7 +521,7 @@ app.all('/__/auth/*', async (req, res) => {
 app.get('/api/health', async (_req, res) => {
   try {
     await db.ref('global_system/settings/server24h').update({ lastHeartbeat: Date.now(), timezone: TIMEZONE, processUptime: process.uptime() });
-    res.json({ ok: true, app: 'ADNOR 24H SERVER', timezone: TIMEZONE, uptime: process.uptime(), now: new Date().toISOString() });
+    res.json({ ok: true, app: 'ADNOR 24H SERVER V8 ADNOR-VP', timezone: TIMEZONE, uptime: process.uptime(), now: new Date().toISOString() });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
   }
@@ -554,7 +554,7 @@ app.get('/api/public/state', async (_req, res) => {
       const raw = hs.val() || {};
       history = Object.values(raw).sort((a, b) => n(b.at) - n(a.at));
     } catch (_) {}
-    res.json({ ok: true, app: 'ADNOR 24H SERVER', timezone: TIMEZONE, drawHour: settings.drawHour, draws: publicDraws, history });
+    res.json({ ok: true, app: 'ADNOR 24H SERVER V8 ADNOR-VP', timezone: TIMEZONE, drawHour: settings.drawHour, draws: publicDraws, history });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
   }
@@ -705,7 +705,7 @@ scheduleJob('yearly-draw-pending-jan-1-20-15', process.env.YEARLY_CRON || '15 20
 
 app.listen(PORT, async () => {
   await db.ref('global_system/settings/server24h').update({ enabled: true, startedAt: Date.now(), lastHeartbeat: Date.now(), timezone: TIMEZONE, port: PORT });
-  console.log(`ADNOR 24H SERVER NO-ADMIN-JSON running on port ${PORT} timezone=${TIMEZONE}`);
+  console.log(`ADNOR 24H SERVER V8 ADNOR-VP NO-ADMIN-JSON running on port ${PORT} timezone=${TIMEZONE}`);
 });
 
 process.on('unhandledRejection', err => console.error('Unhandled rejection:', err));

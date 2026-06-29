@@ -137,11 +137,12 @@
 <div id="admin" class="admin"><aside class="admin-menu"><h3>👑 الأدمن الأسطوري</h3><button onclick="ADMIN.sec('dash')" id="adm-dash" class="active">📊 الرئيسية</button><button onclick="ADMIN.sec('users')" id="adm-users">👤 المستخدمين</button><button onclick="ADMIN.sec('draws')" id="adm-draws">🎯 السحوبات</button><button onclick="ADMIN.sec('finance')" id="adm-finance">💰 الإيداع والسحب</button><button onclick="ADMIN.sec('games')" id="adm-games">🎮 الألعاب والعجلة</button><button onclick="ADMIN.sec('support')" id="adm-support">💬 الدعم</button><button onclick="ADMIN.sec('legal')" id="adm-legal">⚙️ السياسة واللغات</button><button onclick="ADMIN.sec('inject')" id="adm-inject">⚡ حقن الأكواد</button><button onclick="ADMIN.close()">خروج</button></aside><section class="admin-main" id="adminMain"></section></div>
 <div class="version-badge">ADNOR FULL FINAL V3</div>
 <script>
-const firebaseConfig = {apiKey:"AIzaSyBsM5aajQguqF4kol-QNDm078VOn3R-SLQ",authDomain:"adnor-new.firebaseapp.com",databaseURL:"https://adnor-new-default-rtdb.firebaseio.com/",projectId:"adnor-new",storageBucket:"adnor-new.firebasestorage.app",messagingSenderId:"266808357953",appId:"1:266808357953:web:afdd2faef8954b094e02c0",measurementId:"G-1W33FL0QCB"};
+const firebaseConfig = {apiKey:"AIzaSyBpklFtIKgxmnLCpk7Zi00p5lxny966mpM",authDomain:"adnor-vp.firebaseapp.com",databaseURL:"https://adnor-vp-default-rtdb.firebaseio.com",projectId:"adnor-vp",storageBucket:"adnor-vp.firebasestorage.app",messagingSenderId:"808457533052",appId:"1:808457533052:web:d7d2bcef237c2214be3bf9",measurementId:"G-Q8SV80V1TN"};
 if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();const db=firebase.database();
 window.__ADNOR_AUTH_READY__=auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(e=>{console.warn('Auth persistence warning',e)});
 const ADMIN_EMAIL='adhamdeab45@gmail.com';
+const ADMIN_PHONE='+905445034910';
 const LEVELS=['daily','weekly','monthly','yearly'];
 const LABEL={daily:'اليومي',weekly:'الأسبوعي',monthly:'الشهري',yearly:'السنوي'};
 const NEXT={daily:'weekly',weekly:'monthly',monthly:'yearly',yearly:null};
@@ -157,7 +158,7 @@ function endOf(level){const d=new Date(startOf(level));if(level==='daily')d.setD
 function periodKey(level){const d=new Date(startOf(level));return level+'_'+d.getFullYear()+'_'+String(d.getMonth()+1).padStart(2,'0')+'_'+String(d.getDate()).padStart(2,'0')}
 function progress(level){return Math.max(0,Math.min(1,(Date.now()-startOf(level))/(endOf(level)-startOf(level))))}
 function prize(level){const d=APP.settings.draws[level];const p=1-Math.pow(1-progress(level),2.15);const target=(n(d.targetMin)+n(d.targetMax))/2;return Math.max(n(d.base)+n(d.carry),n(d.base)+n(d.carry)+(target-n(d.base))*p)}
-function isAdmin(){return APP.user&&APP.user.email===ADMIN_EMAIL}
+function isAdmin(){return APP.user&&((APP.user.phone||APP.user.phoneNumber||'')===ADMIN_PHONE || APP.user.email===ADMIN_EMAIL)}
 const APP={user:null,_loginDone:false,settings:defaultSettings(),users:{},tickets:{daily:{},weekly:{},monthly:{},yearly:{}},support:{},finance:{deposits:{},withdraws:{}},currentDraw:'daily',authMode:'login',balanceHidden:false,logoClicks:0,lastTab:'lottery',listeners:[],started:false,
 init(){const last=localStorage.getItem('ADNOR_LAST_TAB');if(last)this.lastTab=last;this.balanceHidden=localStorage.getItem('ADNOR_HIDE_BAL')==='1';if(localStorage.getItem('ADNOR_LEGAL_OK')==='1'){const c1=document.getElementById('age18');const c2=document.getElementById('termsOk');if(c1)c1.checked=true;if(c2)c2.checked=true;};db.ref('global_system/settings').on('value',s=>{this.settings=deepMerge(s.val()||{},defaultSettings());UI.legalText();UI.render();DRAW.render();ADMIN.refreshIfOpen();INJECT.apply()});db.ref('users').on('value',s=>{this.users=s.val()||{};if(this.user&&this.users[this.user.uid])this.user={uid:this.user.uid,...this.users[this.user.uid]};UI.render();ADMIN.refreshIfOpen()});LEVELS.forEach(lv=>db.ref('tickets/'+lv+'/'+periodKey(lv)).on('value',s=>{this.tickets[lv]=s.val()||{};DRAW.render();ADMIN.refreshIfOpen()}));db.ref('support').on('value',s=>{this.support=s.val()||{};UI.renderSupport();ADMIN.refreshIfOpen()});db.ref('finance/deposits').on('value',s=>{this.finance.deposits=s.val()||{};ADMIN.refreshIfOpen()});db.ref('finance/withdraws').on('value',s=>{this.finance.withdraws=s.val()||{};ADMIN.refreshIfOpen()});auth.onAuthStateChanged(async u=>{authLog('onAuthStateChanged fired: '+(u?'USER uid='+u.uid+' email='+u.email:'NULL'));try{if(u){clearAuthError();let data={};try{await USER.ensure(u);data=((await db.ref('users/'+u.uid).once('value')).val()||{});authLog('DB profile loaded ok');}catch(dbErr){authLog('DB error: '+dbErr.message);showAuthError('تم التحقق من Google ✓ لكن قراءة بيانات الحساب فشلت: '+dbErr.message);data={name:(u.displayName||((u.email||'user').split('@')[0])),email:u.email||'',phone:u.phoneNumber||'',balance:0,bonus:0,tickets:[],txs:[]};}this.user={uid:u.uid,...data};this._loginDone=true;authLog('Setting _loginDone=true, showing app...');document.getElementById('auth').classList.add('hidden');document.getElementById('app').classList.remove('hidden');try{UI.page(this.lastTab||'lottery');}catch(uiErr){authLog('UI.page error: '+uiErr.message);}try{UI.render();}catch(uiErr){authLog('UI.render error: '+uiErr.message);}const adminBtn=document.getElementById('adminSideBtn');if(adminBtn)adminBtn.classList.toggle('hidden',!isAdmin());authLog('LOGIN COMPLETE ✓');}else{authLog('null user — _loginDone='+this._loginDone);if(this._loginDone)return;this.user=null;document.getElementById('app').classList.add('hidden');document.getElementById('auth').classList.remove('hidden')}}catch(e){authLog('OUTER CATCH: '+(e&&e.code)+' '+e.message);showAuthError('خطأ داخلي ['+((e&&e.code)||'?')+']: '+((e&&e.message)||String(e)));if(!this._loginDone)document.getElementById('auth').classList.remove('hidden')}finally{document.getElementById('splash').classList.add('hidden')}});setInterval(()=>{DRAW.render();DRAW.checkScheduled();PARTICIPANTS.tick()},1000);setInterval(()=>PARTICIPANTS.save(),15000)},total(){return n(this.user&&this.user.balance)+n(this.user&&this.user.bonus)},main(){return n(this.user&&this.user.balance)},bonus(){return n(this.user&&this.user.bonus)},toggleBalance(){this.balanceHidden=!this.balanceHidden;localStorage.setItem('ADNOR_HIDE_BAL',this.balanceHidden?'1':'0');UI.render()},copyRef(){const link=document.getElementById('refLink').textContent;navigator.clipboard&&navigator.clipboard.writeText(link);toast('✅ تم نسخ رابط الدعوة')},logoTap(){this.logoClicks++;clearTimeout(this.logoTimer);this.logoTimer=setTimeout(()=>this.logoClicks=0,1600);if(this.logoClicks>=5&&isAdmin()){this.logoClicks=0;ADMIN.open()}},log(text){db.ref('logs').push({text,uid:uidKey()||'guest',time:Date.now()})}}
 const AUTH={
@@ -1451,9 +1452,9 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
 <script>window.__ADNOR_V6_FINAL_MARKER__=true;console.log("ADNOR COMPLETE V6 FINAL loaded — Gmail auth preserved");</script>
 
 <script>
-(function ADNOR_V7_GMAIL_PHONE_FINAL(){
-  if(window.__ADNOR_V7_GMAIL_PHONE_FINAL__) return;
-  window.__ADNOR_V7_GMAIL_PHONE_FINAL__ = true;
+(function ADNOR_V8_GMAIL_PHONE_FINAL(){
+  if(window.__ADNOR_V8_GMAIL_PHONE_FINAL__) return;
+  window.__ADNOR_V8_GMAIL_PHONE_FINAL__ = true;
 
   function $(id){ return document.getElementById(id); }
   function q(sel){ return document.querySelector(sel); }
@@ -1480,10 +1481,10 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
   function toast2(t){ try{ if(window.toast) return toast(t); }catch(e){} alert(t); }
 
   function installLoginUI(){
-    var style=$('adnorV7LoginStyle');
+    var style=$('adnorV8LoginStyle');
     if(!style){
       style=document.createElement('style');
-      style.id='adnorV7LoginStyle';
+      style.id='adnorV8LoginStyle';
       style.textContent = `
         #loginTab,#registerTab,#methodEmail,#secEmail,#resetPassBtn,#nameWrap,#confirmPassWrap{display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important}
         .auth-card .brand p{font-weight:800;color:#ffe29b!important}
@@ -1500,8 +1501,8 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
     var tabs=q('.auth-card .auth-tabs');
     if(tabs) tabs.style.display='none';
     var methods=$('methodGoogle') && $('methodGoogle').parentElement;
-    if(methods && !$('adnorV7AuthTitle')){
-      methods.insertAdjacentHTML('beforebegin','<div id="adnorV7AuthTitle" class="adnor-v7-auth-title">👑 ADNOR Login<br><span style="font-size:12px;color:#cbd5e1">لا يوجد إيميل مع كلمة سر. الدخول فقط عبر Google أو الهاتف.</span></div>');
+    if(methods && !$('adnorV8AuthTitle')){
+      methods.insertAdjacentHTML('beforebegin','<div id="adnorV8AuthTitle" class="adnor-v7-auth-title">👑 ADNOR Login<br><span style="font-size:12px;color:#cbd5e1">لا يوجد إيميل مع كلمة سر. الدخول فقط عبر Google أو الهاتف.</span></div>');
     }
     var emailBtn=$('methodEmail'); if(emailBtn){ emailBtn.classList.add('hidden'); emailBtn.style.display='none'; }
     var secEmail=$('secEmail'); if(secEmail){ secEmail.classList.add('hidden'); secEmail.style.display='none'; }
@@ -1575,7 +1576,7 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
         if(ref) localStorage.setItem('ADNOR_REF', ref);
         var provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({prompt:'select_account'});
-        // مهم: authDomain ثابت على adnor-new.firebaseapp.com، وليس دومين Render. هذا أصلح redirect_uri_mismatch.
+        // مهم: authDomain ثابت على adnor-vp.firebaseapp.com، وليس دومين Render. هذا أصلح redirect_uri_mismatch.
         try{
           await auth.signInWithPopup(provider);
         }catch(pe){
@@ -1722,12 +1723,12 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
       patchUserCreateIdentity();
       patchWheelDefaults();
       if(window.AUTH) AUTH.setMethod(AUTH.method==='phone'?'phone':'google');
-      var top=$('topStatus'); if(top) top.textContent='ADNOR — Google/Phone Secure V7';
-    }catch(e){ console.error('ADNOR V7 patch error', e); }
+      var top=$('topStatus'); if(top) top.textContent='ADNOR — Google/Phone Secure V8';
+    }catch(e){ console.error('ADNOR V8 patch error', e); }
   }
   document.addEventListener('DOMContentLoaded', boot);
   setTimeout(boot,100); setTimeout(boot,500); setTimeout(boot,1500); setTimeout(boot,3500); setInterval(boot,6000);
-  console.log('ADNOR COMPLETE V7 — fixed Firebase authDomain, Gmail/Phone only, public email hidden');
+  console.log('ADNOR COMPLETE V8 — fixed Firebase authDomain, Gmail/Phone only, public email hidden');
 })();
 </script>
 
