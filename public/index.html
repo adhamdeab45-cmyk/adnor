@@ -1113,7 +1113,7 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
       try{
         const provider=new firebase.auth.GoogleAuthProvider(); provider.setCustomParameters({prompt:'select_account'});
         await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(function(){});
-        await auth.signInWithRedirect(provider);
+        await auth.signInWithPopup(provider);
       }catch(e){ showAuthError('Google Login: '+(AUTH.friendlyError?AUTH.friendlyError(e):(e.message||e))); }
       finally{this.busy=false; if(btn){btn.disabled=false;btn.innerHTML=old;}}
     };
@@ -1520,7 +1520,7 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
         var provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({prompt:'select_account'});
         await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(function(){});
-        await auth.signInWithRedirect(provider);
+        await auth.signInWithPopup(provider);
       }catch(e){
         console.error('[ADNOR V12 GMAIL ERROR]', e);
         if(window.showAuthError) showAuthError('خطأ دخول Gmail: '+((e&&e.message)||(e&&e.code)||e));
