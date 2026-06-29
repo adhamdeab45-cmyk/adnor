@@ -20,7 +20,7 @@ const cron = require('node-cron');
 const PORT = Number(process.env.PORT || 3000);
 const TIMEZONE = process.env.DRAW_TIMEZONE || 'Europe/Istanbul';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'CHANGE_ME_ADMIN_TOKEN';
-const FIREBASE_DATABASE_URL = (process.env.FIREBASE_DATABASE_URL || 'https://adnor-vp-default-rtdb.firebaseio.com/').replace(/\/$/, '');
+const FIREBASE_DATABASE_URL = (process.env.FIREBASE_DATABASE_URL || 'https://adnor-new-default-rtdb.firebaseio.com/').replace(/\/$/, '');
 
 const LEVELS = ['daily', 'weekly', 'monthly', 'yearly'];
 const LABEL = { daily: 'اليومي', weekly: 'الأسبوعي', monthly: 'الشهري', yearly: 'السنوي' };
@@ -496,7 +496,7 @@ app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 // This makes Google signInWithRedirect work more reliably on mobile browsers.
 app.all('/__/auth/*', async (req, res) => {
   try {
-    const target = 'https://adnor-vp.firebaseapp.com' + req.originalUrl;
+    const target = 'https://adnor-new.firebaseapp.com' + req.originalUrl;
     const headers = { ...req.headers };
     delete headers.host;
     delete headers['content-length'];
@@ -654,46 +654,6 @@ app.post('/api/tickets/buy', async (req, res) => {
   }
 });
 
-
-
-// ADNOR V11 TODAY PATCH: version and final operational helper endpoints
-app.get('/api/version', (_req, res) => {
-  res.json({ ok: true, name: 'ADNOR', version: 'V11_TODAY_FULL_ON_V6_WORKING', base: 'V6_WORKING', timezone: TIMEZONE, at: Date.now() });
-});
-
-app.post('/api/admin/system-log', requireAdmin, async (req, res) => {
-  try {
-    await db.ref('system_logs').push({ ...(req.body || {}), admin: true, at: Date.now(), time: nowStr() });
-    res.json({ ok: true });
-  } catch (e) { res.status(500).json({ ok: false, error: e.message }); }
-});
-
-app.post('/api/admin/seed-today-defaults', requireAdmin, async (_req, res) => {
-  try {
-    const current = (await db.ref('global_system/settings').once('value')).val() || {};
-    const patch = {
-      todayFinalVersion: 'V11_TODAY_FULL_ON_V6_WORKING',
-      currency: { code: 'USD', symbol: '$' },
-      walletRules: { withdrawFee: 0, bonusWithdrawable: false, bonusPlayable: true, bonusWinningsToReal: true, reserveWithdrawOnRequest: true },
-      site: { name: 'ADNOR', whatsapp: '0535 933 47 85', telegram: 'ADNOR1', registrationEnabled: true, loginEnabled: true, depositEnabled: true, withdrawEnabled: true, wheelEnabled: true, drawsEnabled: true, maintenance: false },
-      referral: { enabled: true, bonusEnabled: true, newUserBonus: 0.50, referrerBonus: 0.25, type: 'bonus', blockSameDevice: false, blockSameIP: false, dailyLimitEnabled: false, pauseBonus: false },
-      depositBonus: { enabled: true, percent: 90, minDeposit: 5, maxBonus: 0, mode: 'every' },
-      drawConfig: { ticketPrice: 1, oneTicketAllDraws: true, closeBeforeMinutes: 5, winners: 1, buyWithBonus: true, prizeToReal: true, timezone: TIMEZONE, daily: { enabled: true, prize: 4500, resultHour: 20, resultMinute: 0 }, weekly: { enabled: true, prize: 15000, day: 0, resultHour: 20, resultMinute: 0 }, monthly: { enabled: true, prize: 45000, lastDay: true, resultHour: 20, resultMinute: 0 }, yearly: { enabled: true, prize: 750000, month: 12, day: 31, resultHour: 20, resultMinute: 0 } },
-      paymentMethods: [
-        { id: 'usdt_trc20', name: 'USDT TRC20', type: 'both', enabled: true, currency: 'USDT', network: 'TRC20', accountName: 'ADNOR', address: 'TQDEph2EkCPmerGEkiRh6RHJgJiBx6zta4', qrText: 'TQDEph2EkCPmerGEkiRh6RHJgJiBx6zta4', minDeposit: 5, minWithdraw: 5, instructions: 'USDT فقط على شبكة TRC20.' },
-        { id: 'sham_cash', name: 'شام كاش', type: 'deposit', enabled: true, currency: 'TRY', network: 'Sham Cash', accountName: 'شام كاش', address: '501bd08861198418f2f0687f69cc3b09', qrText: '501bd08861198418f2f0687f69cc3b09', minDeposit: 100, instructions: 'أرسل المبلغ ثم ارفع الإيصال.' },
-        { id: 'bank_iban', name: 'تحويل بنك / IBAN', type: 'both', enabled: true, currency: 'TRY', network: 'Bank', accountName: 'ADHAM ALDEAB', address: 'TR57 0014 3000 0000 0014 0280 55', qrText: 'TR57 0014 3000 0000 0014 0280 55', minDeposit: 5, minWithdraw: 5 }
-      ],
-      vip: { enabled: true, durationDays: 30, dailyFreeTickets: 1, badge: 'وسام ذهبي', autoExpire: true, adminCanGrant: true },
-      loginSplash: { enabled: true, duration: 3, title: 'رابح اليوم', text: 'تابع السحوبات اليومية واربح مع ADNOR', imageData: '', show: 'daily' }
-    };
-    function merge(a, b) { for (const k of Object.keys(b)) { if (b[k] && typeof b[k] === 'object' && !Array.isArray(b[k])) a[k] = merge(a[k] && typeof a[k] === 'object' && !Array.isArray(a[k]) ? a[k] : {}, b[k]); else a[k] = b[k]; } return a; }
-    await db.ref('global_system/settings').set(merge(current, patch));
-    await db.ref('system_logs').push({ type: 'seed-today-defaults', admin: true, at: Date.now(), time: nowStr() });
-    res.json({ ok: true, version: patch.todayFinalVersion });
-  } catch (e) { res.status(500).json({ ok: false, error: e.message }); }
-});
-
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1m', etag: true }));
 app.get('*', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
@@ -740,8 +700,8 @@ async function markDrawPending(level) {
 scheduleJob('sync-counters-every-minute', '* * * * *', syncCounters);
 scheduleJob('daily-draw-pending-20-00', process.env.DAILY_CRON || '0 20 * * *', () => markDrawPending('daily'));
 scheduleJob('weekly-draw-pending-sunday-20-05', process.env.WEEKLY_CRON || '5 20 * * 0', () => markDrawPending('weekly'));
-scheduleJob('monthly-draw-last-day-20-00', process.env.MONTHLY_CRON || '0 20 * * *', () => { const d = new Date(); const t = new Date(d.getFullYear(), d.getMonth()+1, 0); return d.getDate() === t.getDate() ? markDrawPending('monthly') : { ok: true, skipped: true, reason: 'not-last-day' }; });
-scheduleJob('yearly-draw-dec-31-20-00', process.env.YEARLY_CRON || '0 20 31 12 *', () => markDrawPending('yearly'));
+scheduleJob('monthly-draw-pending-day-1-20-10', process.env.MONTHLY_CRON || '10 20 1 * *', () => markDrawPending('monthly'));
+scheduleJob('yearly-draw-pending-jan-1-20-15', process.env.YEARLY_CRON || '15 20 1 1 *', () => markDrawPending('yearly'));
 
 app.listen(PORT, async () => {
   await db.ref('global_system/settings/server24h').update({ enabled: true, startedAt: Date.now(), lastHeartbeat: Date.now(), timezone: TIMEZONE, port: PORT });

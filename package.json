@@ -1,7 +1,7 @@
 {
-  "name": "adnor-working-v6-plus-today-full",
-  "version": "11.0.0",
-  "description": "ADNOR working V6 with all agreed today features added as final patch",
+  "name": "adnor-complete-v7-gmail-phone-final",
+  "version": "7.0.0",
+  "description": "ADNOR COMPLETE V7 - fixed Gmail/Google authDomain, Google+Phone only login, full admin/user controls preserved",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

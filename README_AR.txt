@@ -1,43 +1,36 @@
-ADNOR V11 TODAY FULL — مبني على كود V6 الشغال
+ADNOR REPLIT NO ADMIN JSON
+==========================
 
-طريقة الرفع:
-1. فك الضغط.
-2. ارفع محتويات المجلد كاملة إلى GitHub، وليس ملف ZIP نفسه.
-3. على Render استخدم:
-   Build Command: npm install --registry=https://registry.npmjs.org/
-   Start Command: npm start
-4. Environment Variables:
-   FIREBASE_DATABASE_URL=https://adnor-vp-default-rtdb.firebaseio.com/
-   FIREBASE_PROJECT_ID=adnor-vp
-   DRAW_TIMEZONE=Europe/Istanbul
-   ADMIN_TOKEN=اكتب_كلمة_قوية
+هذه نسخة خاصة لـ Replit تعمل بدون FIREBASE_SERVICE_ACCOUNT_JSON.
+سببها أن Firebase منع إنشاء مفتاح Admin JSON عندك.
 
-روابط الفحص:
-/api/health
-/api/version
+المهم:
+- لا تضيف FIREBASE_SERVICE_ACCOUNT_JSON في Replit.
+- السيرفر يستخدم Realtime Database REST API.
+- السحب لا يتم تلقائياً بدون موافقة الأدمن.
+- الساعة 8 السيرفر يضع الحالة: بانتظار موافقة الأدمن فقط.
+- التنفيذ الحقيقي للسحب يكون من زر الأدمن: تنفيذ / نشر السحب.
 
-بعد دخول المدير:
-- افتح لوحة المدير.
-- ادخل إلى "إعدادات الموقع العامة".
-- اضغط "تثبيت كل إعدادات اليوم الرسمية" مرة واحدة.
+Secrets المطلوبة فقط:
+1) FIREBASE_DATABASE_URL=https://adnor-new-default-rtdb.firebaseio.com/
+2) DRAW_TIMEZONE=Europe/Istanbul
+3) ADMIN_TOKEN=ADNOR_ADMIN_2026_987654
 
-النسخة أضافت ملف:
-public/adnor_today_full_patch.js
-هذا الملف يحتوي كل إضافات اليوم بدون حذف كود V6 الأساسي.
+تشغيل Replit:
+1) تأكد أن الملفات موجودة:
+   server.js
+   package.json
+   public/index.html
 
+2) افتح Shell واكتب:
+   npm install
+   npm start
 
-==============================
-تحديث V12 — دخول Gmail + رقم هاتف OTP فقط
-==============================
-- تم إلغاء دخول الإيميل + كلمة السر من الواجهة.
-- الدخول الرسمي الآن: Gmail/Google أو رقم هاتف مع كود تحقق.
-- Google يستخدم Redirect بدل Popup حتى يكون أكثر ثباتاً على Render والمتصفحات.
-- رقم الهاتف يحتاج تفعيل Phone provider من Firebase Authentication.
+3) جرّب:
+   /api/health
 
-خطوات Firebase المطلوبة:
-1) Firebase Console → Authentication → Sign-in method → فعّل Google.
-2) Firebase Console → Authentication → Sign-in method → فعّل Phone.
-3) Firebase Console → Authentication → Settings → Authorized domains → أضف: adnor-v11.onrender.com
-4) للتجربة بدون SMS حقيقي: من Phone provider أضف Test phone number مثل +905000000000 والكود 123456.
+إذا ظهر ok:true فالسيرفر شغال.
 
-بعد رفع الملفات على GitHub اعمل Render → Manual Deploy → Deploy latest commit.
+ملاحظة عن Firebase Rules:
+لأن هذه النسخة بدون Admin JSON، يجب أن تكون Realtime Database Rules تسمح للتجربة بالقراءة والكتابة.
+بعد ما نثبت أن الموقع يعمل، نضبط Rules بشكل آمن أكثر.
