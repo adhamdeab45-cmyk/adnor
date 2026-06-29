@@ -66,16 +66,15 @@
       </div>
     </div>
 
-    <!-- قسم Google -->
     <div id="secGoogle" style="padding:8px 0">
-      <p class="muted center" style="font-size:13px;margin:6px 0 12px">ادخل أو أنشئ حسابك عبر Gmail بضغطة واحدة</p>
-      <button id="googleBtn" type="button" class="btn full" onclick="AUTH.google()" style="background:rgba(255,255,255,.96);color:#111;border:1px solid rgba(255,255,255,.8)">
-        <i class="fa-brands fa-google"></i> دخول عبر Gmail / Google
-      </button>
-      <div id="googleNote" style="display:none;margin-top:10px;padding:10px;border-radius:10px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#fcd34d;font-size:12px;text-align:center;line-height:1.6">
-        ⚠️ إذا لم يعمل Google تأكد من إضافة دومين الموقع في Firebase و Google Cloud
-      </div>
-    </div>
+  <p class="muted center" style="font-size:13px;margin:6px 0 12px">بضغطة واحدة ادخل أو أنشئ حسابك عبر Gmail</p>
+  <button id="googleBtn" type="button" class="btn full" onclick="event.preventDefault(); AUTH.google()" style="background:rgba(255,255,255,.96);color:#111;border:1px solid rgba(255,255,255,.8)">
+     <i class="fa-brands fa-google"></i> دخول عبر Gmail / Google
+  </button>
+  <div id="googleNote" style="display:none;margin-top:10px;padding:10px;border-radius:10px;background:rgba(245,158,11,.1)">
+     ⚠️ إذا لم يعمل Google تأكد من إضافة دومين الموقع في Google Cloud و Firebase
+  </div>
+</div>
 
     <!-- الموافقة القانونية -->
     <div class="age-box" id="ageBox">
