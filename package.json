@@ -1,7 +1,7 @@
 {
-  "name": "adnor-complete-v8-2-adnor-vp-google-redirect-final",
-  "version": "8.2.0",
-  "description": "ADNOR COMPLETE V8.1 - official Firebase adnor-vp, Gmail + Phone login, Firebase Admin SDK support for secure rules",
+  "name": "adnor-complete-v8-3-laser-auth",
+  "version": "8.3.0",
+  "description": "ADNOR V8.3 - laser login UI, Google redirect and phone only, no legal confirmation check on login screen",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

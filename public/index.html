@@ -1814,5 +1814,130 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
 })();
 </script>
 
+
+<!-- ADNOR V8.3 LASER AUTH FINAL FIX -->
+<style id="adnorV83LaserAuthStyle">
+  /* V8.3: واجهة دخول نظيفة — Google + Phone فقط */
+  #loginTab,#registerTab,#methodEmail,#secEmail,#resetPassBtn,#ageBox,#googleNote,#copyDomainBtn,#domainCopyText,#adnorV82Note{display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;border:0!important}
+  #authDebugLog{display:none!important}
+  .version-badge{display:none!important}
+  #auth .auth-card{border-radius:30px!important;position:relative;overflow:hidden;box-shadow:0 0 35px rgba(18,201,255,.10),0 0 65px rgba(245,189,63,.14),0 18px 55px rgba(0,0,0,.48)!important}
+  #auth .auth-card:before{content:"";position:absolute;inset:-2px;pointer-events:none;background:linear-gradient(115deg,transparent 0 18%,rgba(18,201,255,.18),transparent 45%,rgba(245,189,63,.20),transparent 76%);opacity:.8;animation:adnorLaserSweep 3.8s linear infinite}
+  #auth .auth-card>*{position:relative;z-index:1}
+  @keyframes adnorLaserSweep{0%{transform:translateX(80%) skewX(-18deg)}100%{transform:translateX(-80%) skewX(-18deg)}}
+  #methodGoogle,#methodPhone{min-height:56px!important;border-radius:18px!important;font-size:15px!important;font-weight:900!important;border:1px solid rgba(245,189,63,.35)!important}
+  #methodGoogle.active,#methodPhone.active{background:linear-gradient(180deg,#ffe6a3,#b97800)!important;color:#150900!important;box-shadow:0 0 18px rgba(245,189,63,.25)!important}
+  #secGoogle{padding-top:12px!important}
+  #secGoogle .muted{font-weight:800;color:#d9e6ff!important}
+  #googleBtn{min-height:62px!important;border-radius:20px!important;font-size:18px!important;font-weight:950!important;letter-spacing:.2px;background:linear-gradient(180deg,#ffffff,#e8eef8)!important;color:#0b1220!important;border:1px solid rgba(255,255,255,.95)!important;box-shadow:0 0 22px rgba(255,255,255,.16),0 12px 26px rgba(0,0,0,.22)!important}
+  #authBtn{min-height:58px!important;border-radius:20px!important;font-size:16px!important;font-weight:950!important}
+  #secPhone .field label{color:#ffe6a3!important;font-weight:900!important}
+  #recaptchaContainer{min-height:1px!important}
+  .adnor-v83-note{margin:12px 0 0;padding:12px;border:1px solid rgba(18,201,255,.30);border-radius:16px;background:rgba(18,201,255,.07);color:#cfefff;font-size:12px;line-height:1.8;text-align:center;font-weight:800}
+</style>
+<script>
+(function(){
+  'use strict';
+  window.ADNOR_V83_LASER_AUTH = true;
+  function $(id){ return document.getElementById(id); }
+  function safeLog(m){ try{ if(window.authLog) authLog(m); else console.log('[ADNOR V8.3]', m); }catch(e){} }
+  function showErr(m){ try{ if(window.showAuthError) showAuthError(m); else alert(m); }catch(e){ alert(m); } }
+  function clearErr(){ try{ if(window.clearAuthError) clearAuthError(); }catch(e){} }
+  function setLegalAlwaysOk(){
+    try{ localStorage.setItem('ADNOR_LEGAL_OK','1'); }catch(e){}
+    var a=$('age18'), t=$('termsOk');
+    if(a) a.checked = true;
+    if(t) t.checked = true;
+    if(window.AUTH){
+      AUTH.needLegal = function(){ try{ localStorage.setItem('ADNOR_LEGAL_OK','1'); }catch(e){} return true; };
+      AUTH.saveLegal = function(){ try{ localStorage.setItem('ADNOR_LEGAL_OK','1'); }catch(e){} return true; };
+    }
+  }
+  async function googleRedirectLogin(){
+    setLegalAlwaysOk();
+    clearErr();
+    if(!window.firebase || !firebase.auth){ showErr('Firebase غير جاهز بعد. انتظر ثانيتين وجرب مرة ثانية.'); return false; }
+    var btn=$('googleBtn');
+    var old=btn ? btn.innerHTML : '';
+    try{
+      if(btn){ btn.disabled=true; btn.innerHTML='⏳ جاري التحويل إلى Google...'; }
+      var provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt:'select_account' });
+      safeLog('V8.3 redirect start domain='+location.hostname+' authDomain=adnor-vp.firebaseapp.com');
+      await firebase.auth().signInWithRedirect(provider);
+    }catch(e){
+      safeLog('V8.3 redirect error '+((e&&e.code)||'')+' '+((e&&e.message)||e));
+      if(btn){ btn.disabled=false; btn.innerHTML=old || '<i class="fa-brands fa-google"></i> تسجيل الدخول بجوجل'; }
+      var code=(e&&e.code)||'';
+      if(code==='auth/unauthorized-domain') showErr('الدومين غير مضاف في Firebase. أضف '+location.hostname+' داخل Authentication > Settings > Authorized domains.');
+      else if(code==='auth/operation-not-allowed') showErr('Google غير مفعّل في Firebase Authentication. فعّل Google من Sign-in method.');
+      else showErr('Google فشل: '+((e&&e.message)||String(e||'خطأ غير معروف')));
+    }
+    return false;
+  }
+  window.ADNOR_GOOGLE_LOGIN = googleRedirectLogin;
+  function applyUI(){
+    try{
+      setLegalAlwaysOk();
+      document.body.classList.add('adnor-v83-laser');
+      var brandP=document.querySelector('#auth .brand p');
+      if(brandP) brandP.textContent='دخول سريع وآمن — Google أو رقم الهاتف فقط';
+      var loginTitle=$('adnorV8AuthTitle');
+      if(loginTitle) loginTitle.innerHTML='👑 ADNOR Login<br><span style="font-size:12px;color:#cbd5e1">اختار طريقة الدخول فقط: Google أو رقم الهاتف.</span>';
+      var mg=$('methodGoogle'), mp=$('methodPhone');
+      if(mg) mg.innerHTML='<i class="fa-brands fa-google"></i> دخول Google';
+      if(mp) mp.innerHTML='📱 دخول رقم الهاتف';
+      var gb=$('googleBtn');
+      if(gb){
+        gb.type='button';
+        gb.innerHTML='<i class="fa-brands fa-google"></i> تسجيل الدخول بجوجل';
+        gb.onclick=function(ev){ if(ev){ev.preventDefault(); ev.stopPropagation();} return googleRedirectLogin(); };
+      }
+      var authBtn=$('authBtn');
+      if(authBtn){
+        if(window.AUTH && AUTH.method==='phone'){
+          authBtn.style.display='';
+          authBtn.textContent=(AUTH.phoneStep==='otp')?'تأكيد الكود والدخول':'إرسال كود الهاتف';
+        }else{
+          authBtn.style.display='none';
+        }
+      }
+      if(!$('adnorV83Note')){
+        var ref=$('secGoogle') || $('googleBtn')?.parentElement;
+        if(ref){
+          var note=document.createElement('div');
+          note.id='adnorV83Note';
+          note.className='adnor-v83-note';
+          note.textContent='تم حذف تأكيد العمر وسياسة ADNOR من واجهة الدخول. الدخول الآن فقط عبر Google أو رقم الهاتف.';
+          ref.appendChild(note);
+        }
+      }
+      if(window.AUTH && !AUTH.__v83LaserPatched){
+        AUTH.__v83LaserPatched=true;
+        var oldSet=AUTH.setMethod ? AUTH.setMethod.bind(AUTH) : null;
+        AUTH.google=googleRedirectLogin;
+        AUTH.setMethod=function(m){
+          m=(m==='phone')?'phone':'google';
+          var r=oldSet ? oldSet(m) : null;
+          setLegalAlwaysOk();
+          setTimeout(applyUI,0);
+          return r;
+        };
+        var oldSubmit=AUTH.submit ? AUTH.submit.bind(AUTH) : null;
+        AUTH.submit=function(){
+          setLegalAlwaysOk();
+          if(AUTH.method==='phone') return oldSubmit ? oldSubmit() : false;
+          return googleRedirectLogin();
+        };
+      }
+      if(window.AUTH && (!AUTH.method || AUTH.method==='email')) AUTH.setMethod('google');
+    }catch(e){ console.warn('ADNOR V8.3 applyUI error', e); }
+  }
+  document.addEventListener('DOMContentLoaded', applyUI);
+  setTimeout(applyUI,50); setTimeout(applyUI,300); setTimeout(applyUI,1000); setTimeout(applyUI,2000); setInterval(applyUI,1000);
+  console.log('ADNOR V8.3 LASER AUTH — Google redirect + phone only, no legal check UI');
+})();
+</script>
+
 </body>
 </html>
