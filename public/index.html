@@ -151,16 +151,17 @@ function n(v){return Number(v)||0}function money(v){return '$'+n(v).toLocaleStri
 function showAuthError(msg){const el=document.getElementById('authError');if(!el)return;el.textContent=msg||'خطأ غير معروف';el.style.display=msg?'block':'none';console.error('[ADNOR AUTH ERROR]',msg);authLog('ERROR: '+msg)}
 function clearAuthError(){const el=document.getElementById('authError');if(el){el.style.display='none';el.textContent=''}}
 function authLog(msg){try{const el=document.getElementById('authDebugLog');if(!el)return;el.style.display='block';const line=document.createElement('div');line.textContent=new Date().toISOString().slice(11,23)+' '+msg;el.appendChild(line);el.scrollTop=el.scrollHeight;console.log('[ADNOR AUTH]',msg)}catch(e){}}
-function defaultSettings(){return{drawHour:20,legal:{enabled:true,title:'تأكيد العمر وشروط ADNOR',text:'هذه المنصة مخصصة للمستخدمين فوق 18 عاماً. باستخدامك للموقع أنت توافق على الشروط وسياسة الاستخدام وتتحمل مسؤولية عملياتك داخل المنصة.'},language:'ar',referral:{enabled:true,referrerBonus:1,newUserBonus:1,type:'bonus',requireCode:true},scratch:{enabled:true,min:0.10,max:1,chance:35,cooldownHours:24},contacts:[{name:'WhatsApp',value:'https://wa.me/905000000000',type:'whatsapp'},{name:'Telegram',value:'https://t.me/adnor_support',type:'telegram'}],payment:{deposit:[{id:'usdt',name:'USDT TRC20',details:'ضع عنوان محفظة USDT من الأدمن'},{id:'shamcash',name:'Sham Cash',details:'ضع رقم شام كاش من الأدمن'}],withdraw:[{id:'usdt',name:'USDT TRC20',details:'سحب USDT TRC20'},{id:'shamcash',name:'Sham Cash',details:'سحب شام كاش'}],banks:[]},draws:{daily:{base:50,targetMin:4000,targetMax:5200,carry:0,participants:0,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},weekly:{base:3500,targetMin:12000,targetMax:25000,carry:0,participants:3500,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},monthly:{base:15000,targetMin:45000,targetMax:150000,carry:0,participants:15000,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},yearly:{base:100000,targetMin:250000,targetMax:1000000,carry:0,participants:100000,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0}},games:[{id:'wheel',name:'عجلة الحظ الملكية',icon:'🎡',enabled:true},{id:'scratch',name:'اكتشف واربح',icon:'🎁',enabled:true}],wheel:{slices:[{label:'0x',mult:0,weight:18,color:'#0b2444'},{label:'1x',mult:1,weight:18,color:'#b8860b'},{label:'2x',mult:2,weight:12,color:'#0d3158'},{label:'0x',mult:0,weight:18,color:'#714108'},{label:'100x',mult:100,weight:1,color:'#14532d'},{label:'1x',mult:1,weight:18,color:'#0b2444'},{label:'10000x',mult:10000,weight:0.1,color:'#7f1d1d'},{label:'2x',mult:2,weight:12,color:'#b8860b'},{label:'0.5x',mult:.5,weight:15,color:'#0d3158'},{label:'5x',mult:5,weight:5,color:'#714108'},{label:'10x',mult:10,weight:3,color:'#14532d'},{label:'0x',mult:0,weight:18,color:'#0b2444'}]},injectCodes:[]}}
+function defaultSettings(){return{drawHour:20,legal:{enabled:true,title:'تأكيد العمر وشروط ADNOR',text:'هذه المنصة مخصصة للمستخدمين فوق 18 عاماً. باستخدامك للموقع أنت توافق على الشروط وسياسة الاستخدام وتتحمل مسؤولية عملياتك داخل المنصة.'},language:'ar',loginSplash:{enabled:true,duration:3,title:'أهلاً بك في ADNOR',text:'جاهز للسحب والإيداع والألعاب',imageData:'',mode:'eachLogin'},referral:{enabled:true,referrerBonus:1,newUserBonus:1,type:'bonus',requireCode:true},scratch:{enabled:true,min:0.10,max:1,chance:35,cooldownHours:24},contacts:[{name:'WhatsApp',value:'https://wa.me/905000000000',type:'whatsapp'},{name:'Telegram',value:'https://t.me/adnor_support',type:'telegram'}],payment:{deposit:[{id:'usdt',name:'USDT TRC20',details:'ضع عنوان محفظة USDT من الأدمن'},{id:'shamcash',name:'Sham Cash',details:'ضع رقم شام كاش من الأدمن'}],withdraw:[{id:'usdt',name:'USDT TRC20',details:'سحب USDT TRC20'},{id:'shamcash',name:'Sham Cash',details:'سحب شام كاش'}],banks:[]},draws:{daily:{base:50,targetMin:4000,targetMax:5200,carry:0,participants:0,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},weekly:{base:3500,targetMin:12000,targetMax:25000,carry:0,participants:3500,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},monthly:{base:15000,targetMin:45000,targetMax:150000,carry:0,participants:15000,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0},yearly:{base:100000,targetMin:250000,targetMax:1000000,carry:0,participants:100000,manualNumber:'',releaseAt:0,lastResult:'0000000',lastStatus:'انتظار',lastAt:0}},games:[{id:'wheel',name:'عجلة الحظ الملكية',icon:'🎡',enabled:true},{id:'scratch',name:'اكتشف واربح',icon:'🎁',enabled:true}],wheel:{slices:[{label:'0x',mult:0,weight:18,color:'#0b2444'},{label:'1x',mult:1,weight:18,color:'#b8860b'},{label:'2x',mult:2,weight:12,color:'#0d3158'},{label:'0x',mult:0,weight:18,color:'#714108'},{label:'100x',mult:100,weight:1,color:'#14532d'},{label:'1x',mult:1,weight:18,color:'#0b2444'},{label:'10000x',mult:10000,weight:0.1,color:'#7f1d1d'},{label:'2x',mult:2,weight:12,color:'#b8860b'},{label:'0.5x',mult:.5,weight:15,color:'#0d3158'},{label:'5x',mult:5,weight:5,color:'#714108'},{label:'10x',mult:10,weight:3,color:'#14532d'},{label:'0x',mult:0,weight:18,color:'#0b2444'}]},injectCodes:[]}}
 function deepMerge(a,b){a=a||{};for(const k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k]))a[k]=deepMerge(a[k]||{},b[k]);else if(a[k]===undefined)a[k]=b[k]}return a}
 function startOf(level){const h=n(APP.settings.drawHour)||20;const d=new Date();let s=new Date(d);if(level==='daily'){s.setHours(h,0,0,0);if(d<s)s.setDate(s.getDate()-1)}else if(level==='weekly'){const diff=(d.getDay()+6)%7;s.setDate(d.getDate()-diff);s.setHours(h,0,0,0);if(d<s)s.setDate(s.getDate()-7)}else if(level==='monthly'){s=new Date(d.getFullYear(),d.getMonth(),1,h,0,0,0);if(d<s)s=new Date(d.getFullYear(),d.getMonth()-1,1,h,0,0,0)}else{s=new Date(d.getFullYear(),0,1,h,0,0,0);if(d<s)s=new Date(d.getFullYear()-1,0,1,h,0,0,0)}return s.getTime()}
 function endOf(level){const d=new Date(startOf(level));if(level==='daily')d.setDate(d.getDate()+1);else if(level==='weekly')d.setDate(d.getDate()+7);else if(level==='monthly')d.setMonth(d.getMonth()+1);else d.setFullYear(d.getFullYear()+1);return d.getTime()}
 function periodKey(level){const d=new Date(startOf(level));return level+'_'+d.getFullYear()+'_'+String(d.getMonth()+1).padStart(2,'0')+'_'+String(d.getDate()).padStart(2,'0')}
 function progress(level){return Math.max(0,Math.min(1,(Date.now()-startOf(level))/(endOf(level)-startOf(level))))}
 function prize(level){const d=APP.settings.draws[level];const p=1-Math.pow(1-progress(level),2.15);const target=(n(d.targetMin)+n(d.targetMax))/2;return Math.max(n(d.base)+n(d.carry),n(d.base)+n(d.carry)+(target-n(d.base))*p)}
-function isAdmin(){return APP.user&&((APP.user.phone||APP.user.phoneNumber||'')===ADMIN_PHONE || APP.user.email===ADMIN_EMAIL)}
+function normPhone(p){p=String(p||'').trim().replace(/[^0-9+]/g,'');if(p.startsWith('00'))p='+'+p.slice(2);if(p&&p[0]!=='+')p='+'+p;return p}
+function isAdmin(){const cu=(window.auth&&auth.currentUser)||{};const u=APP.user||{};const ph=normPhone(u.phone||u.phoneNumber||cu.phoneNumber);const email=(u.email||cu.email||'').toLowerCase();return !!(APP.user&&(ph===ADMIN_PHONE||email===ADMIN_EMAIL.toLowerCase()))}
 const APP={user:null,_loginDone:false,settings:defaultSettings(),users:{},tickets:{daily:{},weekly:{},monthly:{},yearly:{}},support:{},finance:{deposits:{},withdraws:{}},currentDraw:'daily',authMode:'login',balanceHidden:false,logoClicks:0,lastTab:'lottery',listeners:[],started:false,
-init(){const last=localStorage.getItem('ADNOR_LAST_TAB');if(last)this.lastTab=last;this.balanceHidden=localStorage.getItem('ADNOR_HIDE_BAL')==='1';if(localStorage.getItem('ADNOR_LEGAL_OK')==='1'){const c1=document.getElementById('age18');const c2=document.getElementById('termsOk');if(c1)c1.checked=true;if(c2)c2.checked=true;};db.ref('global_system/settings').on('value',s=>{this.settings=deepMerge(s.val()||{},defaultSettings());UI.legalText();UI.render();DRAW.render();ADMIN.refreshIfOpen();INJECT.apply()});db.ref('users').on('value',s=>{this.users=s.val()||{};if(this.user&&this.users[this.user.uid])this.user={uid:this.user.uid,...this.users[this.user.uid]};UI.render();ADMIN.refreshIfOpen()});LEVELS.forEach(lv=>db.ref('tickets/'+lv+'/'+periodKey(lv)).on('value',s=>{this.tickets[lv]=s.val()||{};DRAW.render();ADMIN.refreshIfOpen()}));db.ref('support').on('value',s=>{this.support=s.val()||{};UI.renderSupport();ADMIN.refreshIfOpen()});db.ref('finance/deposits').on('value',s=>{this.finance.deposits=s.val()||{};ADMIN.refreshIfOpen()});db.ref('finance/withdraws').on('value',s=>{this.finance.withdraws=s.val()||{};ADMIN.refreshIfOpen()});auth.onAuthStateChanged(async u=>{authLog('onAuthStateChanged fired: '+(u?'USER uid='+u.uid+' email='+u.email:'NULL'));try{if(u){clearAuthError();let data={};try{await USER.ensure(u);data=((await db.ref('users/'+u.uid).once('value')).val()||{});authLog('DB profile loaded ok');}catch(dbErr){authLog('DB error: '+dbErr.message);showAuthError('تم التحقق من Google ✓ لكن قراءة بيانات الحساب فشلت: '+dbErr.message);data={name:(u.displayName||((u.email||'user').split('@')[0])),email:u.email||'',phone:u.phoneNumber||'',balance:0,bonus:0,tickets:[],txs:[]};}this.user={uid:u.uid,...data};this._loginDone=true;authLog('Setting _loginDone=true, showing app...');document.getElementById('auth').classList.add('hidden');document.getElementById('app').classList.remove('hidden');try{UI.page(this.lastTab||'lottery');}catch(uiErr){authLog('UI.page error: '+uiErr.message);}try{UI.render();}catch(uiErr){authLog('UI.render error: '+uiErr.message);}const adminBtn=document.getElementById('adminSideBtn');if(adminBtn)adminBtn.classList.toggle('hidden',!isAdmin());authLog('LOGIN COMPLETE ✓');}else{authLog('null user — _loginDone='+this._loginDone);if(this._loginDone)return;this.user=null;document.getElementById('app').classList.add('hidden');document.getElementById('auth').classList.remove('hidden')}}catch(e){authLog('OUTER CATCH: '+(e&&e.code)+' '+e.message);showAuthError('خطأ داخلي ['+((e&&e.code)||'?')+']: '+((e&&e.message)||String(e)));if(!this._loginDone)document.getElementById('auth').classList.remove('hidden')}finally{document.getElementById('splash').classList.add('hidden')}});setInterval(()=>{DRAW.render();DRAW.checkScheduled();PARTICIPANTS.tick()},1000);setInterval(()=>PARTICIPANTS.save(),15000)},total(){return n(this.user&&this.user.balance)+n(this.user&&this.user.bonus)},main(){return n(this.user&&this.user.balance)},bonus(){return n(this.user&&this.user.bonus)},toggleBalance(){this.balanceHidden=!this.balanceHidden;localStorage.setItem('ADNOR_HIDE_BAL',this.balanceHidden?'1':'0');UI.render()},copyRef(){const link=document.getElementById('refLink').textContent;navigator.clipboard&&navigator.clipboard.writeText(link);toast('✅ تم نسخ رابط الدعوة')},logoTap(){this.logoClicks++;clearTimeout(this.logoTimer);this.logoTimer=setTimeout(()=>this.logoClicks=0,1600);if(this.logoClicks>=5&&isAdmin()){this.logoClicks=0;ADMIN.open()}},log(text){db.ref('logs').push({text,uid:uidKey()||'guest',time:Date.now()})}}
+init(){const last=localStorage.getItem('ADNOR_LAST_TAB');if(last)this.lastTab=last;this.balanceHidden=localStorage.getItem('ADNOR_HIDE_BAL')==='1';if(localStorage.getItem('ADNOR_LEGAL_OK')==='1'){const c1=document.getElementById('age18');const c2=document.getElementById('termsOk');if(c1)c1.checked=true;if(c2)c2.checked=true;};db.ref('global_system/settings').on('value',s=>{this.settings=deepMerge(s.val()||{},defaultSettings());UI.legalText();UI.render();DRAW.render();ADMIN.refreshIfOpen();INJECT.apply()});db.ref('users').on('value',s=>{this.users=s.val()||{};if(this.user&&this.users[this.user.uid])this.user={uid:this.user.uid,...this.users[this.user.uid]};UI.render();ADMIN.refreshIfOpen()});LEVELS.forEach(lv=>db.ref('tickets/'+lv+'/'+periodKey(lv)).on('value',s=>{this.tickets[lv]=s.val()||{};DRAW.render();ADMIN.refreshIfOpen()}));db.ref('support').on('value',s=>{this.support=s.val()||{};UI.renderSupport();ADMIN.refreshIfOpen()});db.ref('finance/deposits').on('value',s=>{this.finance.deposits=s.val()||{};ADMIN.refreshIfOpen()});db.ref('finance/withdraws').on('value',s=>{this.finance.withdraws=s.val()||{};ADMIN.refreshIfOpen()});auth.onAuthStateChanged(async u=>{authLog('onAuthStateChanged fired: '+(u?'USER uid='+u.uid+' email='+u.email:'NULL'));try{if(u){clearAuthError();let data={};try{await USER.ensure(u);data=((await db.ref('users/'+u.uid).once('value')).val()||{});authLog('DB profile loaded ok');}catch(dbErr){authLog('DB error: '+dbErr.message);showAuthError('تم التحقق من Google ✓ لكن قراءة بيانات الحساب فشلت: '+dbErr.message);data={name:(u.displayName||((u.email||'user').split('@')[0])),email:u.email||'',phone:u.phoneNumber||'',phoneNumber:u.phoneNumber||'',balance:0,bonus:0,tickets:[],txs:[]};}this.user={uid:u.uid,...data,email:data.email||u.email||'',phone:data.phone||data.phoneNumber||u.phoneNumber||'',phoneNumber:data.phoneNumber||data.phone||u.phoneNumber||''};this._loginDone=true;authLog('Setting _loginDone=true, showing app...');document.getElementById('auth').classList.add('hidden');document.getElementById('app').classList.remove('hidden');try{UI.page(this.lastTab||'lottery');}catch(uiErr){authLog('UI.page error: '+uiErr.message);}try{UI.render();}catch(uiErr){authLog('UI.render error: '+uiErr.message);}const adminBtn=document.getElementById('adminSideBtn');if(adminBtn)adminBtn.classList.toggle('hidden',!isAdmin());authLog('LOGIN COMPLETE ✓');}else{authLog('null user — _loginDone='+this._loginDone);if(this._loginDone)return;this.user=null;document.getElementById('app').classList.add('hidden');document.getElementById('auth').classList.remove('hidden')}}catch(e){authLog('OUTER CATCH: '+(e&&e.code)+' '+e.message);showAuthError('خطأ داخلي ['+((e&&e.code)||'?')+']: '+((e&&e.message)||String(e)));if(!this._loginDone)document.getElementById('auth').classList.remove('hidden')}finally{document.getElementById('splash').classList.add('hidden')}});setInterval(()=>{DRAW.render();DRAW.checkScheduled();PARTICIPANTS.tick()},1000);setInterval(()=>PARTICIPANTS.save(),15000)},total(){return n(this.user&&this.user.balance)+n(this.user&&this.user.bonus)},main(){return n(this.user&&this.user.balance)},bonus(){return n(this.user&&this.user.bonus)},toggleBalance(){this.balanceHidden=!this.balanceHidden;localStorage.setItem('ADNOR_HIDE_BAL',this.balanceHidden?'1':'0');UI.render()},copyRef(){const link=document.getElementById('refLink').textContent;navigator.clipboard&&navigator.clipboard.writeText(link);toast('✅ تم نسخ رابط الدعوة')},logoTap(){this.logoClicks++;clearTimeout(this.logoTimer);this.logoTimer=setTimeout(()=>this.logoClicks=0,1600);if(this.logoClicks>=5&&isAdmin()){this.logoClicks=0;ADMIN.open()}},log(text){db.ref('logs').push({text,uid:uidKey()||'guest',time:Date.now()})}}
 const AUTH={
   busy:false,
   method:'google',
@@ -429,7 +430,66 @@ const AUTH={
   logout(){APP._loginDone=false;authLog('logout');auth.signOut().catch(()=>{});ADMIN.close();},
   saveRef(){const r=new URLSearchParams(location.search).get('ref');if(r)localStorage.setItem('ADNOR_REF',r);}
 };
-const USER={async ensure(u){const snap=await db.ref('users/'+u.uid).once('value');if(!snap.exists())await this.create(u,{name:u.email?u.email.split('@')[0]:'مستخدم',email:u.email,phone:'',ref:localStorage.getItem('ADNOR_REF')||''})},async create(u,data){const set=APP.settings;const newBonus=n(set.referral&&set.referral.newUserBonus);const user={uid:u.uid,name:data.name||'مستخدم',email:data.email||u.email||'',phone:data.phone||'',balance:0,bonus:newBonus,tickets:[],txs:[{type:'🎁 مكافأة التسجيل',amt:newBonus,status:'✅',time:nowStr()}],createdAt:Date.now(),lastLogin:Date.now(),invitedBy:data.ref||'',frozen:false};await db.ref('users/'+u.uid).set(user);if(data.ref&&data.ref!==u.uid){const rb=n(set.referral&&set.referral.referrerBonus);const path='users/'+data.ref;const s=await db.ref(path).once('value');if(s.exists()){const ru=s.val()||{};ru.bonus=n(ru.bonus)+rb;ru.txs=arr(ru.txs);ru.txs.unshift({type:'🔗 مكافأة دعوة',amt:rb,status:'✅',user:u.uid,time:nowStr()});await db.ref(path).update({bonus:ru.bonus,txs:ru.txs})}}},async save(){if(!APP.user)return;await db.ref('users/'+APP.user.uid).update(APP.user)}};
+const USER={
+  async ensure(u){
+    const path='users/'+u.uid;
+    const snap=await db.ref(path).once('value');
+    const ref=localStorage.getItem('ADNOR_REF')||new URLSearchParams(location.search).get('ref')||'';
+    if(!snap.exists()){
+      await this.create(u,{
+        name:u.displayName||(u.email?u.email.split('@')[0]:'مستخدم'),
+        email:u.email||'',
+        phone:u.phoneNumber||'',
+        ref
+      });
+      return;
+    }
+    const cur=snap.val()||{};
+    const patch={lastLogin:Date.now()};
+    if(u.email && cur.email!==u.email) patch.email=u.email;
+    if(u.phoneNumber){
+      patch.phone=u.phoneNumber;
+      patch.phoneNumber=u.phoneNumber;
+    }
+    if(u.displayName && !cur.name) patch.name=u.displayName;
+    await db.ref(path).update(patch);
+  },
+  async create(u,data){
+    const set=APP.settings;
+    const newBonus=n(set.referral&&set.referral.newUserBonus);
+    const phone=data.phone||u.phoneNumber||'';
+    const email=data.email||u.email||'';
+    const user={
+      uid:u.uid,
+      name:data.name||u.displayName||(email?email.split('@')[0]:'مستخدم'),
+      email,
+      phone,
+      phoneNumber:phone,
+      balance:0,
+      bonus:newBonus,
+      tickets:[],
+      txs:[{type:'🎁 مكافأة التسجيل',amt:newBonus,status:'✅',time:nowStr()}],
+      createdAt:Date.now(),
+      lastLogin:Date.now(),
+      invitedBy:data.ref||'',
+      frozen:false
+    };
+    await db.ref('users/'+u.uid).set(user);
+    if(data.ref&&data.ref!==u.uid){
+      const rb=n(set.referral&&set.referral.referrerBonus);
+      const path='users/'+data.ref;
+      const s=await db.ref(path).once('value');
+      if(s.exists()){
+        const ru=s.val()||{};
+        ru.bonus=n(ru.bonus)+rb;
+        ru.txs=arr(ru.txs);
+        ru.txs.unshift({type:'🔗 مكافأة دعوة',amt:rb,status:'✅',user:u.uid,time:nowStr()});
+        await db.ref(path).update({bonus:ru.bonus,txs:ru.txs});
+      }
+    }
+  },
+  async save(){if(!APP.user)return;await db.ref('users/'+APP.user.uid).update(APP.user)}
+};
 const UI={authMode(m){APP.authMode=m;document.getElementById('loginTab').classList.toggle('active',m==='login');document.getElementById('registerTab').classList.toggle('active',m==='register');clearAuthError();AUTH.setMethod(AUTH.method||'email');},legalText(){const el=document.getElementById('legalTextAuth');if(el)el.textContent=APP.settings.legal.text},page(id){APP.lastTab=id;localStorage.setItem('ADNOR_LAST_TAB',id);document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+id)?.classList.add('active');document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));document.getElementById('nav-'+id)?.classList.add('active');this.render()},side(v){document.getElementById('side').classList.toggle('show',!!v)},modal(html){document.getElementById('modalContent').innerHTML=html;document.getElementById('modal').classList.add('show')},closeModal(){document.getElementById('modal').classList.remove('show');document.getElementById('modalContent').innerHTML=''},render(){if(!APP.user)return;const bal=APP.balanceHidden?'••••••':money(APP.total());document.getElementById('topBalance').textContent=bal;document.getElementById('eyeIcon').className=APP.balanceHidden?'fa-solid fa-eye-slash':'fa-solid fa-eye';document.getElementById('userChip').textContent=(APP.user.email||APP.user.name||'user')+' | '+APP.user.uid.slice(0,5);document.getElementById('walletTotal').textContent=money(APP.total());document.getElementById('walletMain').textContent=money(APP.main());document.getElementById('walletBonus').textContent=money(APP.bonus());document.getElementById('walletTicketCount').textContent=arr(APP.user.tickets).length;this.renderProfile();this.renderTx();this.renderPayments();this.renderGames();this.renderSupport();const link=location.origin+location.pathname+'?ref='+APP.user.uid;document.getElementById('refLink').textContent=link;const _asb=document.getElementById('adminSideBtn');if(_asb)_asb.classList.toggle('hidden',!isAdmin())},renderProfile(){const u=APP.user;if(!u)return;document.getElementById('profileContent').innerHTML='<div class="profile-head"><b>'+esc(u.name||'مستخدم')+'</b><small>'+esc(u.uid)+'</small></div><div class="mini"><span>الإيميل</span><b>'+esc(u.email||'-')+'</b></div><div class="mini"><span>الهاتف</span><b>'+esc(u.phone||'-')+'</b></div><div class="mini"><span>الرصيد الأساسي</span><b>'+money(u.balance)+'</b></div><div class="mini"><span>البونص</span><b>'+money(u.bonus)+'</b></div><div class="mini"><span>التذاكر</span><b>'+arr(u.tickets).length+'</b></div><div class="mini"><span>العمليات</span><b>'+arr(u.txs).length+'</b></div><div class="profile-total"><span>الرصيد الكلي</span><br><b>'+money(APP.total())+'</b></div><button class="btn full" style="grid-column:1/-1" onclick="UI.changeName()">تغيير الاسم</button>'},renderTx(){const list=arr(APP.user&&APP.user.txs).slice(0,30);document.getElementById('txList').innerHTML=list.map(t=>'<div class="row"><div class="info"><b>'+esc(t.type||'عملية')+'</b><small>'+esc(t.time||'')+' '+(t.ticket?' | '+esc(t.ticket):'')+'</small></div><b class="'+(n(t.amt)>=0?'green':'red')+'">'+money(t.amt)+'</b></div>').join('')||'<p class="muted">لا توجد عمليات</p>'},renderPayments(){const p=APP.settings.payment;const dep=document.getElementById('depMethod'),wit=document.getElementById('witMethod');if(dep)dep.innerHTML=arr(p.deposit).concat(arr(p.banks)).map((m,i)=>'<option value="'+i+'">'+esc(m.name)+'</option>').join('');if(wit)wit.innerHTML=arr(p.withdraw).concat(arr(p.banks)).map((m,i)=>'<option value="'+i+'">'+esc(m.name)+'</option>').join('');WALLET.methodInfo()},renderGames(){const gl=document.getElementById('gamesList');if(!gl)return;gl.innerHTML=arr(APP.settings.games).filter(g=>g.enabled!==false).map(g=>'<div class="card game-card"><div class="game-icon">'+esc(g.icon||'🎮')+'</div><b>'+esc(g.name)+'</b><br><button class="btn ghost" style="margin-top:10px" onclick="'+(g.id==='wheel'?'UI.page(\'games\')':'SCRATCH.open()')+'">فتح</button></div>').join('')},renderSupport(){const c=document.getElementById('supportContacts');if(c)c.innerHTML=arr(APP.settings.contacts).map(x=>'<a class="btn ghost full center" target="_blank" href="'+esc(x.value)+'">'+esc(x.name)+'</a>').join('');const my=Object.values(APP.support||{}).filter(t=>t.uid===uidKey()).slice(-20).reverse();const mt=document.getElementById('mySupportTickets');if(mt)mt.innerHTML=my.map(t=>'<div class="row"><div><b>'+esc(t.title||'دعم')+'</b><small>'+esc(t.status||'قيد المراجعة')+' - '+esc(t.time||'')+'</small></div></div>').join('')||'<p class="muted">لا توجد تذاكر</p>'},changeName(){UI.modal('<h3>تغيير الاسم</h3><div class="field"><label>الاسم الجديد</label><input id="newName" value="'+esc(APP.user.name||'')+'"></div><button class="btn full" onclick="const v=document.getElementById(\'newName\').value.trim();if(v){APP.user.name=v;USER.save();UI.closeModal();UI.render();toast(\'✅ تم حفظ الاسم\')} ">حفظ</button>')},settings(){UI.modal('<h3>الإعدادات</h3><div class="field"><label>اللغة</label><select id="langSel"><option value="ar">العربية</option><option value="en">English</option><option value="fr">Français</option><option value="es">Español</option><option value="tr">Türkçe</option></select></div><button class="btn full" onclick="APP.user.lang=document.getElementById(\'langSel\').value;USER.save();UI.closeModal();toast(\'✅ تم حفظ اللغة\')">حفظ اللغة</button><button class="btn ghost full" style="margin-top:10px" onclick="UI.modal(\'<h3>عن اليانصيب</h3><p>السحب الساعة 8:00 مساءً. التذكرة غير الرابحة تنتقل من اليومي إلى الأسبوعي ثم الشهري ثم السنوي.</p><button class=\\\'btn full\\\' onclick=\\\'UI.closeModal()\\\'>تم</button>\')">عن اليانصيب</button>')},ticketModal(html){this.modal(html)}};
 const DRAW={switch(lv){APP.currentDraw=lv;document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));document.getElementById('drawbtn-'+lv).classList.add('active');this.render()},render(){if(!document.getElementById('drawTitle'))return;const lv=APP.currentDraw;const d=APP.settings.draws[lv];document.getElementById('drawTitle').textContent=ICON[lv]+' السحب '+LABEL[lv];document.getElementById('drawPrize').textContent=money(prize(lv));document.getElementById('drawTickets').textContent=int(this.ticketCount(lv));document.getElementById('drawParticipants').textContent=int(PARTICIPANTS.value(lv));document.getElementById('drawLast').textContent=d.lastResult||'0000000';document.getElementById('drawTimer').textContent=this.timerText(lv);document.getElementById('topStatus').textContent='السحب اليومي الساعة '+(APP.settings.drawHour||20)+':00 مساءً'},ticketCount(lv){return Object.keys(APP.tickets[lv]||{}).length},timerText(lv){let rem=endOf(lv)-Date.now();if(rem<0)rem=0;const s=Math.floor(rem/1000)%60,m=Math.floor(rem/60000)%60,h=Math.floor(rem/3600000)%24,d=Math.floor(rem/86400000);return (d?d+' يوم ':'')+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')},async checkScheduled(){if(!APP.user)return;for(const lv of LEVELS){const d=APP.settings.draws[lv];if(d.manualNumber&&n(d.releaseAt)&&Date.now()>=n(d.releaseAt)&&d.executedKey!==periodKey(lv))await ADMIN.executeDraw(lv,true)}}};
 const PARTICIPANTS={value(lv){const d=APP.settings.draws[lv];const base=n(d.participants);const tickets=DRAW.ticketCount(lv);let auto=base;if(lv==='daily'){auto=Math.max(tickets+1,Math.floor(progress(lv)*Math.max(50,n(d.targetMax||5000))))}else{auto=Math.max(base,tickets+1,Math.floor(n(d.targetMin||base)+progress(lv)*(n(d.targetMax||base)-n(d.targetMin||base))))}return Math.max(base,tickets,auto)},tick(){if(!APP.user)return;let changed=false;LEVELS.forEach(lv=>{const v=this.value(lv);if(v>n(APP.settings.draws[lv].participants)){APP.settings.draws[lv].participants=v;changed=true}});DRAW.render()},save(){if(APP.user)db.ref('global_system/settings/draws').update(APP.settings.draws)}};
@@ -440,7 +500,7 @@ const GAMES={drawWheel(){const svg=document.getElementById('wheelSvg');if(!svg)r
 const SUPPORT={ticketModal(){UI.modal('<h3>تذكرة دعم جديدة</h3><div class="field"><label>عنوان المشكلة</label><input id="supTitle"></div><div class="field"><label>تفاصيل المشكلة</label><textarea id="supBody" class="finp"></textarea></div><button class="btn full" onclick="SUPPORT.send()">إرسال</button>')},async send(){const title=document.getElementById('supTitle').value.trim();const body=document.getElementById('supBody').value.trim();if(!title||!body)return toast('اكتب التفاصيل');await db.ref('support').push({uid:APP.user.uid,name:APP.user.name,email:APP.user.email,title,body,status:'قيد المراجعة',time:nowStr(),createdAt:Date.now()});UI.closeModal();toast('✅ تم إرسال التذكرة')}};
 const ADMIN={section:'dash',open(){if(!isAdmin())return toast('غير مسموح');document.getElementById('admin').classList.add('show');this.sec(this.section||'dash')},close(){document.getElementById('admin').classList.remove('show')},sec(s){this.section=s;document.querySelectorAll('.admin-menu button').forEach(b=>b.classList.remove('active'));document.getElementById('adm-'+s)?.classList.add('active');this.render()},refreshIfOpen(){if(document.getElementById('admin').classList.contains('show'))this.render()},render(){const m=document.getElementById('adminMain');if(!m)return;let html='';if(this.section==='dash')html=this.dash();if(this.section==='users')html=this.users();if(this.section==='draws')html=this.draws();if(this.section==='finance')html=this.finance();if(this.section==='games')html=this.games();if(this.section==='support')html=this.support();if(this.section==='legal')html=this.legal();if(this.section==='inject')html=this.inject();m.innerHTML=html;GAMES.drawWheel()},dash(){return '<div class="card"><h3>📊 لوحة التحكم</h3><div class="admin-grid"><div class="mini"><span>المستخدمين</span><b>'+Object.keys(APP.users).length+'</b></div><div class="mini"><span>تذاكر اليومي</span><b>'+DRAW.ticketCount('daily')+'</b></div><div class="mini"><span>إيداعات معلقة</span><b>'+Object.values(APP.finance.deposits||{}).filter(x=>x.status==='pending').length+'</b></div><div class="mini"><span>سحوبات معلقة</span><b>'+Object.values(APP.finance.withdraws||{}).filter(x=>x.status==='pending').length+'</b></div></div></div>'},users(){const q=(document.getElementById('adminSearch')?.value||'').toLowerCase();let rows='';Object.keys(APP.users).forEach(uid=>{const u=APP.users[uid]||{};const hay=(uid+' '+(u.name||'')+' '+(u.email||'')+' '+(u.phone||'')).toLowerCase();if(q&&hay.indexOf(q)<0)return;rows+='<div class="card"><div class="row"><div><b>'+esc(u.name||'مستخدم')+'</b><small>'+esc(u.email||'-')+' | '+esc(u.phone||'-')+'</small><small class="ltr">'+uid+'</small></div><button class="smallbtn" onclick="navigator.clipboard.writeText(\''+uid+'\')">نسخ ID</button></div><div class="admin-grid"><div class="mini"><span>الرصيد</span><b>'+money(u.balance)+'</b></div><div class="mini"><span>البونص</span><b>'+money(u.bonus)+'</b></div><div class="mini"><span>التذاكر</span><b>'+arr(u.tickets).length+'</b></div><div class="mini"><span>العمليات</span><b>'+arr(u.txs).length+'</b></div></div><div class="field"><label>مبلغ التعديل</label><input id="amt_'+uid+'" type="number"></div><div class="grid two"><button class="btn green" onclick="ADMIN.modUser(\''+uid+'\',\'balance\',1)">+ رصيد</button><button class="btn red" onclick="ADMIN.modUser(\''+uid+'\',\'balance\',-1)">- رصيد</button><button class="btn green" onclick="ADMIN.modUser(\''+uid+'\',\'bonus\',1)">+ بونص</button><button class="btn red" onclick="ADMIN.modUser(\''+uid+'\',\'bonus\',-1)">- بونص</button></div><details><summary>التذاكر والعمليات</summary><div class="log">'+esc(JSON.stringify({tickets:arr(u.tickets),txs:arr(u.txs).slice(0,20)},null,2))+'</div></details></div>'});return '<div class="card"><h3>🔎 بحث المستخدمين</h3><input class="finp" id="adminSearch" oninput="ADMIN.render()" placeholder="UID / email / phone / name" value="'+esc(q)+'"></div>'+rows},async modUser(uid,field,sign){const val=n(document.getElementById('amt_'+uid).value);if(val<=0)return toast('اكتب مبلغ');const u=APP.users[uid];u[field]=Math.max(0,n(u[field])+val*sign);u.txs=arr(u.txs);u.txs.unshift({type:(sign>0?'➕':'➖')+' تعديل '+field+' من الأدمن',amt:val*sign,status:'✅',time:nowStr()});await db.ref('users/'+uid).update({[field]:u[field],txs:u.txs});toast('✅ تم التعديل')},draws(){let html='<div class="card"><h3>🎯 السحوبات اليدوية</h3><p class="muted">اكتب رقم الفائز واحفظه. يظهر للمستخدمين عند الساعة 8:00 أو اضغط تنفيذ الآن.</p><div class="admin-grid">';LEVELS.forEach(lv=>{const d=APP.settings.draws[lv];html+='<div class="admin-field"><label>'+LABEL[lv]+'</label><input class="finp" id="man_'+lv+'" maxlength="7" placeholder="رقم الفائز" value="'+esc(d.manualNumber)+'"><label>عدد المشاركين الظاهر</label><input class="finp" type="number" id="par_'+lv+'" value="'+PARTICIPANTS.value(lv)+'"><label>جائزة البداية</label><input class="finp" type="number" id="base_'+lv+'" value="'+n(d.base)+'"><label>الهدف الأدنى/الأعلى</label><div class="grid two"><input class="finp" type="number" id="tmin_'+lv+'" value="'+n(d.targetMin)+'"><input class="finp" type="number" id="tmax_'+lv+'" value="'+n(d.targetMax)+'"></div><p class="muted">الجائزة الآن: '+money(prize(lv))+' | التذاكر: '+DRAW.ticketCount(lv)+'</p><button class="btn full" onclick="ADMIN.saveDraw(\''+lv+'\')">حفظ</button><button class="btn red full" style="margin-top:7px" onclick="ADMIN.executeDraw(\''+lv+'\')">تنفيذ الآن</button></div>'});html+='</div></div>';return html},async saveDraw(lv){const d=APP.settings.draws[lv];d.manualNumber=pad7(document.getElementById('man_'+lv).value);d.participants=Math.max(n(document.getElementById('par_'+lv).value),DRAW.ticketCount(lv));d.base=n(document.getElementById('base_'+lv).value);d.targetMin=n(document.getElementById('tmin_'+lv).value);d.targetMax=n(document.getElementById('tmax_'+lv).value);d.releaseAt=endOf(lv);await db.ref('global_system/settings/draws/'+lv).update(d);toast('✅ تم حفظ سحب '+LABEL[lv])},async executeDraw(lv,silent){const d=APP.settings.draws[lv];const num=pad7(d.manualNumber||document.getElementById('man_'+lv)?.value);if(!num)return !silent&&toast('اكتب رقم الفائز');const snap=await db.ref('tickets/'+lv+'/'+periodKey(lv)).once('value');const tickets=snap.val()||{};const winners=Object.values(tickets).filter(t=>pad7(t.number)===num);const amount=prize(lv);d.lastResult=num;d.lastAt=Date.now();d.executedKey=periodKey(lv);if(winners.length){const share=amount/winners.length;for(const t of winners){const u=APP.users[t.uid]||{};u.balance=n(u.balance)+share;u.tickets=arr(u.tickets).filter(x=>!(x.level===lv&&pad7(x.number)===num));u.txs=arr(u.txs);u.txs.unshift({type:'🏆 ربح سحب '+LABEL[lv],amt:share,status:'✅',ticket:num,time:nowStr()});await db.ref('users/'+t.uid).update({balance:u.balance,tickets:u.tickets,txs:u.txs})}await db.ref('tickets/'+lv+'/'+periodKey(lv)).remove();d.carry=0;d.lastStatus='فائزين: '+winners.length}else{const nx=NEXT[lv];if(nx){APP.settings.draws[nx].carry=n(APP.settings.draws[nx].carry)+amount;for(const [numKey,t] of Object.entries(tickets)){t.level=nx;t.periodKey=periodKey(nx);await db.ref('tickets/'+nx+'/'+periodKey(nx)+'/'+numKey).set(t)}await db.ref('tickets/'+lv+'/'+periodKey(lv)).remove();for(const uid of Object.keys(APP.users)){const u=APP.users[uid];let changed=false;u.tickets=arr(u.tickets).map(t=>{if(t.level===lv){t.level=nx;t.periodKey=periodKey(nx);changed=true}return t});if(changed)await db.ref('users/'+uid).update({tickets:u.tickets})}d.lastStatus='لا يوجد فائز، انتقلت إلى '+LABEL[nx]}else{for(const uid of Object.keys(APP.users))await db.ref('users/'+uid+'/tickets').set([]);for(const x of LEVELS){await db.ref('tickets/'+x).remove();APP.settings.draws[x].carry=0;APP.settings.draws[x].participants=(x==='daily'?0:n(APP.settings.draws[x].base))}d.lastStatus='انتهى السنوي، بدأ النظام من جديد'}}d.manualNumber='';d.releaseAt=0;if(lv==='daily')d.participants=0;await db.ref('global_system/settings/draws').set(APP.settings.draws);if(!silent)toast('✅ تم تنفيذ السحب: '+d.lastStatus);ADMIN.refreshIfOpen()},finance(){const dep=Object.entries(APP.finance.deposits||{}).map(([id,x])=>'<tr><td>'+esc(x.name)+'<br><small>'+esc(x.email)+'</small></td><td>'+money(x.amount)+'</td><td>'+esc(x.method)+'</td><td>'+esc(x.status)+'</td><td><button class="smallbtn" onclick="ADMIN.approveDep(\''+id+'\')">قبول</button></td></tr>').join('');const wit=Object.entries(APP.finance.withdraws||{}).map(([id,x])=>'<tr><td>'+esc(x.name)+'<br><small>'+esc(x.email)+'</small></td><td>'+money(x.amount)+'</td><td>'+esc(x.method)+'</td><td>'+esc(x.status)+'</td><td><button class="smallbtn" onclick="ADMIN.markWithdraw(\''+id+'\')">تم</button></td></tr>').join('');return '<div class="card"><h3>📥 طلبات الإيداع</h3><div class="table"><table><tr><th>المستخدم</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th><th>تحكم</th></tr>'+dep+'</table></div></div><div class="card"><h3>📤 طلبات السحب</h3><div class="table"><table><tr><th>المستخدم</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th><th>تحكم</th></tr>'+wit+'</table></div></div><div class="card"><h3>طرق الدفع</h3><textarea id="payJson" class="finp" style="height:240px">'+esc(JSON.stringify(APP.settings.payment,null,2))+'</textarea><button class="btn full" onclick="ADMIN.savePayment()">حفظ طرق الدفع</button></div>'},async approveDep(id){const x=APP.finance.deposits[id];if(!x)return;const u=APP.users[x.uid];u.balance=n(u.balance)+n(x.amount);u.txs=arr(u.txs);u.txs.unshift({type:'✅ قبول إيداع',amt:n(x.amount),status:'✅',time:nowStr()});await db.ref('users/'+x.uid).update({balance:u.balance,txs:u.txs});await db.ref('finance/deposits/'+id).update({status:'approved'});toast('✅ تم قبول الإيداع')},async markWithdraw(id){await db.ref('finance/withdraws/'+id).update({status:'done'});toast('✅ تم تعليم السحب مكتمل')},async savePayment(){try{const p=JSON.parse(document.getElementById('payJson').value);await db.ref('global_system/settings/payment').set(p);toast('✅ تم الحفظ')}catch(e){toast('JSON غير صحيح')}},games(){return '<div class="card"><h3>🎁 اكتشف واربح</h3><div class="admin-grid"><div class="admin-field"><label>أقل ربح</label><input id="scrMin" class="finp" type="number" value="'+n(APP.settings.scratch.min)+'"></div><div class="admin-field"><label>أعلى ربح</label><input id="scrMax" class="finp" type="number" value="'+n(APP.settings.scratch.max)+'"></div><div class="admin-field"><label>نسبة الربح %</label><input id="scrChance" class="finp" type="number" value="'+n(APP.settings.scratch.chance)+'"></div></div><button class="btn full" onclick="ADMIN.saveScratch()">حفظ صندوق الحظ</button></div><div class="card"><h3>🎡 إعدادات العجلة 12 قطعة</h3>'+APP.settings.wheel.slices.map((s,i)=>'<div class="row"><b>'+(i+1)+'</b><input class="finp" id="wl_'+i+'" value="'+esc(s.label)+'"><input class="finp" type="number" id="wm_'+i+'" value="'+n(s.mult)+'"><input class="finp" type="number" id="ww_'+i+'" value="'+n(s.weight)+'"></div>').join('')+'<button class="btn full" onclick="ADMIN.saveWheel()">حفظ العجلة</button></div><div class="card"><h3>إضافة ألعاب</h3><textarea id="gamesJson" class="finp" style="height:160px">'+esc(JSON.stringify(APP.settings.games,null,2))+'</textarea><button class="btn full" onclick="ADMIN.saveGames()">حفظ الألعاب</button></div>'},async saveScratch(){const s={enabled:true,min:n(document.getElementById('scrMin').value),max:n(document.getElementById('scrMax').value),chance:n(document.getElementById('scrChance').value),cooldownHours:n(APP.settings.scratch.cooldownHours)||24};await db.ref('global_system/settings/scratch').set(s);toast('✅ تم حفظ صندوق الحظ')},async saveWheel(){APP.settings.wheel.slices.forEach((s,i)=>{s.label=document.getElementById('wl_'+i).value;s.mult=n(document.getElementById('wm_'+i).value);s.weight=n(document.getElementById('ww_'+i).value)});await db.ref('global_system/settings/wheel').set(APP.settings.wheel);toast('✅ تم حفظ العجلة')},async saveGames(){try{await db.ref('global_system/settings/games').set(JSON.parse(document.getElementById('gamesJson').value));toast('✅ تم حفظ الألعاب')}catch(e){toast('JSON غير صحيح')}},support(){return '<div class="card"><h3>طرق التواصل</h3><textarea id="contactsJson" class="finp" style="height:180px">'+esc(JSON.stringify(APP.settings.contacts,null,2))+'</textarea><button class="btn full" onclick="ADMIN.saveContacts()">حفظ التواصل</button></div><div class="card"><h3>تذاكر الدعم</h3>'+Object.entries(APP.support||{}).reverse().map(([id,t])=>'<div class="row"><div><b>'+esc(t.title)+'</b><small>'+esc(t.name)+' | '+esc(t.email)+' | '+esc(t.time)+'</small><p>'+esc(t.body)+'</p></div><button class="smallbtn" onclick="ADMIN.closeTicket(\''+id+'\')">إغلاق</button></div>').join('')+'</div>'},async saveContacts(){try{await db.ref('global_system/settings/contacts').set(JSON.parse(document.getElementById('contactsJson').value));toast('✅ تم حفظ التواصل')}catch(e){toast('JSON غير صحيح')}},async closeTicket(id){await db.ref('support/'+id).update({status:'مغلق'});toast('تم الإغلاق')},legal(){return '<div class="card"><h3>العمر والسياسة واللغة</h3><div class="field"><label>ساعة السحب</label><input id="drawHour" class="finp" type="number" value="'+(APP.settings.drawHour||20)+'"></div><div class="field"><label>نص السياسة</label><textarea id="legalText" class="finp" style="height:190px">'+esc(APP.settings.legal.text)+'</textarea></div><div class="admin-grid"><div class="admin-field"><label>مكافأة صاحب الدعوة</label><input id="refA" class="finp" type="number" value="'+n(APP.settings.referral.referrerBonus)+'"></div><div class="admin-field"><label>مكافأة المستخدم الجديد</label><input id="refB" class="finp" type="number" value="'+n(APP.settings.referral.newUserBonus)+'"></div></div><button class="btn full" onclick="ADMIN.saveLegal()">حفظ</button></div>'},async saveLegal(){await db.ref('global_system/settings').update({drawHour:n(document.getElementById('drawHour').value)||20,legal:{enabled:true,text:document.getElementById('legalText').value},referral:{referrerBonus:n(document.getElementById('refA').value),newUserBonus:n(document.getElementById('refB').value),type:'bonus'}});toast('✅ تم الحفظ')},inject(){const list=arr(APP.settings.injectCodes);return '<div class="card"><h3>⚡ حقن الأكواد</h3><p class="muted">كل كود جديد ينضاف للقائمة ولا يحذف القديم.</p><div class="field"><label>اسم الكود</label><input id="codeName" class="finp"></div><div class="field"><label>الكود HTML/CSS/JS</label><textarea id="codeBody" class="finp" style="height:180px"></textarea></div><button class="btn full" onclick="ADMIN.addCode()">إضافة الكود</button></div><div class="card"><h3>الأكواد المحفوظة</h3>'+list.map((c,i)=>'<div class="code-item"><b>'+esc(c.name||('كود '+(i+1)))+'</b><small> '+(c.enabled!==false?'مفعل':'متوقف')+'</small><div class="row"><button class="smallbtn" onclick="ADMIN.toggleCode('+i+')">تفعيل/إيقاف</button><button class="smallbtn" onclick="ADMIN.delCode('+i+')">حذف</button></div></div>').join('')+'</div>'},async addCode(){const list=arr(APP.settings.injectCodes);list.push({name:document.getElementById('codeName').value||'كود جديد',body:document.getElementById('codeBody').value,enabled:true,createdAt:Date.now()});await db.ref('global_system/settings/injectCodes').set(list);toast('✅ تم إضافة الكود بدون حذف القديم')},async toggleCode(i){const list=arr(APP.settings.injectCodes);list[i].enabled=list[i].enabled===false;await db.ref('global_system/settings/injectCodes').set(list)},async delCode(i){const list=arr(APP.settings.injectCodes);list.splice(i,1);await db.ref('global_system/settings/injectCodes').set(list)}};
 const INJECT={applied:new Set(),apply(){arr(APP.settings.injectCodes).forEach((c,i)=>{if(c.enabled===false||this.applied.has(i+'_'+c.createdAt))return;const box=document.createElement('div');box.innerHTML=c.body||'';[...box.querySelectorAll('script')].forEach(old=>{const s=document.createElement('script');s.textContent=old.textContent;document.body.appendChild(s);old.remove()});document.body.appendChild(box);this.applied.add(i+'_'+c.createdAt)})}};
-AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEventListener('change',e=>{if(e.target&&e.target.id==='depMethod')WALLET.methodInfo()});window.addEventListener('load',()=>setTimeout(()=>{document.getElementById('splash').classList.add('hidden')},5000));
+AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEventListener('change',e=>{if(e.target&&e.target.id==='depMethod')WALLET.methodInfo()});window.addEventListener('load',()=>setTimeout(()=>{document.getElementById('splash').classList.add('hidden')},3000));
 </script>
 <script>
 (function(){
@@ -782,7 +842,7 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
   }
   function normalizeSettings(){
     if(!window.APP || !APP.settings) return;
-    APP.settings.loginSplash = APP.settings.loginSplash || {enabled:false,duration:3,title:'أهلاً بك في ADNOR',text:'',imageData:'',mode:'eachLogin'};
+    APP.settings.loginSplash = APP.settings.loginSplash || {enabled:true,duration:3,title:'أهلاً بك في ADNOR',text:'جاهز للسحب والإيداع والألعاب',imageData:'',mode:'eachLogin'}; if(APP.settings.loginSplash.enabled===undefined)APP.settings.loginSplash.enabled=true;
     APP.settings.scratch = Object.assign({enabled:true,min:0.10,max:1,fixed:0,chance:35,cooldownHours:24,creditTo:'bonus'}, APP.settings.scratch||{});
     APP.settings.wheel = APP.settings.wheel || {};
     if(!APP.settings.wheel.slices || !APP.settings.wheel.slices.length || !APP.settings.wheel.royalVersion){
@@ -817,7 +877,7 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
   function showLoginSplash(){
     try{
       const cfg=(APP.settings&&APP.settings.loginSplash)||{};
-      if(!cfg.enabled) return;
+      if(cfg.enabled===false && cfg.updatedAt) return;
       if(!APP.user) return;
       const key='ADNOR_LOGIN_SPLASH_'+(cfg.updatedAt||'default')+'_'+(APP.user.uid||'u');
       if(sessionStorage.getItem(key)==='1') return;
@@ -1734,11 +1794,91 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
 
 
 
+<!-- ADNOR V8.2 GOOGLE REDIRECT ONLY FIX -->
+<script>
+(function(){
+  'use strict';
+  window.ADNOR_V82_REDIRECT_ONLY = true;
+  function $(id){return document.getElementById(id)}
+  function log(msg){try{ if(window.authLog) authLog(msg); else console.log(msg); }catch(e){}}
+  function err(msg){try{ if(window.showAuthError) showAuthError(msg); else alert(msg); }catch(e){alert(msg)}}
+  function clear(){try{ if(window.clearAuthError) clearAuthError(); }catch(e){}}
+  function legalOk(){
+    var a=$('age18'), t=$('termsOk');
+    if(!a || !t) return true;
+    if(!a.checked || !t.checked){
+      err('⚠️ يجب تأكيد العمر والموافقة على الشروط أولاً. ضع صح على المربعين ثم اضغط Google.');
+      return false;
+    }
+    try{ localStorage.setItem('ADNOR_LEGAL_OK','1'); }catch(e){}
+    return true;
+  }
+  async function googleRedirectOnly(){
+    if(!legalOk()) return;
+    if(!window.firebase || !window.auth){ err('Firebase غير جاهز بعد، انتظر ثانيتين وجرب.'); return; }
+    clear();
+    var btn=$('googleBtn') || document.querySelector('button[onclick*="AUTH.google"], .google-login, #authGoogleBtn');
+    var old=btn?btn.innerHTML:'';
+    try{
+      if(btn){ btn.disabled=true; btn.innerHTML='⏳ تحويل إلى Google...'; }
+      var provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt:'select_account' });
+      log('V8.2 Google redirect ONLY domain='+location.hostname+' authDomain=adnor-vp.firebaseapp.com');
+      await auth.signInWithRedirect(provider);
+    }catch(e){
+      log('V8.2 redirect error: '+(e && e.code)+' '+(e && e.message));
+      if(btn){ btn.disabled=false; btn.innerHTML=old || 'متابعة بحساب Google'; }
+      err('Google Redirect فشل: '+((window.AUTH&&AUTH.friendlyError)?AUTH.friendlyError(e):(e&&e.message||e)));
+    }
+  }
+  function install(){
+    try{
+      if(window.AUTH && !AUTH.__v82RedirectOnly){
+        AUTH.__v82RedirectOnly=true;
+        AUTH.google = googleRedirectOnly;
+      }
+      var g=$('googleBtn');
+      if(g && !g.__v82){
+        g.__v82=true;
+        g.onclick=function(ev){ if(ev) ev.preventDefault(); googleRedirectOnly(); return false; };
+        g.innerHTML='<i class="fa-brands fa-google"></i> دخول بحساب Google';
+      }
+      var submit=$('authSubmit');
+      if(submit && !submit.__v82){
+        submit.__v82=true;
+        submit.onclick=function(ev){
+          try{ if(window.AUTH && AUTH.method==='phone') return AUTH.submit(); }catch(e){}
+          if(ev) ev.preventDefault();
+          googleRedirectOnly();
+          return false;
+        };
+      }
+      var title=$('topStatus'); if(title) title.textContent='ADNOR — Google Redirect V8.2 / Phone';
+      var box=document.querySelector('.auth-debug, #authLogBox');
+      var noteId='adnorV82Note';
+      if(!$(noteId)){
+        var wrap=$('googleBtn') || $('authSubmit');
+        if(wrap && wrap.parentElement){
+          var div=document.createElement('div');
+          div.id=noteId;
+          div.style.cssText='margin:10px 0;padding:10px;border:1px solid rgba(212,175,55,.35);border-radius:14px;color:#f8e7b0;background:rgba(212,175,55,.08);font-weight:700;line-height:1.7;text-align:center';
+          div.textContent='تم تفعيل دخول Google بطريقة التحويل الآمن. إذا فتح Google، اختر الحساب ولا تغلق الصفحة.';
+          wrap.parentElement.insertBefore(div, wrap.nextSibling);
+        }
+      }
+    }catch(e){ console.warn('V8.2 install error', e); }
+  }
+  document.addEventListener('DOMContentLoaded', install);
+  setTimeout(install,50); setTimeout(install,300); setTimeout(install,1000); setInterval(install,2500);
+  console.log('ADNOR V8.2 — Google redirect-only fix loaded');
+})();
+</script>
 
-<!-- ADNOR V8.4 GOOGLE LOGIN FINAL FIX -->
-<style id="adnorV84AuthStyle">
-  /* V8.4: دخول Google ثابت + هاتف، بدون تكرار patches */
-  #loginTab,#registerTab,#methodEmail,#secEmail,#resetPassBtn,#ageBox{display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;border:0!important}
+
+<!-- ADNOR V8.3 LASER AUTH FINAL FIX -->
+<style id="adnorV83LaserAuthStyle">
+  /* V8.3: واجهة دخول نظيفة — Google + Phone فقط */
+  #loginTab,#registerTab,#methodEmail,#secEmail,#resetPassBtn,#ageBox,#googleNote,#copyDomainBtn,#domainCopyText,#adnorV82Note{display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;border:0!important}
   #authDebugLog{display:none!important}
   .version-badge{display:none!important}
   #auth .auth-card{border-radius:30px!important;position:relative;overflow:hidden;box-shadow:0 0 35px rgba(18,201,255,.10),0 0 65px rgba(245,189,63,.14),0 18px 55px rgba(0,0,0,.48)!important}
@@ -1753,508 +1893,158 @@ AUTH.saveRef();AUTH.completeRedirect();APP.init();GAMES.drawWheel();window.addEv
   #authBtn{min-height:58px!important;border-radius:20px!important;font-size:16px!important;font-weight:950!important}
   #secPhone .field label{color:#ffe6a3!important;font-weight:900!important}
   #recaptchaContainer{min-height:1px!important}
-  #googleNote{display:none!important}
-  .adnor-v84-note{margin:12px 0 0;padding:12px;border:1px solid rgba(18,201,255,.30);border-radius:16px;background:rgba(18,201,255,.07);color:#cfefff;font-size:12px;line-height:1.8;text-align:center;font-weight:800}
-  .adnor-v84-domain{margin:10px 0 0;padding:10px;border-radius:14px;border:1px dashed rgba(245,189,63,.35);background:rgba(245,189,63,.07);color:#ffe9a8;font-size:12px;line-height:1.8;text-align:center;font-weight:800;word-break:break-word}
-  .adnor-v84-domain code{display:inline-block;direction:ltr;background:rgba(0,0,0,.25);border-radius:8px;padding:2px 6px;color:#93c5fd;margin:2px}
+  .adnor-v83-note{margin:12px 0 0;padding:12px;border:1px solid rgba(18,201,255,.30);border-radius:16px;background:rgba(18,201,255,.07);color:#cfefff;font-size:12px;line-height:1.8;text-align:center;font-weight:800}
 </style>
 <script>
-(function ADNOR_V84_GOOGLE_LOGIN_FINAL(){
+(function(){
   'use strict';
-  if(window.__ADNOR_V84_GOOGLE_LOGIN_FINAL__) return;
-  window.__ADNOR_V84_GOOGLE_LOGIN_FINAL__ = true;
-
-  var FIREBASE_AUTH_DOMAIN = 'adnor-vp.firebaseapp.com';
-  var loginInProgress = false;
-  var redirectChecked = false;
-  var authStatePatched = false;
-
+  window.ADNOR_V83_LASER_AUTH = true;
   function $(id){ return document.getElementById(id); }
-  function q(sel){ return document.querySelector(sel); }
-  function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m];}); }
-  function log(m){ try{ if(window.authLog) authLog('V8.4 '+m); else console.log('[ADNOR V8.4]', m); }catch(e){} }
-  function legalAlwaysOk(){
+  function safeLog(m){ try{ if(window.authLog) authLog(m); else console.log('[ADNOR V8.3]', m); }catch(e){} }
+  function showErr(m){ try{ if(window.showAuthError) showAuthError(m); else alert(m); }catch(e){ alert(m); } }
+  function clearErr(){ try{ if(window.clearAuthError) clearAuthError(); }catch(e){} }
+  function setLegalAlwaysOk(){
     try{ localStorage.setItem('ADNOR_LEGAL_OK','1'); }catch(e){}
     var a=$('age18'), t=$('termsOk');
-    if(a) a.checked=true;
-    if(t) t.checked=true;
-    return true;
-  }
-  function clearErr(){
-    try{ if(window.clearAuthError) clearAuthError(); }catch(e){}
-    var el=$('authError');
-    if(el){ el.textContent=''; el.style.display='none'; el.style.background='rgba(239,68,68,.15)'; el.style.color='#fca5a5'; el.style.borderColor='rgba(239,68,68,.4)'; }
-  }
-  function showErr(m, good){
-    var el=$('authError');
-    if(el){
-      el.textContent=m;
-      el.style.display='block';
-      el.style.whiteSpace='pre-line';
-      el.style.background=good?'rgba(24,242,155,.10)':'rgba(239,68,68,.15)';
-      el.style.color=good?'#a7ffd3':'#fca5a5';
-      el.style.borderColor=good?'rgba(24,242,155,.30)':'rgba(239,68,68,.40)';
-    }else if(!good){ alert(m); }
-    if(!good) console.error('[ADNOR AUTH]', m);
-  }
-  function friendlyError(e){
-    var code=(e&&e.code)||'';
-    var host=location.hostname || 'الدومين الحالي';
-    if(code==='auth/unauthorized-domain') return 'الدومين الحالي غير مسموح في Firebase: '+host+'\nالحل: Firebase Console > Authentication > Settings > Authorized domains ثم أضف هذا الدومين.';
-    if(code==='auth/operation-not-allowed') return 'Google غير مفعّل داخل Firebase Authentication. افتح Firebase > Authentication > Sign-in method وفعل Google.';
-    if(code==='auth/admin-restricted-operation') return 'طريقة الدخول مقيدة من إعدادات Firebase. فعل Google وتأكد من الدومين المسموح.';
-    if(code==='auth/popup-blocked') return 'المتصفح منع نافذة Google. افتح الموقع بمتصفح عادي أو اسمح بالنوافذ المنبثقة.';
-    if(code==='auth/popup-closed-by-user') return 'تم إغلاق نافذة Google قبل إكمال الدخول.';
-    if(code==='auth/cancelled-popup-request') return 'تم إلغاء نافذة دخول قديمة. اضغط Google مرة ثانية فقط.';
-    if(code==='auth/operation-not-supported-in-this-environment') return 'هذا المتصفح لا يدعم نافذة Google هنا. سيتم استخدام التحويل المباشر إلى Google.';
-    if(code==='auth/network-request-failed') return 'مشكلة إنترنت أو اتصال Firebase. جرّب تحديث الصفحة.';
-    if(code==='auth/configuration-not-found') return 'إعدادات Firebase Authentication غير مكتملة لهذا المشروع.';
-    if(code==='auth/invalid-api-key') return 'Firebase API Key غير صحيح أو المشروع غير متاح.';
-    if(code==='auth/app-deleted') return 'تطبيق Firebase غير مهيأ بشكل صحيح.';
-    if(code==='auth/too-many-requests') return 'محاولات كثيرة. انتظر قليلاً ثم جرّب مرة ثانية.';
-    if(code==='auth/invalid-phone-number') return 'رقم الهاتف غير صحيح. اكتبه بصيغة دولية مثل +905xxxxxxxxx';
-    if(code==='auth/invalid-verification-code') return 'رمز التحقق غير صحيح.';
-    if(code==='auth/code-expired') return 'انتهت صلاحية رمز التحقق، أرسل كود جديد.';
-    return (e && (e.message || e.code)) || String(e || 'خطأ غير معروف');
-  }
-  function firebaseReady(){
-    if(!window.firebase || !firebase.apps || !firebase.auth) return false;
-    try{ if(!firebase.apps.length && window.firebaseConfig) firebase.initializeApp(window.firebaseConfig); }catch(e){}
-    return !!(firebase.apps.length && firebase.auth);
-  }
-  async function ready(){
-    if(!firebaseReady()) throw new Error('Firebase غير جاهز. تأكد أن سكربتات Firebase محملة وأن الإنترنت يعمل.');
-    try{ if(window.__ADNOR_AUTH_READY__) await window.__ADNOR_AUTH_READY__; }catch(e){}
-    try{ await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL); }catch(e){ log('persistence warning '+((e&&e.message)||e)); }
-  }
-  function provider(){
-    var p=new firebase.auth.GoogleAuthProvider();
-    p.setCustomParameters({prompt:'select_account'});
-    p.addScope('email');
-    p.addScope('profile');
-    return p;
-  }
-  function installDomainBox(){
-    if($('adnorV84DomainBox')) return;
-    var btn=$('googleBtn');
-    if(!btn || !btn.parentElement) return;
-    var div=document.createElement('div');
-    div.id='adnorV84DomainBox';
-    div.className='adnor-v84-domain';
-    div.innerHTML='لنجاح Google لازم يكون الدومين موجود في Firebase Authorized domains:<br><code>'+esc(location.hostname)+'</code><br><small>وإذا تستخدم Firebase الافتراضي يبقى: <code>'+FIREBASE_AUTH_DOMAIN+'</code></small>';
-    btn.parentElement.insertBefore(div, btn.nextSibling);
-  }
-  function installUI(){
-    legalAlwaysOk();
-    document.body.classList.add('adnor-v84-auth');
-    var brandP=q('#auth .brand p');
-    if(brandP) brandP.textContent='دخول آمن — Google أو رقم الهاتف';
-    var loginTitle=$('adnorV8AuthTitle');
-    if(loginTitle) loginTitle.innerHTML='👑 ADNOR Login<br><span style="font-size:12px;color:#cbd5e1">الدخول الرسمي: Google أو رقم الهاتف فقط</span>';
-    var tabs=q('#auth .auth-tabs'); if(tabs) tabs.style.display='none';
-    var mg=$('methodGoogle'), mp=$('methodPhone'), me=$('methodEmail');
-    if(mg) mg.innerHTML='<i class="fa-brands fa-google"></i> دخول Google';
-    if(mp) mp.innerHTML='📱 دخول رقم الهاتف';
-    if(me){ me.classList.add('hidden'); me.style.display='none'; }
-    var secEmail=$('secEmail'); if(secEmail){ secEmail.classList.add('hidden'); secEmail.style.display='none'; }
-    var reset=$('resetPassBtn'); if(reset){ reset.classList.add('hidden'); reset.style.display='none'; }
-    var age=$('ageBox'); if(age){ age.style.display='none'; }
-    var gb=$('googleBtn');
-    if(gb){
-      gb.type='button';
-      gb.innerHTML='<i class="fa-brands fa-google"></i> تسجيل الدخول بجوجل';
-      gb.onclick=function(ev){ if(ev){ev.preventDefault(); ev.stopPropagation();} googleLogin(); return false; };
+    if(a) a.checked = true;
+    if(t) t.checked = true;
+    if(window.AUTH){
+      AUTH.needLegal = function(){ try{ localStorage.setItem('ADNOR_LEGAL_OK','1'); }catch(e){} return true; };
+      AUTH.saveLegal = function(){ try{ localStorage.setItem('ADNOR_LEGAL_OK','1'); }catch(e){} return true; };
     }
-    installDomainBox();
-    if(!$('adnorV84Note')){
-      var ref=$('secGoogle') || (gb && gb.parentElement);
-      if(ref){
-        var note=document.createElement('div');
-        note.id='adnorV84Note';
-        note.className='adnor-v84-note';
-        note.textContent='إذا لم يفتح Google، افتح الموقع من المتصفح مباشرة وليس من داخل معاينة Replit/تطبيق خارجي، وتأكد من إضافة الدومين في Firebase.';
-        ref.appendChild(note);
-      }
-    }
-    patchAuthObject();
   }
-  function setMethodClean(m){
-    m=(m==='phone')?'phone':'google';
-    if(window.AUTH) AUTH.method=m;
+  async function googleRedirectLogin(){
+    setLegalAlwaysOk();
     clearErr();
-    ['Google','Phone','Email'].forEach(function(x){
-      var id=x.toLowerCase();
-      var btn=$('method'+x), sec=$('sec'+x);
-      if(btn){ btn.classList.toggle('active', id===m); if(x==='Email'){btn.classList.add('hidden'); btn.style.display='none';} }
-      if(sec){ sec.classList.toggle('hidden', id!==m); if(x==='Email'){sec.classList.add('hidden'); sec.style.display='none';} }
-    });
-    var authBtn=$('authBtn');
-    if(authBtn){
-      if(m==='phone'){
-        authBtn.style.display='';
-        authBtn.textContent=(window.AUTH && AUTH.phoneStep==='otp')?'تأكيد الكود والدخول':'إرسال كود الهاتف';
-      }else{
-        authBtn.style.display='none';
-      }
-    }
-    var otp=$('otpWrap'); if(otp && (!window.AUTH || AUTH.phoneStep!=='otp')) otp.classList.add('hidden');
-    var pn=$('authPhoneNum'); if(pn && (!window.AUTH || AUTH.phoneStep!=='otp')) pn.disabled=false;
-    return false;
-  }
-  function patchAuthObject(){
-    if(!window.AUTH) return;
-    if(!AUTH.__v84OriginalSubmit) AUTH.__v84OriginalSubmit = AUTH.submit ? AUTH.submit.bind(AUTH) : null;
-    if(!AUTH.__v84OriginalPhone) AUTH.__v84OriginalPhone = AUTH._submitPhone ? AUTH._submitPhone.bind(AUTH) : null;
-    AUTH.friendlyError=friendlyError;
-    AUTH.needLegal=function(){ return legalAlwaysOk(); };
-    AUTH.saveLegal=function(){ return legalAlwaysOk(); };
-    AUTH.google=googleLogin;
-    AUTH.setMethod=setMethodClean;
-    AUTH.submit=function(){
-      legalAlwaysOk();
-      if(AUTH.method==='phone'){
-        if(AUTH.__v84OriginalPhone) return AUTH.__v84OriginalPhone();
-        if(AUTH.__v84OriginalSubmit) return AUTH.__v84OriginalSubmit();
-        return false;
-      }
-      return googleLogin();
-    };
-    if(!AUTH.method || AUTH.method==='email') AUTH.method='google';
-    setMethodClean(AUTH.method);
-  }
-  async function googleLogin(){
-    if(loginInProgress) return false;
-    legalAlwaysOk();
-    clearErr();
+    if(!window.firebase || !firebase.auth){ showErr('Firebase غير جاهز بعد. انتظر ثانيتين وجرب مرة ثانية.'); return false; }
     var btn=$('googleBtn');
     var old=btn ? btn.innerHTML : '';
-    loginInProgress=true;
     try{
-      if(btn){ btn.disabled=true; btn.innerHTML='⏳ جاري فتح Google...'; }
-      await ready();
-      var ref=new URLSearchParams(location.search).get('ref') || localStorage.getItem('ADNOR_REF') || '';
-      if(ref) try{ localStorage.setItem('ADNOR_REF', ref); }catch(e){}
-      log('start google popup host='+location.hostname+' authDomain='+FIREBASE_AUTH_DOMAIN);
-      try{
-        var res=await firebase.auth().signInWithPopup(provider());
-        if(res && res.user){ showErr('✅ تم تسجيل الدخول، جاري فتح حسابك...', true); await openAppForUser(res.user); }
-      }catch(pe){
-        log('popup failed '+((pe&&pe.code)||'')+' '+((pe&&pe.message)||pe));
-        if(pe && (pe.code==='auth/popup-blocked' || pe.code==='auth/cancelled-popup-request' || pe.code==='auth/operation-not-supported-in-this-environment')){
-          showErr('⏳ سيتم تحويلك إلى Google لإكمال الدخول...', true);
-          await firebase.auth().signInWithRedirect(provider());
-          return false;
-        }
-        if(pe && pe.code==='auth/popup-closed-by-user'){
-          showErr('تم إغلاق نافذة Google. اضغط الزر مرة ثانية واختر حسابك.', false);
-          return false;
-        }
-        throw pe;
-      }
+      if(btn){ btn.disabled=true; btn.innerHTML='⏳ جاري التحويل إلى Google...'; }
+      var provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt:'select_account' });
+      safeLog('V8.3 redirect start domain='+location.hostname+' authDomain=adnor-vp.firebaseapp.com');
+      await firebase.auth().signInWithRedirect(provider);
     }catch(e){
-      showErr('Google فشل:\n'+friendlyError(e), false);
-      var note=$('googleNote'); if(note) note.style.display='';
-    }finally{
-      loginInProgress=false;
+      safeLog('V8.3 redirect error '+((e&&e.code)||'')+' '+((e&&e.message)||e));
       if(btn){ btn.disabled=false; btn.innerHTML=old || '<i class="fa-brands fa-google"></i> تسجيل الدخول بجوجل'; }
+      var code=(e&&e.code)||'';
+      if(code==='auth/unauthorized-domain') showErr('الدومين غير مضاف في Firebase. أضف '+location.hostname+' داخل Authentication > Settings > Authorized domains.');
+      else if(code==='auth/operation-not-allowed') showErr('Google غير مفعّل في Firebase Authentication. فعّل Google من Sign-in method.');
+      else showErr('Google فشل: '+((e&&e.message)||String(e||'خطأ غير معروف')));
     }
     return false;
   }
-  async function processRedirectResult(){
-    if(redirectChecked) return;
-    redirectChecked=true;
+  window.ADNOR_GOOGLE_LOGIN = googleRedirectLogin;
+  function applyUI(){
     try{
-      await ready();
-      var res=await firebase.auth().getRedirectResult();
-      if(res && res.user){
-        showErr('✅ تم تسجيل الدخول من Google، جاري فتح حسابك...', true);
-        await openAppForUser(res.user);
+      setLegalAlwaysOk();
+      document.body.classList.add('adnor-v83-laser');
+      var brandP=document.querySelector('#auth .brand p');
+      if(brandP) brandP.textContent='دخول سريع وآمن — Google أو رقم الهاتف فقط';
+      var loginTitle=$('adnorV8AuthTitle');
+      if(loginTitle) loginTitle.innerHTML='👑 ADNOR Login<br><span style="font-size:12px;color:#cbd5e1">اختار طريقة الدخول فقط: Google أو رقم الهاتف.</span>';
+      var mg=$('methodGoogle'), mp=$('methodPhone');
+      if(mg) mg.innerHTML='<i class="fa-brands fa-google"></i> دخول Google';
+      if(mp) mp.innerHTML='📱 دخول رقم الهاتف';
+      var gb=$('googleBtn');
+      if(gb){
+        gb.type='button';
+        gb.innerHTML='<i class="fa-brands fa-google"></i> تسجيل الدخول بجوجل';
+        gb.onclick=function(ev){ if(ev){ev.preventDefault(); ev.stopPropagation();} return googleRedirectLogin(); };
       }
-    }catch(e){
-      var code=(e&&e.code)||'';
-      if(code==='auth/no-auth-event' || code==='auth/null-user') return;
-      showErr('Google Redirect فشل:\n'+friendlyError(e), false);
-    }
-  }
-  function safeName(u){
-    if(!u) return 'مستخدم';
-    return u.displayName || (u.email ? u.email.split('@')[0] : 'مستخدم ADNOR');
-  }
-  async function loadUserProfile(u){
-    var data={uid:u.uid,name:safeName(u),email:u.email||'',phone:u.phoneNumber||'',balance:0,bonus:0,tickets:[],txs:[],lastLogin:Date.now()};
-    try{
-      if(window.USER && USER.ensure) await USER.ensure(u);
-      if(window.db){
-        var snap=await db.ref('users/'+u.uid).once('value');
-        var got=snap && snap.val ? (snap.val()||{}) : {};
-        data=Object.assign(data, got, {uid:u.uid});
-        var upd={lastLogin:Date.now()};
-        if(u.email) upd.email=u.email;
-        if(u.phoneNumber) upd.phone=u.phoneNumber;
-        if(u.displayName && (!got.name || /@/.test(got.name))) upd.name=u.displayName;
-        db.ref('users/'+u.uid).update(upd).catch(function(){});
-      }
-    }catch(e){
-      log('profile fallback '+((e&&e.message)||e));
-      showErr('تم التحقق من Google ✅ لكن قاعدة البيانات رفضت حفظ/قراءة الحساب. سأفتح الواجهة مؤقتًا، راجع قواعد Firebase Database.\n'+((e&&e.message)||e), true);
-    }
-    return data;
-  }
-  async function openAppForUser(u){
-    if(!u || !window.APP) return;
-    try{
-      var data=await loadUserProfile(u);
-      APP.user=Object.assign({uid:u.uid}, data);
-      APP._loginDone=true;
-      var authEl=$('auth'), appEl=$('app'), splash=$('splash');
-      if(authEl) authEl.classList.add('hidden');
-      if(appEl) appEl.classList.remove('hidden');
-      if(splash) splash.classList.add('hidden');
-      try{ if(window.UI && UI.page) UI.page(APP.lastTab || 'lottery'); }catch(e){}
-      try{ if(window.UI && UI.render) UI.render(); }catch(e){}
-      var adminBtn=$('adminSideBtn');
-      try{ if(adminBtn && window.isAdmin) adminBtn.classList.toggle('hidden', !isAdmin()); }catch(e){}
-      log('app opened uid='+u.uid);
-    }catch(e){
-      showErr('دخل Google لكن فتح التطبيق فشل:\n'+((e&&e.message)||e), false);
-    }
-  }
-  function patchAuthState(){
-    if(authStatePatched || !firebaseReady()) return;
-    authStatePatched=true;
-    try{
-      firebase.auth().onAuthStateChanged(function(u){
-        if(u) openAppForUser(u);
-        else if(window.APP && !APP._loginDone){
-          var app=$('app'), auth=$('auth'), splash=$('splash');
-          if(app) app.classList.add('hidden');
-          if(auth) auth.classList.remove('hidden');
-          if(splash) splash.classList.add('hidden');
+      var authBtn=$('authBtn');
+      if(authBtn){
+        if(window.AUTH && AUTH.method==='phone'){
+          authBtn.style.display='';
+          authBtn.textContent=(AUTH.phoneStep==='otp')?'تأكيد الكود والدخول':'إرسال كود الهاتف';
+        }else{
+          authBtn.style.display='none';
         }
-      });
-    }catch(e){ log('auth state patch error '+((e&&e.message)||e)); }
+      }
+      if(!$('adnorV83Note')){
+        var ref=$('secGoogle') || $('googleBtn')?.parentElement;
+        if(ref){
+          var note=document.createElement('div');
+          note.id='adnorV83Note';
+          note.className='adnor-v83-note';
+          note.textContent='تم حذف تأكيد العمر وسياسة ADNOR من واجهة الدخول. الدخول الآن فقط عبر Google أو رقم الهاتف.';
+          ref.appendChild(note);
+        }
+      }
+      if(window.AUTH && !AUTH.__v83LaserPatched){
+        AUTH.__v83LaserPatched=true;
+        var oldSet=AUTH.setMethod ? AUTH.setMethod.bind(AUTH) : null;
+        AUTH.google=googleRedirectLogin;
+        AUTH.setMethod=function(m){
+          m=(m==='phone')?'phone':'google';
+          var r=oldSet ? oldSet(m) : null;
+          setLegalAlwaysOk();
+          setTimeout(applyUI,0);
+          return r;
+        };
+        var oldSubmit=AUTH.submit ? AUTH.submit.bind(AUTH) : null;
+        AUTH.submit=function(){
+          setLegalAlwaysOk();
+          if(AUTH.method==='phone') return oldSubmit ? oldSubmit() : false;
+          return googleRedirectLogin();
+        };
+      }
+      if(window.AUTH && (!AUTH.method || AUTH.method==='email')) AUTH.setMethod('google');
+    }catch(e){ console.warn('ADNOR V8.3 applyUI error', e); }
   }
-  function boot(){
-    try{
-      installUI();
-      patchAuthState();
-      processRedirectResult();
-    }catch(e){ console.warn('ADNOR V8.4 boot error', e); }
-  }
-  document.addEventListener('DOMContentLoaded', boot);
-  window.addEventListener('load', boot);
-  setTimeout(boot,50); setTimeout(boot,300); setTimeout(boot,1000); setTimeout(boot,2500);
-  setInterval(function(){ installUI(); patchAuthState(); }, 1500);
-  console.log('ADNOR V8.4 FINAL — Google popup with redirect fallback + phone login stable');
+  document.addEventListener('DOMContentLoaded', applyUI);
+  setTimeout(applyUI,50); setTimeout(applyUI,300); setTimeout(applyUI,1000); setTimeout(applyUI,2000); setInterval(applyUI,1000);
+  console.log('ADNOR V8.3 LASER AUTH — Google redirect + phone only, no legal check UI');
 })();
 </script>
 
-<!-- ADNOR_V85_GOOGLE_REDIRECT_HOTFIX_INSERTED -->
-<style>
-/* V8.5: Google Redirect Hotfix */
-#adnorV85GoogleFixBox{margin-top:12px;padding:12px;border-radius:16px;background:rgba(18,201,255,.08);border:1px solid rgba(18,201,255,.30);color:#dbeafe;font-size:12px;line-height:1.75;text-align:center}
-#adnorV85GoogleFixBox code{display:inline-block;margin:5px 0;padding:5px 8px;border-radius:9px;background:rgba(0,0,0,.28);color:#fde68a;direction:ltr;word-break:break-all}
-#adnorV85GoogleFixBox .mini-actions{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
-#adnorV85GoogleFixBox button,#adnorV85GoogleFixBox a{border:1px solid rgba(245,189,63,.35);border-radius:12px;padding:10px;background:rgba(245,189,63,.12);color:#ffe6a3;text-decoration:none;font-weight:900}
-#adnorV85GoogleFixBox .danger{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.38);color:#fecaca}
-#googleBtn{min-height:64px!important;font-size:18px!important;font-weight:950!important;border-radius:20px!important}
-</style>
-<script>
-(function ADNOR_V85_GOOGLE_REDIRECT_HOTFIX(){
-  'use strict';
-  if(window.__ADNOR_V85_GOOGLE_REDIRECT_HOTFIX__) return;
-  window.__ADNOR_V85_GOOGLE_REDIRECT_HOTFIX__ = true;
 
-  function id(x){ return document.getElementById(x); }
-  function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m];}); }
-  function inFrame(){ try{ return window.self !== window.top; }catch(e){ return true; } }
-  function host(){ return location.hostname || 'file-local'; }
-  function isFile(){ return location.protocol === 'file:'; }
-  function getAuth(){
-    if(typeof auth !== 'undefined') return auth;
-    if(window.auth) return window.auth;
-    if(window.firebase && firebase.auth) return firebase.auth();
-    throw new Error('Firebase Auth غير محمّل');
-  }
-  function getDb(){
-    if(typeof db !== 'undefined') return db;
-    if(window.db) return window.db;
-    if(window.firebase && firebase.database) return firebase.database();
-    return null;
-  }
-  function show(msg, good){
-    var el=id('authError');
-    if(el){
-      el.textContent=msg;
-      el.style.display='block';
-      el.style.whiteSpace='pre-line';
-      el.style.background=good?'rgba(24,242,155,.10)':'rgba(239,68,68,.15)';
-      el.style.color=good?'#a7ffd3':'#fca5a5';
-      el.style.borderColor=good?'rgba(24,242,155,.30)':'rgba(239,68,68,.42)';
-    }else if(!good){ alert(msg); }
-    try{ console[good?'log':'error']('[ADNOR V8.5 AUTH]', msg); }catch(e){}
-  }
-  function clear(){
-    var el=id('authError');
-    if(el){ el.textContent=''; el.style.display='none'; }
-  }
-  function friendly(e){
-    var code=(e&&e.code)||'';
-    if(code==='auth/unauthorized-domain') return 'الدومين غير مضاف في Firebase Authorized domains: '+host()+'\nافتح Firebase > Authentication > Settings > Authorized domains وأضف هذا الدومين بالضبط.';
-    if(code==='auth/operation-not-allowed') return 'Google غير مفعّل في Firebase. افتح Authentication > Sign-in method ثم فعّل Google.';
-    if(code==='auth/admin-restricted-operation') return 'Google مقيّد من إعدادات Firebase. فعّل Google وتأكد من الدومين.';
-    if(code==='auth/popup-blocked' || code==='auth/cancelled-popup-request' || code==='auth/operation-not-supported-in-this-environment') return 'المتصفح منع نافذة Google، لذلك هذه النسخة تستخدم تحويل مباشر إلى Google.';
-    if(code==='auth/popup-closed-by-user') return 'تم إغلاق نافذة Google قبل إكمال الدخول.';
-    if(code==='auth/network-request-failed') return 'مشكلة إنترنت أو اتصال مع Firebase. حدث الصفحة وجرب.';
-    if(code==='auth/configuration-not-found') return 'إعدادات Firebase Authentication غير مكتملة لهذا المشروع.';
-    if(code==='auth/invalid-api-key') return 'Firebase API Key غير صحيح أو المشروع غير متاح.';
-    if(code==='auth/too-many-requests') return 'محاولات كثيرة. انتظر قليلًا ثم جرب مرة ثانية.';
-    return (e && (e.message || e.code)) || String(e || 'خطأ غير معروف');
-  }
-  function legalOk(){
-    try{ localStorage.setItem('ADNOR_LEGAL_OK','1'); }catch(e){}
-    var a=id('age18'), t=id('termsOk');
-    if(a) a.checked=true;
-    if(t) t.checked=true;
-    var box=id('ageBox'); if(box) box.style.display='none';
-    return true;
-  }
-  function provider(){
-    var p=new firebase.auth.GoogleAuthProvider();
-    p.setCustomParameters({prompt:'select_account'});
-    p.addScope('email');
-    p.addScope('profile');
-    return p;
-  }
-  async function openApp(user){
-    if(!user) return;
-    try{
-      var database=getDb();
-      var data={uid:user.uid,name:user.displayName || ((user.email||'user').split('@')[0]),email:user.email||'',phone:user.phoneNumber||'',balance:0,bonus:0,tickets:[],txs:[],lastLogin:Date.now()};
-      if(database){
-        try{
-          if(typeof USER !== 'undefined' && USER.ensure) await USER.ensure(user);
-          var snap=await database.ref('users/'+user.uid).once('value');
-          var got=(snap&&snap.val&&snap.val()) || {};
-          data=Object.assign(data, got, {uid:user.uid,email:user.email||got.email||'',phone:user.phoneNumber||got.phone||'',lastLogin:Date.now()});
-          var upd={lastLogin:Date.now()};
-          if(user.email) upd.email=user.email;
-          if(user.displayName && (!got.name || /@/.test(got.name))) upd.name=user.displayName;
-          database.ref('users/'+user.uid).update(upd).catch(function(){});
-        }catch(dbErr){
-          show('✅ تم تسجيل الدخول بجوجل، لكن Firebase Database رفض قراءة/حفظ الحساب. سأفتح الواجهة مؤقتًا.\nراجع قواعد Realtime Database.\n'+((dbErr&&dbErr.message)||dbErr), true);
-        }
+<script id="adnorV86FullRestorePatch">
+(function(){
+  'use strict';
+  window.ADNOR_V86_FULL_RESTORE = true;
+  const ADMIN_PHONE_FIXED = '+905445034910';
+  const ADMIN_EMAIL_FIXED = 'adhamdeab45@gmail.com';
+  function $(id){return document.getElementById(id)}
+  function cleanPhone(p){p=String(p||'').trim().replace(/[^0-9+]/g,''); if(p.startsWith('00'))p='+'+p.slice(2); if(p && p[0]!=='+')p='+'+p; return p;}
+  function msg(t){try{toast(t)}catch(e){alert(t)}}
+  function patchAdmin(){
+    if(window.APP && APP.user){
+      const cu=(window.auth&&auth.currentUser)||{};
+      if(cu.phoneNumber && (!APP.user.phone || APP.user.phone!==cu.phoneNumber)){
+        APP.user.phone=cu.phoneNumber; APP.user.phoneNumber=cu.phoneNumber;
+        try{db.ref('users/'+APP.user.uid).update({phone:cu.phoneNumber,phoneNumber:cu.phoneNumber,lastLogin:Date.now()});}catch(e){}
       }
-      if(typeof APP !== 'undefined'){
-        APP.user=Object.assign({uid:user.uid}, data);
-        APP._loginDone=true;
-      }
-      var authEl=id('auth'), appEl=id('app'), splash=id('splash');
-      if(authEl) authEl.classList.add('hidden');
-      if(appEl) appEl.classList.remove('hidden');
-      if(splash) splash.classList.add('hidden');
-      try{ if(typeof UI !== 'undefined' && UI.page) UI.page((typeof APP !== 'undefined' && APP.lastTab) || 'lottery'); }catch(e){}
-      try{ if(typeof UI !== 'undefined' && UI.render) UI.render(); }catch(e){}
-      show('✅ تم تسجيل الدخول بجوجل بنجاح.', true);
-    }catch(e){
-      show('دخل Google لكن فتح التطبيق فشل:\n'+((e&&e.message)||e), false);
     }
+    window.isAdmin=function(){
+      const cu=(window.auth&&auth.currentUser)||{}; const u=(window.APP&&APP.user)||{};
+      const ph=cleanPhone(u.phone||u.phoneNumber||cu.phoneNumber);
+      const em=String(u.email||cu.email||'').toLowerCase();
+      return !!(APP && APP.user && (ph===ADMIN_PHONE_FIXED || em===ADMIN_EMAIL_FIXED));
+    };
+    const b=$('adminSideBtn'); if(b && window.isAdmin) b.classList.toggle('hidden',!isAdmin());
   }
-  async function startGoogleRedirect(){
-    legalOk();
-    clear();
-    if(isFile()){
-      show('لا يمكن تشغيل دخول Google من ملف مفتوح مباشرة على الهاتف/الكمبيوتر. لازم ترفعه على Replit أو Netlify أو Firebase Hosting ثم تضيف الدومين في Firebase.\nالدومين الحالي ظاهر file:// وهذا لا يعمل مع Google.', false);
-      return false;
-    }
-    if(inFrame()){
-      show('أنت فاتح الموقع داخل معاينة/إطار. Google غالبًا لا يعمل داخل المعاينة. اضغط زر "فتح الموقع خارج المعاينة" ثم جرّب Google من الصفحة الجديدة.', false);
-      return false;
-    }
-    var btn=id('googleBtn'), old=btn?btn.innerHTML:'';
+  function patchSplash(){
     try{
-      if(btn){ btn.disabled=true; btn.innerHTML='⏳ تحويل إلى Google...'; }
-      var a=getAuth();
-      try{ a.useDeviceLanguage(); }catch(e){}
-      try{ await a.setPersistence(firebase.auth.Auth.Persistence.LOCAL); }catch(e){}
-      var ref=new URLSearchParams(location.search).get('ref') || localStorage.getItem('ADNOR_REF') || '';
-      if(ref) try{ localStorage.setItem('ADNOR_REF', ref); }catch(e){}
-      show('⏳ جاري تحويلك إلى Google لإكمال الدخول...', true);
-      await a.signInWithRedirect(provider());
-    }catch(e){
-      show('Google فشل:\n'+friendly(e), false);
-      if(btn){ btn.disabled=false; btn.innerHTML=old || '<i class="fa-brands fa-google"></i> تسجيل الدخول بجوجل'; }
-    }
-    return false;
-  }
-  async function checkRedirectAndState(){
-    try{
-      var a=getAuth();
-      try{ await a.setPersistence(firebase.auth.Auth.Persistence.LOCAL); }catch(e){}
-      a.onAuthStateChanged(function(u){ if(u) openApp(u); });
-      if(!window.__ADNOR_V85_REDIRECT_RESULT_CHECKED__){
-        window.__ADNOR_V85_REDIRECT_RESULT_CHECKED__=true;
-        try{
-          var res=await a.getRedirectResult();
-          if(res && res.user) await openApp(res.user);
-        }catch(e){
-          var code=(e&&e.code)||'';
-          if(code && code!=='auth/no-auth-event' && code!=='auth/null-user') show('Google Redirect فشل:\n'+friendly(e), false);
-        }
-      }
-    }catch(e){ show('Firebase غير جاهز:\n'+((e&&e.message)||e), false); }
-  }
-  function installBox(){
-    var btn=id('googleBtn');
-    if(!btn || id('adnorV85GoogleFixBox')) return;
-    var box=document.createElement('div');
-    box.id='adnorV85GoogleFixBox';
-    var directUrl=location.href;
-    var frameText=inFrame()?'<div class="danger" style="margin-top:8px;padding:8px;border-radius:10px">⚠️ أنت داخل معاينة. افتح الموقع خارج المعاينة قبل تجربة Google.</div>':'';
-    var fileText=isFile()?'<div class="danger" style="margin-top:8px;padding:8px;border-radius:10px">⚠️ الملف مفتوح مباشرة file:// وهذا لا يدعم Google Login.</div>':'';
-    box.innerHTML='دومين Google المطلوب إضافته في Firebase:<br><code id="adnorV85Host">'+esc(host())+'</code>'+frameText+fileText+'<div class="mini-actions"><button type="button" id="adnorV85CopyDomain">نسخ الدومين</button><a id="adnorV85OpenDirect" target="_blank" rel="noopener" href="'+esc(directUrl)+'">فتح الموقع خارج المعاينة</a></div>';
-    btn.parentElement.insertBefore(box, btn.nextSibling);
-    var cp=id('adnorV85CopyDomain');
-    if(cp) cp.onclick=function(){ try{ navigator.clipboard.writeText(host()); show('✅ تم نسخ الدومين: '+host(), true); }catch(e){ show('انسخ هذا الدومين يدويًا: '+host(), true); } };
-  }
-  function install(){
-    try{ if(typeof APP !== 'undefined') window.APP=APP; }catch(e){}
-    try{ if(typeof AUTH !== 'undefined') window.AUTH=AUTH; }catch(e){}
-    try{ if(typeof USER !== 'undefined') window.USER=USER; }catch(e){}
-    try{ if(typeof db !== 'undefined') window.db=db; }catch(e){}
-    try{ if(typeof auth !== 'undefined') window.auth=auth; }catch(e){}
-    legalOk();
-    installBox();
-    var gb=id('googleBtn');
-    if(gb){
-      gb.type='button';
-      gb.innerHTML='<i class="fa-brands fa-google"></i> دخول Google المباشر';
-      gb.onclick=function(ev){ if(ev){ev.preventDefault();ev.stopPropagation();} return startGoogleRedirect(); };
-    }
-    try{
-      if(typeof AUTH !== 'undefined'){
-        AUTH.google=startGoogleRedirect;
-        var originalSet=AUTH.setMethod ? AUTH.setMethod.bind(AUTH) : null;
-        AUTH.setMethod=function(m){
-          m=(m==='phone')?'phone':'google';
-          if(originalSet) originalSet(m);
-          if(m==='google'){
-            var b=id('authBtn'); if(b) b.style.display='none';
-            var sg=id('secGoogle'); if(sg) sg.classList.remove('hidden');
-            var se=id('secEmail'); if(se){ se.classList.add('hidden'); se.style.display='none'; }
-          }
-          return false;
-        };
-        if(!AUTH.method || AUTH.method==='email') AUTH.method='google';
-        try{ AUTH.setMethod(AUTH.method); }catch(e){}
-      }
+      if(!window.APP) return;
+      APP.settings=APP.settings||{};
+      APP.settings.loginSplash=APP.settings.loginSplash||{};
+      if(APP.settings.loginSplash.enabled===undefined) APP.settings.loginSplash.enabled=true;
+      if(!APP.settings.loginSplash.duration) APP.settings.loginSplash.duration=3;
+      if(!APP.settings.loginSplash.title) APP.settings.loginSplash.title='أهلاً بك في ADNOR';
+      if(!APP.settings.loginSplash.text) APP.settings.loginSplash.text='جاهز للسحب والإيداع والألعاب';
     }catch(e){}
-    checkRedirectAndState();
   }
-  document.addEventListener('DOMContentLoaded', install);
-  window.addEventListener('load', install);
-  setTimeout(install,80); setTimeout(install,500); setTimeout(install,1500); setTimeout(install,3000);
-  console.log('ADNOR V8.5 GOOGLE REDIRECT HOTFIX loaded');
+  function ensureCoreVisible(){
+    try{
+      ['page-lottery','page-wallet','page-games','page-support','depForm','witForm','drawTitle','drawPrize','depAmount','witAmount'].forEach(function(id){
+        const el=$(id); if(el) el.dataset.adnorV86='ok';
+      });
+    }catch(e){}
+  }
+  function boot(){patchAdmin(); patchSplash(); ensureCoreVisible();}
+  setTimeout(boot,100); setTimeout(boot,700); setTimeout(boot,1700); setInterval(boot,3000);
 })();
 </script>
 

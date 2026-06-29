@@ -1,7 +1,7 @@
 {
-  "name": "adnor-complete-v8-4-google-login-fixed",
-  "version": "8.4.0",
-  "description": "ADNOR V8.4 - fixed Google/Gmail login with popup plus redirect fallback, clear Arabic Firebase domain/provider errors, phone login preserved",
+  "name": "adnor-complete-v8-6-full-restored-admin-phone",
+  "version": "8.6.0",
+  "description": "ADNOR V8.6 full restored: admin by phone, 3-second splash, lottery, deposit, withdraw, games and admin panel preserved",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
