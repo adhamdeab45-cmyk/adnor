@@ -1,52 +1,20 @@
-ADNOR V200 MODULAR REBUILD
-==========================
+ADNOR V201 ROOT/PUBLIC DEPLOY READY
 
-هذه نسخة جديدة منظمة من الصفر، هدفها أن كل جزء يكون مفصول حتى ما نخرب الموقع كل ما عدلنا شيء.
+هذه النسخة مصممة حتى تعمل سواء كان النشر من الجذر root أو من مجلد public.
 
-الهيكل:
+المهم:
+- إذا موقعك GitHub Pages أو Render يقرأ من الجذر: استخدم index.html الموجود مباشرة في الجذر.
+- إذا Firebase Hosting يقرأ من public: استخدم public/index.html.
+- تم تكرار الملفات في الجذر وداخل public حتى لا يبقى الموقع يفتح نسخة قديمة.
 
-public/index.html              واجهة المستخدم
-public/admin.html              لوحة الأدمن
-public/agent.html              صفحة وكيل الشحن
-public/assets/css/base.css     التصميم العام فقط
-public/assets/js/core/         ملفات Firebase والحالة والراوتر والأدوات
-public/assets/js/services/     الاتصال بالسيرفر والخدمات
-public/assets/js/features/     صفحات المستخدم: محفظة، ADN، يانصيب، عجلة
-public/assets/js/admin/        أكواد الأدمن فقط
-public/assets/js/agent/        أكواد الوكيل فقط
-functions/index.js             كل العمليات المالية الآمنة من السيرفر
-database.rules.json            قواعد Realtime Database
-firebase.json                  إعداد النشر
+علامة التأكد داخل الموقع:
+يجب أن ترى في الأعلى: V201 ROOT READY
+وداخل شراء/بيع ADN: V201 ROOT/PUBLIC
 
-مهم جداً:
-كل العمليات المالية صارت من Cloud Functions:
-- شراء ADN
-- بيع ADN
-- شراء تذكرة
-- عجلة الحظ
-- طلب الإيداع
-- طلب السحب
-- شحن الوكيل
+إذا لم تظهر هذه العبارة، فأنت لم تفتح النسخة الجديدة أو يوجد كاش/نشر قديم.
 
-يعني المستخدم لا يعدل رصيده من الواجهة. هذا يمنع أخطاء PERMISSION_DENIED ويمنع التلاعب.
+الأوامر النظامية عند وجود Firebase CLI:
+npm --prefix functions install
+firebase deploy --only functions,database,hosting
 
-طريقة الرفع الصحيحة:
-1) ارفع الملف كامل على GitHub.
-2) من جهاز فيه Firebase CLI أو من بيئة النشر، نفذ:
-   npm --prefix functions install
-   firebase deploy --only functions,database,hosting
-
-إذا رفعت hosting فقط بدون functions، الشراء والبيع المالي لن يعمل، وهذا مقصود للأمان.
-
-أول أدمن:
-تم تثبيت إيميلات الأدمن داخل functions/index.js:
-- adhamdeab2@gmail.com
-- adhamdeab45@gmail.com
-
-افتح:
-/           للمستخدم
-/admin.html للأدمن
-/agent.html للوكيل
-
-ملاحظة:
-هذه نسخة منظمة جديدة وليست ترقيعاً فوق ملف V175 الكبير. الهدف أن نكمل عليها مستقبلاً بترتيب.
+إذا ترفع على GitHub فقط، تأكد أن index.html والـ assets موجودين في جذر المستودع، وليس داخل مجلد فرعي فقط.

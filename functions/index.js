@@ -3,7 +3,7 @@ const { onCall, HttpsError } = require('firebase-functions/v2/https');
 
 admin.initializeApp();
 const db = admin.database();
-const VERSION = 'ADNOR_V200_MODULAR_REBUILD';
+const VERSION = 'ADNOR_V201_ROOT_PUBLIC_DEPLOY';
 const ADMIN_EMAILS = new Set(['adhamdeab2@gmail.com','adhamdeab45@gmail.com']);
 
 function n(v, fallback = 0) {
