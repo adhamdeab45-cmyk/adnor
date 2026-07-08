@@ -5638,7 +5638,7 @@ function listenV94GameCenter(){if(v94GamesUnsub)try{v94GamesUnsub()}catch(e){};v
     function adnMarketCap(){return adnCurrentPrice()*adnNum(adnState.totalSupply||adnSettings.totalSupply,5000000)}
     function renderAdnWalletCard(){const bal=adnNum(currentProfile?.adnBalance);const price=adnCurrentPrice();setText('adnWalletBalance',adnQty(bal)+' ADN');setText('adnWalletValue',money(bal*price));setText('adnWalletPrice',adnFmt(price,4));const t=adnTrendPct();const el=$('adnWalletTrend');if(el){el.textContent=(t>=0?'▲ ':'▼ ')+Math.abs(t).toFixed(2)+'%';el.style.color=t>=0?'#7dffd9':'#ff9ead';}}
     function renderAdnMarket(){ensureAdnLiveCandles(false);const price=adnCurrentPrice(),trend=adnTrendPct();setText('adnMarketPrice',adnFmt(price,4));const main=$('adnMarketPrice')?.parentElement;if(main){main.classList.toggle('price-down',trend<0)}const tr=$('adnMarketTrend');if(tr){tr.textContent=(trend>=0?'+':'-')+Math.abs(trend).toFixed(2)+'%';tr.classList.toggle('down',trend<0)}setText('adnTotalSupply',adnQty(adnState.totalSupply||adnSettings.totalSupply));setText('adnRemainingSupply',adnQty(adnState.remainingSupply));setText('adnFundUsd',money(adnState.fundUsd));setText('adnMarketActivity',money(Math.max(adnNum(adnState.buyVolumeUsd)+adnNum(adnState.sellVolumeUsd),adnCurrentPrice()*1245000)));setText('adnUserRealBalance',money(currentProfile?.realBalance));setText('adnUserTokenBalance',adnQty(currentProfile?.adnBalance));v141RenderMarketTime();renderAdnTradingStats();renderAdnTradeCalc();renderAdnUserTrades();drawAdnCandles();renderAdnOrderBook();}
-    function renderAdnTradeCalc(){const q=adnNum($('adnAmountInput')?.value);const price=adnTradeMode==='buy'?adnCurrentPrice():adnSellPrice();const cost=q*price;setText('adnTradeCost',money(cost));if($('adnExecuteTradeBtn'))$('adnExecuteTradeBtn').textContent=adnTradeMode==='buy'?'شراء الآن':'إرسال طلب البيع';}
+    function renderAdnTradeCalc(){const q=adnNum($('adnAmountInput')?.value);const price=adnTradeMode==='buy'?adnCurrentPrice():adnSellPrice();const cost=q*price;setText('adnTradeCost',money(cost));if($('adnExecuteTradeBtn'))$('adnExecuteTradeBtn').textContent=adnTradeMode==='buy'?'شراء الآن':'بيع الآن';}
     function adnTfMs(){return adnTimeFrame==='5m'?300000:adnTimeFrame==='10m'?600000:adnTimeFrame==='15m'?900000:adnTimeFrame==='1h'?3600000:adnTimeFrame==='4h'?14400000:60000}
     function adnTfLabel(){return adnTimeFrame==='5m'?'شمعة 5 دقائق':adnTimeFrame==='10m'?'شمعة 10 دقائق':adnTimeFrame==='15m'?'شمعة 15 دقيقة':adnTimeFrame==='1h'?'شمعة ساعة':adnTimeFrame==='4h'?'شمعة 4 ساعات':'شمعة 1 دقيقة'}
     function v141Clock(ms){const sec=Math.max(0,Math.floor(ms/1000));const m=Math.floor(sec/60),s=sec%60;return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
@@ -5694,79 +5694,83 @@ function listenV94GameCenter(){if(v94GamesUnsub)try{v94GamesUnsub()}catch(e){};v
       adnTradeBusy=true;
       const btn=$('adnExecuteTradeBtn');
       if(btn)btn.disabled=true;
-      const resetTradeInputs=()=>{try{$('adnAmountInput').value='';$('adnUsdInput').value='';}catch(e){}};
-      const saveAdnRequest=async(type,qty,usd,price,real,token,reason)=>{
-        const uid=currentUser.uid,now=Date.now();
-        const id=push(ref(db,'adn_trade_requests')).key||('ADNREQ_'+now);
-        const userName=currentProfile.name||currentProfile.displayName||currentUser.email||'مستخدم ADNOR';
-        const req={
-          id,status:'pending',type,uid,email:currentUser.email||'',userName,
-          amountToken:qty,amountUsd:usd,priceSnapshot:price,marketPriceAtRequest:adnCurrentPrice(),sellPriceAtRequest:adnSellPrice(),
-          realBalanceAtRequest:real,adnBalanceAtRequest:token,note:reason||'',createdAt:now,updatedAt:now,source:'client_safe_request_v172'
-        };
+      const resetTradeInputs=()=>{try{if($('adnAmountInput'))$('adnAmountInput').value='';if($('adnUsdInput'))$('adnUsdInput').value='';}catch(e){}};
+      const localTradeId=(prefix)=>prefix+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
+      const safeNotify=async(uid,key,title,text,extra)=>{try{const o={type:'adn',title,text,createdAt:Date.now(),read:false,...(extra||{})};await set(ref(db,'user_notifications/'+uid+'/'+key),o);}catch(e){console.warn('ADN notification ignored',e)}};
+      const syncLocalTrade=(type,qty,usd,oldPrice,newPrice,realAfter,tokenAfter)=>{
         try{
-          const baseUpdates={};
-          baseUpdates['adn_trade_requests/'+id]=req;
-          baseUpdates['user_adn_requests/'+uid+'/'+id]=req;
-          await update(ref(db),baseUpdates);
-        }catch(reqErr){
-          console.warn('ADN main request save failed; trying user-only request',reqErr);
-          const userOnlyUpdates={};userOnlyUpdates['user_adn_requests/'+uid+'/'+id]=req;await update(ref(db),userOnlyUpdates);
-        }
-        try{
-          const notifUpdates={};notifUpdates['admin_notifications/'+now]={type:'adn_trade_request',uid,email:currentUser.email||'',text:(type==='buy'?'طلب شراء ':'طلب بيع ')+adnQty(qty)+' ADN بقيمة تقريبية '+money(usd),createdAt:now,status:'new'};await update(ref(db),notifUpdates);
-        }catch(notifErr){console.warn('ADN admin notification ignored',notifErr)}
-        resetTradeInputs();
-        renderAdnUserRequests();
-        toast(type==='buy'?'تم إرسال طلب شراء ADN للمراجعة':'تم إرسال طلب البيع للمراجعة');
-        return req;
+          currentProfile={...currentProfile,realBalance:realAfter,adnBalance:tokenAfter,updatedAt:Date.now()};
+          adnState={...adnState,price:newPrice,lastTradeAt:Date.now(),tradesCount:adnNum(adnState.tradesCount)+1};
+          if(type==='buy'){
+            adnState.buyVolumeUsd=adnNum(adnState.buyVolumeUsd)+usd;
+            adnState.buyVolumeToken=adnNum(adnState.buyVolumeToken)+qty;
+            adnState.fundUsd=adnNum(adnState.fundUsd)+usd;
+            adnState.soldSupply=adnNum(adnState.soldSupply)+qty;
+            adnState.remainingSupply=Math.max(0,adnNum(adnState.remainingSupply)-qty);
+          }else{
+            adnState.sellVolumeUsd=adnNum(adnState.sellVolumeUsd)+usd;
+            adnState.sellVolumeToken=adnNum(adnState.sellVolumeToken)+qty;
+            adnState.fundUsd=Math.max(0,adnNum(adnState.fundUsd)-usd);
+            adnState.soldSupply=Math.max(0,adnNum(adnState.soldSupply)-qty);
+            adnState.remainingSupply=adnNum(adnState.remainingSupply)+qty;
+          }
+          try{v141ApplyTradeToLiveCandle(type,oldPrice,newPrice,usd);}catch(e){}
+          renderProfile();renderAdnAll();
+        }catch(e){console.warn('ADN local sync skipped',e)}
       };
-      const executeClientBuy=async(qty,usd,price,real,token)=>{
+      const writeUserWalletFirst=async(type,qty,usd,execPrice,newPrice,realBefore,tokenBefore)=>{
         const uid=currentUser.uid,now=Date.now();
-        const oldPrice=adnCurrentPrice();
-        const newPrice=adnNewPrice('buy',qty);
-        const cObj=candleUpdateObject('buy',oldPrice,newPrice,usd);
-        const newReal=Number((real-usd).toFixed(4));
-        const newToken=Number((token+qty).toFixed(4));
-        const tradeId=push(ref(db,'game_treasury/current/adn_market_trades')).key||('TR'+now);
-        const userName=currentProfile.name||currentProfile.displayName||currentUser.email||'مستخدم ADNOR';
-        const userUpdates={};
-        userUpdates['users/'+uid+'/realBalance']=newReal;
-        userUpdates['users/'+uid+'/adnBalance']=newToken;
-        userUpdates['users/'+uid+'/updatedAt']=now;
-        userUpdates['transactions/'+uid+'/'+now]={type:'adn_buy_direct',status:'completed',amount:-usd,amountToken:qty,price:oldPrice,marketPriceAfter:newPrice,balanceBefore:real,balanceAfter:newReal,adnBefore:token,adnAfter:newToken,note:'شراء ADN مباشر من الرصيد الحقيقي فقط',createdAt:now,source:'client_direct_v172'};
-        userUpdates['user_notifications/'+uid+'/adn_buy_'+now]=notifObj('adn','تم شراء ADN بنجاح','تم شراء '+adnQty(qty)+' ADN مباشرة بقيمة '+money(usd)+' من رصيدك الحقيقي.',{amountToken:qty,amountUsd:usd,price:oldPrice,newPrice});
-        await update(ref(db),userUpdates);
-        currentProfile={...currentProfile,realBalance:newReal,adnBalance:newToken,updatedAt:now};
+        const newReal=Number((type==='buy'?realBefore-usd:realBefore+usd).toFixed(4));
+        const newToken=Number((type==='buy'?tokenBefore+qty:tokenBefore-qty).toFixed(4));
+        const txId=localTradeId(type==='buy'?'adn_buy':'adn_sell');
+        const updates={};
+        updates['users/'+uid+'/realBalance']=newReal;
+        updates['users/'+uid+'/adnBalance']=newToken;
+        updates['users/'+uid+'/updatedAt']=now;
+        updates['transactions/'+uid+'/'+txId]={id:txId,type:type==='buy'?'adn_buy_auto':'adn_sell_auto',status:'completed',amount:type==='buy'?-usd:usd,amountToken:qty,price:execPrice,marketPriceAfter:newPrice,balanceBefore:realBefore,balanceAfter:newReal,adnBefore:tokenBefore,adnAfter:newToken,note:type==='buy'?'شراء ADN تلقائي من الرصيد الحقيقي':'بيع ADN تلقائي ورجوع المبلغ للرصيد الحقيقي',createdAt:now,source:'client_auto_v173'};
+        await update(ref(db),updates);
+        return {newReal,newToken,txId,now};
+      };
+      const writeMarketOptional=async(type,qty,usd,execPrice,newPrice,txId)=>{
         try{
-          const marketState={...adnState,price:newPrice,highPrice:Math.max(adnNum(adnState.highPrice,oldPrice),newPrice),lowPrice:Math.min(adnNum(adnState.lowPrice,oldPrice),newPrice),soldSupply:adnNum(adnState.soldSupply)+qty,remainingSupply:Math.max(0,adnNum(adnState.remainingSupply)-qty),fundUsd:adnNum(adnState.fundUsd)+usd,buyVolumeUsd:adnNum(adnState.buyVolumeUsd)+usd,buyVolumeToken:adnNum(adnState.buyVolumeToken)+qty,tradesCount:adnNum(adnState.tradesCount)+1,investorsCount:adnNum(adnState.investorsCount)+(token<=0?1:0),lastTradeAt:now,updatedAt:now};
-          const marketUpdates={};
-          marketUpdates['game_treasury/current/adn_market_state']=marketState;
-          marketUpdates['game_treasury/current/adn_market_trades/'+tradeId]={id:tradeId,type:'buy',uid,email:currentUser.email||'',userName,amountToken:qty,amountUsd:usd,price:oldPrice,marketPriceBefore:oldPrice,marketPriceAfter:newPrice,source:'client_direct_v172',createdAt:now};
-          marketUpdates[cObj.path]=cObj.value;
-          await update(ref(db),marketUpdates);
+          const uid=currentUser.uid,now=Date.now();
+          const tradeId=localTradeId('adn_trade');
+          const cObj=candleUpdateObject(type,execPrice,newPrice,usd);
+          const stateBase=adnMergeState(adnState);
+          const marketState=type==='buy'
+            ? {...stateBase,price:newPrice,highPrice:Math.max(adnNum(stateBase.highPrice,execPrice),newPrice),lowPrice:Math.min(adnNum(stateBase.lowPrice,execPrice),newPrice),soldSupply:adnNum(stateBase.soldSupply)+qty,remainingSupply:Math.max(0,adnNum(stateBase.remainingSupply)-qty),fundUsd:adnNum(stateBase.fundUsd)+usd,buyVolumeUsd:adnNum(stateBase.buyVolumeUsd)+usd,buyVolumeToken:adnNum(stateBase.buyVolumeToken)+qty,tradesCount:adnNum(stateBase.tradesCount)+1,investorsCount:adnNum(stateBase.investorsCount)+(adnNum(currentProfile?.adnBalance)<=0?1:0),lastTradeAt:now,updatedAt:now}
+            : {...stateBase,price:newPrice,highPrice:Math.max(adnNum(stateBase.highPrice,execPrice),newPrice),lowPrice:Math.min(adnNum(stateBase.lowPrice,execPrice),newPrice),soldSupply:Math.max(0,adnNum(stateBase.soldSupply)-qty),remainingSupply:adnNum(stateBase.remainingSupply)+qty,fundUsd:Math.max(0,adnNum(stateBase.fundUsd)-usd),sellVolumeUsd:adnNum(stateBase.sellVolumeUsd)+usd,sellVolumeToken:adnNum(stateBase.sellVolumeToken)+qty,tradesCount:adnNum(stateBase.tradesCount)+1,investorsCount:Math.max(0,adnNum(stateBase.investorsCount)-(adnNum(currentProfile?.adnBalance)-qty<=0?1:0)),lastTradeAt:now,updatedAt:now};
+          const m={};
+          m['game_treasury/current/adn_market_state']=marketState;
+          m['game_treasury/current/adn_market_trades/'+tradeId]={id:tradeId,type,uid,email:currentUser.email||'',userName:currentProfile?.name||currentProfile?.displayName||currentUser.email||'مستخدم ADNOR',amountToken:qty,amountUsd:usd,price:execPrice,marketPriceBefore:execPrice,marketPriceAfter:newPrice,txId,source:'client_auto_v173',createdAt:now};
+          m[cObj.path]=cObj.value;
+          await update(ref(db),m);
           adnState=adnMergeState(marketState);
           adnCandles[Math.floor(now/60000)]=cObj.value;
-          try{v141ApplyTradeToLiveCandle('buy',oldPrice,newPrice,usd);}catch(e){}
-        }catch(marketErr){
-          console.warn('ADN market update ignored; user balance was already updated',marketErr);
-        }
+        }catch(marketErr){console.warn('ADN market/stat update ignored after wallet success',marketErr)}
+      };
+      const executeClientAuto=async(type,qty,usd,price,real,token)=>{
+        const oldPrice=adnTradeMode==='buy'?adnCurrentPrice():adnCurrentPrice();
+        const newPrice=adnNewPrice(type,qty);
+        const written=await writeUserWalletFirst(type,qty,usd,price,newPrice,real,token);
+        syncLocalTrade(type,qty,usd,price,newPrice,written.newReal,written.newToken);
+        await writeMarketOptional(type,qty,usd,price,newPrice,written.txId);
+        await safeNotify(currentUser.uid,(type==='buy'?'adn_buy_':'adn_sell_')+written.now,type==='buy'?'تم شراء ADN بنجاح':'تم بيع ADN بنجاح',(type==='buy'?'تم شراء ':'تم بيع ')+adnQty(qty)+' ADN بقيمة '+money(usd),{amountToken:qty,amountUsd:usd,price,newPrice});
         resetTradeInputs();
-        renderProfile();
-        renderAdnAll();
-        toast('تم شراء ADN بنجاح');
+        renderProfile();renderAdnAll();
+        toast(type==='buy'?'تم شراء ADN تلقائيًا بنجاح':'تم بيع ADN تلقائيًا بنجاح');
         return true;
       };
       try{
         if(!currentUser||!currentProfile){toast('سجل الدخول أولًا');return;}
         if(adnSettings.enabled===false)return toast('سوق ADN متوقف مؤقتًا');
-        const qty=adnNum($('adnAmountInput')?.value);
+        const qty=Math.floor(adnNum($('adnAmountInput')?.value));
         if(qty<=0)return toast('اكتب كمية ADN صحيحة');
         const real=adnNum(currentProfile.realBalance),token=adnNum(currentProfile.adnBalance);
-        const price=adnTradeMode==='buy'?adnCurrentPrice():adnSellPrice();
+        const type=adnTradeMode==='sell'?'sell':'buy';
+        const price=type==='buy'?adnCurrentPrice():adnSellPrice();
         const usd=Number((qty*price).toFixed(4));
-
-        if(adnTradeMode==='buy'){
+        if(type==='buy'){
           if(adnSettings.buyEnabled===false)return toast('الشراء متوقف من الإدارة');
           if(qty<adnNum(adnSettings.minBuy,1))return toast('أقل شراء هو '+adnQty(adnSettings.minBuy)+' ADN');
           if(qty>adnNum(adnSettings.maxBuy,100000))return toast('أعلى شراء هو '+adnQty(adnSettings.maxBuy)+' ADN');
@@ -5778,27 +5782,31 @@ function listenV94GameCenter(){if(v94GamesUnsub)try{v94GamesUnsub()}catch(e){};v
             if(res&&res.ok){
               const oldPrice=adnNum(res.oldPrice,price),newPrice=adnNum(res.newPrice,oldPrice);
               currentProfile={...currentProfile,realBalance:adnNum(res.realAfter),adnBalance:adnNum(res.tokenAfter),updatedAt:Date.now()};
-              adnState={...adnState,price:newPrice,lastTradeAt:Date.now(),buyVolumeUsd:adnNum(adnState.buyVolumeUsd)+adnNum(res.amountUsd),tradesCount:adnNum(adnState.tradesCount)+1};
-              try{v141ApplyTradeToLiveCandle('buy',oldPrice,newPrice,adnNum(res.amountUsd));}catch(e){}
-              resetTradeInputs();renderProfile();renderAdnAll();toast('تم شراء ADN بنجاح');return;
+              syncLocalTrade('buy',qty,adnNum(res.amountUsd,usd),oldPrice,newPrice,adnNum(res.realAfter),adnNum(res.tokenAfter));
+              resetTradeInputs();renderProfile();renderAdnAll();toast('تم شراء ADN تلقائيًا بنجاح');return;
             }
-          }catch(serverBuyErr){console.warn('buyAdnDirect server function failed; using client direct fallback',serverBuyErr)}
-          try{return await executeClientBuy(qty,usd,price,real,token)}
-          catch(clientBuyErr){
-            console.warn('ADN client direct buy failed; saving admin request',clientBuyErr);
-            return await saveAdnRequest('buy',qty,usd,price,real,token,'تعذر تنفيذ الشراء المباشر، تم تحويله للمراجعة: '+String(clientBuyErr?.code||clientBuyErr?.message||clientBuyErr||'').slice(0,160));
-          }
+          }catch(serverBuyErr){console.warn('buyAdnDirect failed; using client automatic buy',serverBuyErr)}
+          return await executeClientAuto('buy',qty,usd,price,real,token);
         }
-
         if(adnSettings.sellEnabled===false)return toast('البيع متوقف من الإدارة');
         if(token<qty)return toast('لا تملك هذه الكمية من ADN');
         if(adnNum(adnState.fundUsd)<usd)return toast('سيولة صندوق ADN لا تكفي للبيع الآن');
-        return await saveAdnRequest('sell',qty,usd,price,real,token,'طلب بيع من المستخدم');
+        try{
+          toast('جاري تنفيذ بيع ADN...');
+          const res=await callServer('sellAdnDirect',{amountToken:qty});
+          if(res&&res.ok){
+            const oldPrice=adnNum(res.oldPrice,adnCurrentPrice()),newPrice=adnNum(res.newPrice,oldPrice),sellPrice=adnNum(res.sellPrice,price);
+            currentProfile={...currentProfile,realBalance:adnNum(res.realAfter),adnBalance:adnNum(res.tokenAfter),updatedAt:Date.now()};
+            syncLocalTrade('sell',qty,adnNum(res.amountUsd,usd),sellPrice,newPrice,adnNum(res.realAfter),adnNum(res.tokenAfter));
+            resetTradeInputs();renderProfile();renderAdnAll();toast('تم بيع ADN تلقائيًا بنجاح');return;
+          }
+        }catch(serverSellErr){console.warn('sellAdnDirect failed; using client automatic sell',serverSellErr)}
+        return await executeClientAuto('sell',qty,usd,price,real,token);
       }
       catch(e){
         console.error(e);
         const msg=String(e?.code||e?.message||e||'');
-        toast(msg.toLowerCase().includes('permission')?'تعذر تنفيذ العملية بسبب صلاحيات قاعدة البيانات. تم منع العملية من Firebase.':'تعذر تنفيذ العملية: '+msg);
+        toast(msg.toLowerCase().includes('permission')?'تعذر تنفيذ شراء/بيع ADN بسبب قواعد Firebase الحالية. ارفع ملف القواعد V173 أو انشر Functions حتى تعمل العملية تلقائيًا.':'تعذر تنفيذ العملية: '+msg);
       }
       finally{adnTradeBusy=false;if(btn)btn.disabled=false;}
     }
