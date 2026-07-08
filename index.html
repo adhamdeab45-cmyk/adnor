@@ -1783,7 +1783,7 @@ html[lang="tr"] #v91LatestResultCard.v121-result-board .v91-result-winner::befor
         </section>
 
         <section class="v142-trade-card">
-          <div class="v142-card-head"><div><h3>شراء وبيع ADN</h3><span>اختار سعر السوق أو أمر بسعر محدد</span></div><span id="adnTradePriceInfo">سعر السوق الآن: $0.1000</span></div>
+          <div class="v142-card-head"><div><h3>شراء وبيع ADN</h3><span>شراء وبيع تلقائي — V174</span></div><span id="adnTradePriceInfo">سعر السوق الآن: $0.1000</span></div>
           <div class="v142-trade-tabs"><button id="adnSellTab" type="button">بيع</button><button id="adnBuyTab" class="active" type="button">شراء</button></div>
           <div class="v142-order-type-tabs"><button type="button" data-adn-order-type="limit">سعر محدد</button><button type="button" data-adn-order-type="market" class="active">سعر السوق</button></div>
           <div class="v142-form">
@@ -1801,7 +1801,7 @@ html[lang="tr"] #v91LatestResultCard.v121-result-board .v91-result-winner::befor
               <div><span>قيمة العملية</span><b id="adnTradeCost">$0.00</b></div>
             </div>
             <button class="gold-btn big" id="adnExecuteTradeBtn" type="button">شراء بسعر السوق</button>
-            <div class="v142-info-note" id="adnTradeNote">سعر السوق ينفّذ فورًا. السعر المحدد يحجز المبلغ أو العملة وينتظر وصول السعر المطلوب.</div>
+            <div class="v142-info-note" id="adnTradeNote">سعر السوق ينفّذ فورًا. نظام ADN Auto V174.</div>
           </div>
         </section>
 
@@ -5727,7 +5727,7 @@ function listenV94GameCenter(){if(v94GamesUnsub)try{v94GamesUnsub()}catch(e){};v
         updates['users/'+uid+'/realBalance']=newReal;
         updates['users/'+uid+'/adnBalance']=newToken;
         updates['users/'+uid+'/updatedAt']=now;
-        updates['transactions/'+uid+'/'+txId]={id:txId,type:type==='buy'?'adn_buy_auto':'adn_sell_auto',status:'completed',amount:type==='buy'?-usd:usd,amountToken:qty,price:execPrice,marketPriceAfter:newPrice,balanceBefore:realBefore,balanceAfter:newReal,adnBefore:tokenBefore,adnAfter:newToken,note:type==='buy'?'شراء ADN تلقائي من الرصيد الحقيقي':'بيع ADN تلقائي ورجوع المبلغ للرصيد الحقيقي',createdAt:now,source:'client_auto_v173'};
+        updates['transactions/'+uid+'/'+txId]={id:txId,type:type==='buy'?'adn_buy_auto':'adn_sell_auto',status:'completed',amount:type==='buy'?-usd:usd,amountToken:qty,price:execPrice,marketPriceAfter:newPrice,balanceBefore:realBefore,balanceAfter:newReal,adnBefore:tokenBefore,adnAfter:newToken,note:type==='buy'?'شراء ADN تلقائي من الرصيد الحقيقي':'بيع ADN تلقائي ورجوع المبلغ للرصيد الحقيقي',createdAt:now,source:'client_auto_v174'};
         await update(ref(db),updates);
         return {newReal,newToken,txId,now};
       };
@@ -5742,7 +5742,7 @@ function listenV94GameCenter(){if(v94GamesUnsub)try{v94GamesUnsub()}catch(e){};v
             : {...stateBase,price:newPrice,highPrice:Math.max(adnNum(stateBase.highPrice,execPrice),newPrice),lowPrice:Math.min(adnNum(stateBase.lowPrice,execPrice),newPrice),soldSupply:Math.max(0,adnNum(stateBase.soldSupply)-qty),remainingSupply:adnNum(stateBase.remainingSupply)+qty,fundUsd:Math.max(0,adnNum(stateBase.fundUsd)-usd),sellVolumeUsd:adnNum(stateBase.sellVolumeUsd)+usd,sellVolumeToken:adnNum(stateBase.sellVolumeToken)+qty,tradesCount:adnNum(stateBase.tradesCount)+1,investorsCount:Math.max(0,adnNum(stateBase.investorsCount)-(adnNum(currentProfile?.adnBalance)-qty<=0?1:0)),lastTradeAt:now,updatedAt:now};
           const m={};
           m['game_treasury/current/adn_market_state']=marketState;
-          m['game_treasury/current/adn_market_trades/'+tradeId]={id:tradeId,type,uid,email:currentUser.email||'',userName:currentProfile?.name||currentProfile?.displayName||currentUser.email||'مستخدم ADNOR',amountToken:qty,amountUsd:usd,price:execPrice,marketPriceBefore:execPrice,marketPriceAfter:newPrice,txId,source:'client_auto_v173',createdAt:now};
+          m['game_treasury/current/adn_market_trades/'+tradeId]={id:tradeId,type,uid,email:currentUser.email||'',userName:currentProfile?.name||currentProfile?.displayName||currentUser.email||'مستخدم ADNOR',amountToken:qty,amountUsd:usd,price:execPrice,marketPriceBefore:execPrice,marketPriceAfter:newPrice,txId,source:'client_auto_v174',createdAt:now};
           m[cObj.path]=cObj.value;
           await update(ref(db),m);
           adnState=adnMergeState(marketState);
@@ -5750,7 +5750,6 @@ function listenV94GameCenter(){if(v94GamesUnsub)try{v94GamesUnsub()}catch(e){};v
         }catch(marketErr){console.warn('ADN market/stat update ignored after wallet success',marketErr)}
       };
       const executeClientAuto=async(type,qty,usd,price,real,token)=>{
-        const oldPrice=adnTradeMode==='buy'?adnCurrentPrice():adnCurrentPrice();
         const newPrice=adnNewPrice(type,qty);
         const written=await writeUserWalletFirst(type,qty,usd,price,newPrice,real,token);
         syncLocalTrade(type,qty,usd,price,newPrice,written.newReal,written.newToken);
@@ -5760,6 +5759,31 @@ function listenV94GameCenter(){if(v94GamesUnsub)try{v94GamesUnsub()}catch(e){};v
         renderProfile();renderAdnAll();
         toast(type==='buy'?'تم شراء ADN تلقائيًا بنجاح':'تم بيع ADN تلقائيًا بنجاح');
         return true;
+      };
+      const executeCommandAuto=async(type,qty,usd,price)=>{
+        const uid=currentUser.uid;
+        const id=localTradeId('adn_cmd');
+        const now=Date.now();
+        const cmd={id,uid,type,status:'pending',amountToken:qty,amountUsd:usd,priceSnapshot:price,createdAt:now,updatedAt:now,source:'client_command_v174'};
+        await set(ref(db,'adn_trade_commands/'+uid+'/'+id),cmd);
+        toast('تم إرسال العملية للتنفيذ التلقائي...');
+        return await new Promise((resolve,reject)=>{
+          let done=false,unsub=null;
+          const timer=setTimeout(()=>{if(done)return;done=true;try{unsub&&unsub()}catch(e){};resolve({queued:true,message:'تم إرسال العملية. إذا لم يظهر الرصيد خلال لحظات، يلزم نشر Cloud Functions.'});},9000);
+          unsub=onValue(ref(db,'adn_trade_commands/'+uid+'/'+id),s=>{
+            const v=s.val()||{};
+            if(done)return;
+            if(v.status==='completed'){
+              done=true;clearTimeout(timer);try{unsub&&unsub()}catch(e){};
+              if(typeof v.realAfter==='number'||typeof v.tokenAfter==='number'){
+                currentProfile={...currentProfile,realBalance:adnNum(v.realAfter,currentProfile?.realBalance),adnBalance:adnNum(v.tokenAfter,currentProfile?.adnBalance),updatedAt:Date.now()};
+              }
+              resetTradeInputs();renderProfile();renderAdnAll();toast(type==='buy'?'تم شراء ADN تلقائيًا بنجاح':'تم بيع ADN تلقائيًا بنجاح');resolve({ok:true});
+            }else if(v.status==='failed'){
+              done=true;clearTimeout(timer);try{unsub&&unsub()}catch(e){};reject(new Error(v.error||'فشل تنفيذ أمر ADN'));
+            }
+          },e=>{if(done)return;done=true;clearTimeout(timer);try{unsub&&unsub()}catch(_){};reject(e)});
+        });
       };
       try{
         if(!currentUser||!currentProfile){toast('سجل الدخول أولًا');return;}
@@ -5785,8 +5809,8 @@ function listenV94GameCenter(){if(v94GamesUnsub)try{v94GamesUnsub()}catch(e){};v
               syncLocalTrade('buy',qty,adnNum(res.amountUsd,usd),oldPrice,newPrice,adnNum(res.realAfter),adnNum(res.tokenAfter));
               resetTradeInputs();renderProfile();renderAdnAll();toast('تم شراء ADN تلقائيًا بنجاح');return;
             }
-          }catch(serverBuyErr){console.warn('buyAdnDirect failed; using client automatic buy',serverBuyErr)}
-          return await executeClientAuto('buy',qty,usd,price,real,token);
+          }catch(serverBuyErr){console.warn('buyAdnDirect failed; trying client/command automatic buy',serverBuyErr)}
+          try{return await executeClientAuto('buy',qty,usd,price,real,token);}catch(clientBuyErr){console.warn('client buy failed; trying command',clientBuyErr);return await executeCommandAuto('buy',qty,usd,price);}
         }
         if(adnSettings.sellEnabled===false)return toast('البيع متوقف من الإدارة');
         if(token<qty)return toast('لا تملك هذه الكمية من ADN');
@@ -5800,13 +5824,13 @@ function listenV94GameCenter(){if(v94GamesUnsub)try{v94GamesUnsub()}catch(e){};v
             syncLocalTrade('sell',qty,adnNum(res.amountUsd,usd),sellPrice,newPrice,adnNum(res.realAfter),adnNum(res.tokenAfter));
             resetTradeInputs();renderProfile();renderAdnAll();toast('تم بيع ADN تلقائيًا بنجاح');return;
           }
-        }catch(serverSellErr){console.warn('sellAdnDirect failed; using client automatic sell',serverSellErr)}
-        return await executeClientAuto('sell',qty,usd,price,real,token);
+        }catch(serverSellErr){console.warn('sellAdnDirect failed; trying client/command automatic sell',serverSellErr)}
+        try{return await executeClientAuto('sell',qty,usd,price,real,token);}catch(clientSellErr){console.warn('client sell failed; trying command',clientSellErr);return await executeCommandAuto('sell',qty,usd,price);}
       }
       catch(e){
         console.error(e);
         const msg=String(e?.code||e?.message||e||'');
-        toast(msg.toLowerCase().includes('permission')?'تعذر تنفيذ شراء/بيع ADN بسبب قواعد Firebase الحالية. ارفع ملف القواعد V173 أو انشر Functions حتى تعمل العملية تلقائيًا.':'تعذر تنفيذ العملية: '+msg);
+        toast(msg.toLowerCase().includes('permission')?'شراء وبيع ADN يحتاج نشر قواعد V174 أو Cloud Functions. الملف جاهز، لكن الاستضافة وحدها لا تغيّر صلاحيات Firebase.':'تعذر تنفيذ العملية: '+msg);
       }
       finally{adnTradeBusy=false;if(btn)btn.disabled=false;}
     }
